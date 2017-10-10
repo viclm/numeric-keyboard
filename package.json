@@ -1,0 +1,32 @@
+{
+  "name": "vue-numeric-keyboard",
+  "version": "0.0.1",
+  "description": "Mobile numeric keyboard component for Vue 2 project",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:viclm/vue-numeric-keyboard.git"
+  },
+  "main": "dist/vue_numeric_keyboard.js",
+  "module": "lib/index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.18.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "url-loader": "^0.5.9",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  },
+  "peerDependencies": {
+    "vue": "^2.4.4"
+  },
+  "license": "MIT"
+}
