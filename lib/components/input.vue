@@ -1,7 +1,9 @@
 <template>
-  <div class="numeric-input" :class="{ placeholder: !rawValue, readonly: readonly, disabled: disabled }" @touchend="focus">
+  <div class="numeric-input" :class="{ placeholder: rawValue.length === 0, readonly: readonly, disabled: disabled }" @touchend="focus">
     <input type="hidden" :name="name" :value="value" />
-    <span>{{rawValue || placeholder}}</span>
+    <div>
+      <span v-if="rawValue.length" v-for="(c, index) in rawValue" :data-index="index + 1">{{c}}</span><span v-if="rawValue.length === 0">{{placeholder}}</span><i v-if="cursorTimer" v-show="cursorVisible"></i>
+    </div>
   </div>
 </template>
 
@@ -90,18 +92,40 @@ export default {
   },
   data() {
     return {
-      rawValue: ''
+      rawValue: [],
+      cursorPos: 0,
+      cursorVisible: true,
+      cursorTimer: null
     }
   },
   mounted() {
-    this.rawValue = this.value == null ? '' : this.value + ''
+    if (this.value) {
+      this.rawValue = this.value.toString().split('')
+    }
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard()
     }
   },
+  beforeDestory() {
+    window.clearInterval(this.cursorTimer)
+  },
   watch: {
     rawValue(value) {
+      value = value.join('')
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value)
+    },
+    cursorPos(value) {
+      if (!this.cursorTimer) { return }
+      this.$nextTick(() => {
+        let cursor = this.$el.querySelector('i')
+        if (this.cursorPos) {
+          let charactor = this.$el.querySelector(`span:nth-of-type(${this.cursorPos})`)
+          cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px'
+        }
+        else {
+          cursor.style.left = 0
+        }
+      })
     }
   },
   methods: {
@@ -138,6 +162,10 @@ export default {
         element.style.transform = `translateY(${(frames - frame) / frames * 100}%)`
       }, () => {}, 10)
       keyboardCenter.open(this)
+      this.cursorTimer = window.setInterval(() => {
+        this.cursorVisible = !this.cursorVisible
+      }, 500)
+      this.cursorPos = this.rawValue.length
     },
     closeKeyboard() {
       if (!this._keyboard) { return }
@@ -150,10 +178,15 @@ export default {
         keyboard.$destroy()
       }, 10)
       keyboardCenter.close()
+      window.clearInterval(this.cursorTimer)
+      this.cursorTimer = null
     },
     focus(e) {
       e.stopPropagation()
       this.openKeyboard()
+      if (this.cursorTimer) {
+        this.cursorPos = +e.target.dataset.index || this.rawValue.length
+      }
     },
     input(key) {
       switch (key) {
@@ -162,11 +195,15 @@ export default {
           this.closeKeyboard()
           break
         case 'del':
-          this.rawValue = this.rawValue.slice(0, -1)
+          if (this.cursorPos > 0) {
+            this.rawValue.splice(this.cursorPos - 1, 1)
+            this.cursorPos -= 1
+          }
           break
         case '.':
           if (this.rawValue && this.rawValue.indexOf(key) === -1) {
-            this.rawValue += key
+            this.rawValue.splice(this.cursorPos, 0, key)
+            this.cursorPos += 1
           }
           break
         case 0:
@@ -179,10 +216,9 @@ export default {
         case 7:
         case 8:
         case 9:
-          let rawValue = this.rawValue
-          if (this.type === 'number' || rawValue.length < this.maxlength) {
-            rawValue += key
-            this.rawValue = rawValue
+          if (this.type === 'number' || typeof this.maxlength === 'undefined' || this.rawValue.length < this.maxlength) {
+            this.rawValue.splice(this.cursorPos, 0, key)
+            this.cursorPos += 1
           }
           break
       }
@@ -195,7 +231,7 @@ export default {
 <style lang="stylus">
 
 .numeric-input
-  display inline-table
+  display inline-block
   background white
   box-sizing border-box
   width 12em
@@ -207,8 +243,22 @@ export default {
   &.readonly, &.disabled
     opacity 0.5
     pointer-events none
-  span
-    display table-cell
-    vertical-align middle
+  div
+    height 100%
+    display inline-table
+    position relative
+    span
+      display table-cell
+      vertical-align middle
+    i
+      font-style normal
+      font-weight 100
+      pointer-events none
+      position absolute
+      top 50%
+      left 0
+      transform translate(-50%, -50%)
+      &::after
+        content '|'
 
 </style>

@@ -2,19 +2,17 @@
 
 [![Build Status](https://travis-ci.org/viclm/vue-numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/vue-numeric-keyboard)
 
-A numeric keyboard used in mobile created by Vue 2 component.
-
-![demo](https://cdn.pbrd.co/images/GO6SxIS.jpg)
+A numeric keyboard used in mobile created by Vue 2 component. It contains a pluggable keyboard component and a input + keyboard suit.
 
 ## Install
+You can intall this component via yarn
 
-```
+```shell
 yarn add vue-numeric-keyboard
 ```
 
 ## Usage
-
-```
+```vue
 <template>
    <div class="keyboard">
      <NumericKeyboard layout="tel" :theme="telTheme" entertext="send" @press="press"></NumericKeyboard>
@@ -52,14 +50,38 @@ yarn add vue-numeric-keyboard
 </script>
 ```
 
-## options
-
-### layout
-There are two build-in layout called **number** and **tel** which can be used as a replace of system keyboard. You can still rearrange all the keys to create your own layout.
-
-The code below create a build-in number layout
-
+## props
+```javascript
+// change the layout of keyboard
+ layout: {
+   type: [String, Array],
+   default: 'number'
+ },
+ // change the style of keyboard
+ theme: {
+   type: [String, Object],
+   default: 'default'
+ },
+ // change the label of submit button
+ entertext: {
+   type: String,
+   default: 'enter'
+ }
 ```
+
+### `layout`
+There are two build-in layout called **number** and **tel** which can be used as a replace of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
+
+#### number layout
+![number layout](https://raw.githubusercontent.com/viclm/vue-numeric-keyboard/master/demo/snapshot_number.png)
+
+#### tel layout
+![tel layout](https://raw.githubusercontent.com/viclm/vue-numeric-keyboard/master/demo/snapshot_tel.png)
+
+#### custom layout
+```javascript
+// the build-in number layout
+
 import { keys } from 'vue-numeric-keyboard'
 
 [
@@ -118,21 +140,22 @@ import { keys } from 'vue-numeric-keyboard'
 ]
 ```
 
-### theme
-You can change the default style of keyboard, the config here only support several limit style, you can override CSS directly for complicated style.
+### `theme`
+The style of keyboard can be modified global or per key, currently it only supports several limit style like fontSize or color, however you can override CSS directly for complicated style.
+```javascript
+// the default style declaration
 
-The code below shows the default style declaration
+import { keys } from 'vue-numeric-keyboard'
 
-```
 {
   global: {
     fontSize: '0.46rem',
     color: '#000000',
-    backgroundColor: ['#ffffff', '#929ca8'],
+    backgroundColor: ['#ffffff', '#929ca8'], // specify a pair of colors for active pseudo class
     borderColor: '#cfd4da',
   },
   key: {
-    [ENTER]: {
+    [keys.ENTER]: {
       color: '#ffffff',
       backgroundColor: ['#007aff', '#0051a8'],
     },
@@ -140,21 +163,15 @@ The code below shows the default style declaration
 }
 ```
 
-### entertext
-The label text for submit button is "enter" default, you can change it to anything
-
 ## events
 
-### press
+### `press`
 the `press` event is emit with a key code when the key is pressed.
 
 ## input + keyboard suit
 
-The keyboard which created by javascript can not work with normal text input element, so a custom text input is needed always. The component provide a input + keyboard suit which can be used in a normally form situation.
-
-The `NumericInput` component contains a custom input and keyboard
-
-```
+The keyboard which created by javascript can not work with normal text input element, the component provide a custom input + keyboard suit which can be used in a normal form situation.
+```vue
 <template>
   <div class="input">
     <label>Amount: </label>
@@ -178,28 +195,48 @@ The `NumericInput` component contains a custom input and keyboard
 
 ```
 
-### options
-Because  it is a replace of html input element, most properties is supported.
-
-#### type
-Because this is a numeric keyboard componet, There are only support two types: **number** and **tel** 
-
-#### autofocus
-#### disabled
-#### maxlength
-#### name
-#### placeholder
-#### readonly
-#### value
-#### keyboard
-The keyboard options will be used by keyboard.
+### props
+Since it is a replace of html input element, most properties is supported.
+```javascript
+// There are only two types: number and tel because it only contains a numeric keyboard
+type: {
+  type:String,
+  default: 'number'
+},
+autofocus: {
+  type: Boolean,
+  default: false
+},
+disabled: {
+  type: Boolean,
+  default: false
+},
+maxlength: {
+  type: Number
+},
+name: {
+  type: String
+},
+placeholder: {
+  type: String
+},
+readonly: {
+  type: Boolean,
+  default: false
+},
+value: {
+  type: [String, Number]
+},
+// The keyboard options will be used by keyboard component inside
+keyboard: {
+  type: Object
+}
+```
 
 ### events
 
-#### input
+#### `input`
 The `input` event is emit when the value of input changes
 
 ## License
-
 Licensed under the MIT license
-

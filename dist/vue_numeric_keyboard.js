@@ -1328,7 +1328,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n.numeric-input {\n  display: inline-table;\n  background: #fff;\n  box-sizing: border-box;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.placeholder {\n  color: #757575;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input span {\n  display: table-cell;\n  vertical-align: middle;\n}\n", ""]);
+exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  background: #fff;\n  box-sizing: border-box;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.placeholder {\n  color: #757575;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  height: 100%;\n  display: inline-table;\n  position: relative;\n}\n.numeric-input div span {\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input div i {\n  font-style: normal;\n  font-weight: 100;\n  pointer-events: none;\n  position: absolute;\n  top: 50%;\n  left: 0;\n  transform: translate(-50%, -50%);\n}\n.numeric-input div i::after {\n  content: '|';\n}\n", ""]);
 
 // exports
 
@@ -1341,6 +1341,8 @@ exports.push([module.i, "\n.numeric-input {\n  display: inline-table;\n  backgro
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__keyboard_vue__ = __webpack_require__(1);
+//
+//
 //
 //
 //
@@ -1432,18 +1434,41 @@ const keyboardCenter = function () {
   },
   data() {
     return {
-      rawValue: ''
+      rawValue: [],
+      cursorPos: 0,
+      cursorVisible: true,
+      cursorTimer: null
     };
   },
   mounted() {
-    this.rawValue = this.value == null ? '' : this.value + '';
+    if (this.value) {
+      this.rawValue = this.value.toString().split('');
+    }
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard();
     }
   },
+  beforeDestory() {
+    window.clearInterval(this.cursorTimer);
+  },
   watch: {
     rawValue(value) {
+      value = value.join('');
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value);
+    },
+    cursorPos(value) {
+      if (!this.cursorTimer) {
+        return;
+      }
+      this.$nextTick(() => {
+        let cursor = this.$el.querySelector('i');
+        if (this.cursorPos) {
+          let charactor = this.$el.querySelector(`span:nth-of-type(${this.cursorPos})`);
+          cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
+        } else {
+          cursor.style.left = 0;
+        }
+      });
     }
   },
   methods: {
@@ -1471,9 +1496,10 @@ const keyboardCenter = function () {
       let container = document.createElement('div');
       let shadow = document.createElement('div');
       let element = keyboard.$el;
+      let borderColor = keyboard.$el.querySelector('td').style.borderColor;
       container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
       shadow.style.cssText = 'height:100%;';
-      element.style.cssText = 'position:absolute; top:0; left:0; transform: translateY(100%)';
+      element.style.cssText = `position:absolute; top:0; left:0; transform: translateY(100%); border-top: 1px solid ${borderColor}; box-shadow: 0 2px 2px 2px ${borderColor}`;
       container.appendChild(shadow);
       container.appendChild(element);
       document.body.appendChild(container);
@@ -1481,6 +1507,10 @@ const keyboardCenter = function () {
         element.style.transform = `translateY(${(frames - frame) / frames * 100}%)`;
       }, () => {}, 10);
       keyboardCenter.open(this);
+      this.cursorTimer = window.setInterval(() => {
+        this.cursorVisible = !this.cursorVisible;
+      }, 500);
+      this.cursorPos = this.rawValue.length;
     },
     closeKeyboard() {
       if (!this._keyboard) {
@@ -1494,11 +1524,16 @@ const keyboardCenter = function () {
       }, () => {
         keyboard.$destroy();
       }, 10);
-      keyboardCenter.close(this);
+      keyboardCenter.close();
+      window.clearInterval(this.cursorTimer);
+      this.cursorTimer = null;
     },
     focus(e) {
       e.stopPropagation();
       this.openKeyboard();
+      if (this.cursorTimer) {
+        this.cursorPos = +e.target.dataset.index || this.rawValue.length;
+      }
     },
     input(key) {
       switch (key) {
@@ -1507,11 +1542,15 @@ const keyboardCenter = function () {
           this.closeKeyboard();
           break;
         case 'del':
-          this.rawValue = this.rawValue.slice(0, -1);
+          if (this.cursorPos > 0) {
+            this.rawValue.splice(this.cursorPos - 1, 1);
+            this.cursorPos -= 1;
+          }
           break;
         case '.':
           if (this.rawValue && this.rawValue.indexOf(key) === -1) {
-            this.rawValue += key;
+            this.rawValue.splice(this.cursorPos, 0, key);
+            this.cursorPos += 1;
           }
           break;
         case 0:
@@ -1524,10 +1563,9 @@ const keyboardCenter = function () {
         case 7:
         case 8:
         case 9:
-          let rawValue = this.rawValue;
-          if (this.type === 'number' || rawValue.length < this.maxlength) {
-            rawValue += key;
-            this.rawValue = rawValue;
+          if (this.type === 'number' || typeof this.maxlength === 'undefined' || this.rawValue.length < this.maxlength) {
+            this.rawValue.splice(this.cursorPos, 0, key);
+            this.cursorPos += 1;
           }
           break;
       }
@@ -1555,7 +1593,7 @@ var render = function() {
     {
       staticClass: "numeric-input",
       class: {
-        placeholder: !_vm.rawValue,
+        placeholder: _vm.rawValue.length === 0,
         readonly: _vm.readonly,
         disabled: _vm.disabled
       },
@@ -1567,7 +1605,34 @@ var render = function() {
         domProps: { value: _vm.value }
       }),
       _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.rawValue || _vm.placeholder))])
+      _c(
+        "div",
+        [
+          _vm._l(_vm.rawValue, function(c, index) {
+            return _vm.rawValue.length
+              ? _c("span", { attrs: { "data-index": index + 1 } }, [
+                  _vm._v(_vm._s(c))
+                ])
+              : _vm._e()
+          }),
+          _vm.rawValue.length === 0
+            ? _c("span", [_vm._v(_vm._s(_vm.placeholder))])
+            : _vm._e(),
+          _vm.cursorTimer
+            ? _c("i", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.cursorVisible,
+                    expression: "cursorVisible"
+                  }
+                ]
+              })
+            : _vm._e()
+        ],
+        2
+      )
     ]
   )
 }

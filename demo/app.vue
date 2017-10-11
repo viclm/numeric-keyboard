@@ -8,7 +8,7 @@
     </div>
     <div class="input">
       <label>Amount: </label>
-      <NumericInput placeholder="touch to input" />
+      <NumericInput type="number" placeholder="touch to input" @input="input" />
     </div>
   </div>
 </template>
@@ -40,6 +40,9 @@
     methods: {
       press(key) {
         this.keyPressed = key
+      },
+      input(value) {
+        console.log(typeof value, value)
       }
     }
   }
