@@ -12,13 +12,12 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['env']
-        }
+        exclude: /node_modules/,
+        loader: 'babel-loader'
       },
       {
         test: /\.vue$/,
+        exclude: /node_modules/,
         loader: 'vue-loader',
         options: {
           loaders: {
@@ -28,6 +27,7 @@ module.exports = {
       },
       {
         test: /\.woff$/,
+        exclude: /node_modules/,
         loader: 'url-loader'
       }
     ]

@@ -120,6 +120,7 @@ var ESC = exports.ESC = 'esc';
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_599c9d7a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__ = __webpack_require__(16);
 var disposed = false
 function injectStyle (ssrContext) {
@@ -138,7 +139,7 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue___default.a,
   __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_599c9d7a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
@@ -169,24 +170,21 @@ if (false) {(function () {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+/***/ (function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
 // css base code, injected by the css-loader
-module.exports = function (useSourceMap) {
+module.exports = function(useSourceMap) {
 	var list = [];
 
 	// return the list of modules as css string
 	list.toString = function toString() {
 		return this.map(function (item) {
 			var content = cssWithMappingToString(item, useSourceMap);
-			if (item[2]) {
+			if(item[2]) {
 				return "@media " + item[2] + "{" + content + "}";
 			} else {
 				return content;
@@ -195,23 +193,25 @@ module.exports = function (useSourceMap) {
 	};
 
 	// import a list of modules into the list
-	list.i = function (modules, mediaQuery) {
-		if (typeof modules === "string") modules = [[null, modules, ""]];
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
 		var alreadyImportedModules = {};
-		for (var i = 0; i < this.length; i++) {
+		for(var i = 0; i < this.length; i++) {
 			var id = this[i][0];
-			if (typeof id === "number") alreadyImportedModules[id] = true;
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
 		}
-		for (i = 0; i < modules.length; i++) {
+		for(i = 0; i < modules.length; i++) {
 			var item = modules[i];
 			// skip already imported module
 			// this implementation is not 100% perfect for weird media query combinations
 			//  when a module is imported multiple times with different media queries.
 			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if (mediaQuery && !item[2]) {
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
 					item[2] = mediaQuery;
-				} else if (mediaQuery) {
+				} else if(mediaQuery) {
 					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
 				}
 				list.push(item);
@@ -231,7 +231,7 @@ function cssWithMappingToString(item, useSourceMap) {
 	if (useSourceMap && typeof btoa === 'function') {
 		var sourceMapping = toComment(cssMapping);
 		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
 		});
 
 		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
@@ -248,6 +248,7 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
 
 /***/ }),
 /* 3 */
@@ -790,9 +791,7 @@ module.exports = "data:application/font-woff;base64,d09GRgABAAAAAAfsAAwAAAAAB5wA
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
+/***/ (function(module, exports) {
 
 
 /**
@@ -809,63 +808,64 @@ module.exports = "data:application/font-woff;base64,d09GRgABAAAAAAfsAAwAAAAAB5wA
  */
 
 module.exports = function (css) {
-	// get current location
-	var location = typeof window !== "undefined" && window.location;
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
 
-	if (!location) {
-		throw new Error("fixUrls requires window.location");
-	}
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
 
 	// blank or null?
 	if (!css || typeof css !== "string") {
-		return css;
-	}
+	  return css;
+  }
 
-	var baseUrl = location.protocol + "//" + location.host;
-	var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
 
 	// convert each url(...)
 	/*
- This regular expression is just a way to recursively match brackets within
- a string.
- 	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-    (  = Start a capturing group
-      (?:  = Start a non-capturing group
-          [^)(]  = Match anything that isn't a parentheses
-          |  = OR
-          \(  = Match a start parentheses
-              (?:  = Start another non-capturing groups
-                  [^)(]+  = Match anything that isn't a parentheses
-                  |  = OR
-                  \(  = Match a start parentheses
-                      [^)(]*  = Match anything that isn't a parentheses
-                  \)  = Match a end parentheses
-              )  = End Group
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
               *\) = Match anything and then a close parens
           )  = Close non-capturing group
           *  = Match anything
        )  = Close capturing group
-  \)  = Match a close parens
- 	 /gi  = Get all matches, not the first.  Be case insensitive.
-  */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
 		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
-			return $1;
-		}).replace(/^'(.*)'$/, function (o, $1) {
-			return $1;
-		});
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
 		// already a full url? no change
 		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-			return fullMatch;
+		  return fullMatch;
 		}
 
 		// convert the url to a full url
 		var newUrl;
 
 		if (unquotedOrigUrl.indexOf("//") === 0) {
-			//TODO: should we add protocol?
+		  	//TODO: should we add protocol?
 			newUrl = unquotedOrigUrl;
 		} else if (unquotedOrigUrl.indexOf("/") === 0) {
 			// path should be relative to the base url
@@ -883,16 +883,21 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
 /***/ }),
 /* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__theme__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__theme___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__theme__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__layouts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__layouts__);
-//
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //
 //
 //
 //
@@ -904,56 +909,75 @@ module.exports = function (css) {
 //
 
 
+var _theme = __webpack_require__(11);
 
+var _theme2 = _interopRequireDefault(_theme);
 
+var _layouts = __webpack_require__(13);
 
-class Key {
-  constructor(code) {
+var _layouts2 = _interopRequireDefault(_layouts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Key = function () {
+  function Key(code) {
+    _classCallCheck(this, Key);
+
     this._code = code;
     this._style = null;
     this._activeStyle = null;
   }
 
-  get code() {
-    return this._code;
-  }
-
-  get style() {
-    return this._style;
-  }
-
-  addStyle(style) {
-    let active = {};
-    for (let name in style) {
-      let s = style[name];
-      if (Array.isArray(s) && s.length === 2) {
-        style[name] = s[0];
-        active[name] = s;
+  _createClass(Key, [{
+    key: 'addStyle',
+    value: function addStyle(style) {
+      var active = {};
+      for (var name in style) {
+        var s = style[name];
+        if (Array.isArray(s) && s.length === 2) {
+          style[name] = s[0];
+          active[name] = s;
+        }
+      }
+      this._style = style;
+      this._activeStyle = active;
+    }
+  }, {
+    key: 'active',
+    value: function active(target) {
+      if (this._activeStyle) {
+        for (var name in this._activeStyle) {
+          target.style[name] = this._activeStyle[name][1];
+        }
       }
     }
-    this._style = style;
-    this._activeStyle = active;
-  }
-
-  active(target) {
-    if (this._activeStyle) {
-      for (let name in this._activeStyle) {
-        target.style[name] = this._activeStyle[name][1];
+  }, {
+    key: 'deactive',
+    value: function deactive(target) {
+      if (this._activeStyle) {
+        for (var name in this._activeStyle) {
+          target.style[name] = this._activeStyle[name][0];
+        }
       }
     }
-  }
-
-  deactive(target) {
-    if (this._activeStyle) {
-      for (let name in this._activeStyle) {
-        target.style[name] = this._activeStyle[name][0];
-      }
+  }, {
+    key: 'code',
+    get: function get() {
+      return this._code;
     }
-  }
+  }, {
+    key: 'style',
+    get: function get() {
+      return this._style;
+    }
+  }]);
 
-}
+  return Key;
+}();
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+exports.default = {
   props: {
     layout: {
       type: [String, Array],
@@ -968,55 +992,100 @@ class Key {
       default: 'enter'
     }
   },
-  data() {
+  data: function data() {
     return {
       _layout: null
     };
   },
-  created() {
+  created: function created() {
     this.normalizeLayout();
   },
+
   methods: {
-    normalizeLayout() {
-      let theme = this.theme;
+    normalizeLayout: function normalizeLayout() {
+      var theme = this.theme;
       if (typeof theme === 'string') {
-        if (!__WEBPACK_IMPORTED_MODULE_0__theme___default.a.hasOwnProperty(theme)) {
-          throw new Error(`${theme} is not a build-in theme.`);
+        if (!_theme2.default.hasOwnProperty(theme)) {
+          throw new Error(theme + ' is not a build-in theme.');
         }
-        theme = __WEBPACK_IMPORTED_MODULE_0__theme___default.a[theme];
+        theme = _theme2.default[theme];
       } else {
-        theme = Object.assign({}, __WEBPACK_IMPORTED_MODULE_0__theme___default.a.default, theme);
+        theme = _extends({}, _theme2.default.default, theme);
       }
 
-      let layout = this.layout;
+      var layout = this.layout;
       if (typeof layout === 'string') {
-        if (!__WEBPACK_IMPORTED_MODULE_1__layouts___default.a.hasOwnProperty(layout)) {
-          throw new Error(`${layout} is not a build-in layout.`);
+        if (!_layouts2.default.hasOwnProperty(layout)) {
+          throw new Error(layout + ' is not a build-in layout.');
         }
-        layout = __WEBPACK_IMPORTED_MODULE_1__layouts___default.a[layout];
+        layout = _layouts2.default[layout];
       } else {
-        if (!Array.isArray(layout) || !layout.every(i => Array.isArray(i))) {
-          throw new Error(`custom layout must be a two-dimensional array.`);
+        if (!Array.isArray(layout) || !layout.every(function (i) {
+          return Array.isArray(i);
+        })) {
+          throw new Error('custom layout must be a two-dimensional array.');
         }
       }
-      for (let r of layout) {
-        for (let c of r) {
-          c.k = new Key(c.key);
-          c.k.addStyle(Object.assign({}, theme.global, theme.key[c.key]));
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = layout[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var r = _step.value;
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = r[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var c = _step2.value;
+
+              c.k = new Key(c.key);
+              c.k.addStyle(_extends({}, theme.global, theme.key[c.key]));
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
         }
       }
+
       this._layout = layout;
     },
-    touchstart(key, e) {
+    touchstart: function touchstart(key, e) {
       key.active(e.target);
     },
-    touchend(key, e) {
+    touchend: function touchend(key, e) {
       e.stopPropagation();
       key.deactive(e.target);
       this.$emit('press', key.code);
     }
   }
-});
+};
 
 /***/ }),
 /* 11 */
@@ -1241,6 +1310,7 @@ if (false) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7623859e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(22);
 var disposed = false
 function injectStyle (ssrContext) {
@@ -1259,7 +1329,7 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
   __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7623859e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
@@ -1335,13 +1405,16 @@ exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  backgro
 
 /***/ }),
 /* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__keyboard_vue__ = __webpack_require__(1);
-//
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
 //
 //
 //
@@ -1352,14 +1425,24 @@ exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  backgro
 //
 
 
+var _vue = __webpack_require__(21);
 
+var _vue2 = _interopRequireDefault(_vue);
 
+var _keyboard = __webpack_require__(1);
 
-const requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
+var _keyboard2 = _interopRequireDefault(_keyboard);
 
-const animation = function (iterable, done = () => {}, frames = 60) {
-  let running = true;
-  let frame = 0;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
+
+var animation = function animation(iterable) {
+  var done = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+  var frames = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60;
+
+  var running = true;
+  var frame = 0;
   function closure(timestamp) {
     if (!running) {
       return;
@@ -1372,22 +1455,22 @@ const animation = function (iterable, done = () => {}, frames = 60) {
     }
   }
   requestAnimationFrame(closure, 0);
-  return () => {
+  return function () {
     running = false;
   };
 };
 
-const keyboardCenter = function () {
+var keyboardCenter = function () {
 
-  let activeInput;
+  var activeInput = void 0;
 
   return {
-    open(input) {
+    open: function open(input) {
       this.close();
       activeInput = input;
       document.addEventListener('touchend', this.close, false);
     },
-    close() {
+    close: function close() {
       if (!activeInput) {
         return;
       }
@@ -1398,7 +1481,7 @@ const keyboardCenter = function () {
   };
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+exports.default = {
   props: {
     type: {
       type: String,
@@ -1432,7 +1515,7 @@ const keyboardCenter = function () {
       type: Object
     }
   },
-  data() {
+  data: function data() {
     return {
       rawValue: [],
       cursorPos: 0,
@@ -1440,7 +1523,7 @@ const keyboardCenter = function () {
       cursorTimer: null
     };
   },
-  mounted() {
+  mounted: function mounted() {
     if (this.value) {
       this.rawValue = this.value.toString().split('');
     }
@@ -1448,22 +1531,25 @@ const keyboardCenter = function () {
       this.openKeyboard();
     }
   },
-  beforeDestory() {
+  beforeDestory: function beforeDestory() {
     window.clearInterval(this.cursorTimer);
   },
+
   watch: {
-    rawValue(value) {
+    rawValue: function rawValue(value) {
       value = value.join('');
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value);
     },
-    cursorPos(value) {
+    cursorPos: function cursorPos(value) {
+      var _this = this;
+
       if (!this.cursorTimer) {
         return;
       }
-      this.$nextTick(() => {
-        let cursor = this.$el.querySelector('i');
-        if (this.cursorPos) {
-          let charactor = this.$el.querySelector(`span:nth-of-type(${this.cursorPos})`);
+      this.$nextTick(function () {
+        var cursor = _this.$el.querySelector('i');
+        if (_this.cursorPos) {
+          var charactor = _this.$el.querySelector('span:nth-of-type(' + _this.cursorPos + ')');
           cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
         } else {
           cursor.style.left = 0;
@@ -1472,70 +1558,74 @@ const keyboardCenter = function () {
     }
   },
   methods: {
-    openKeyboard() {
+    openKeyboard: function openKeyboard() {
+      var _this2 = this;
+
       if (this._keyboard) {
         return;
       }
-      let keyboard = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-        render: h => h(__WEBPACK_IMPORTED_MODULE_1__keyboard_vue__["default"], {
-          props: Object.assign({
-            layout: this.type
-          }, this.keyboard),
-          on: {
-            press: key => {
-              this.input(key);
+      var keyboard = new _vue2.default({
+        render: function render(h) {
+          return h(_keyboard2.default, {
+            props: _extends({
+              layout: _this2.type
+            }, _this2.keyboard),
+            on: {
+              press: function press(key) {
+                _this2.input(key);
+              }
             }
-          }
-        }),
-        destroyed() {
+          });
+        },
+        destroyed: function destroyed() {
           document.body.removeChild(container);
         }
       });
       keyboard.$mount();
       this._keyboard = keyboard;
-      let container = document.createElement('div');
-      let shadow = document.createElement('div');
-      let element = keyboard.$el;
-      let borderColor = keyboard.$el.querySelector('td').style.borderColor;
+      var container = document.createElement('div');
+      var shadow = document.createElement('div');
+      var element = keyboard.$el;
+      var borderColor = keyboard.$el.querySelector('td').style.borderColor;
       container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
       shadow.style.cssText = 'height:100%;';
-      element.style.cssText = `position:absolute; top:0; left:0; transform: translateY(100%); border-top: 1px solid ${borderColor}; box-shadow: 0 2px 2px 2px ${borderColor}`;
+      element.style.cssText = 'position:absolute; top:0; left:0; transform: translateY(100%); border-top: 1px solid ' + borderColor + '; box-shadow: 0 2px 2px 2px ' + borderColor;
       container.appendChild(shadow);
       container.appendChild(element);
       document.body.appendChild(container);
-      animation((timestamp, frame, frames) => {
-        element.style.transform = `translateY(${(frames - frame) / frames * 100}%)`;
-      }, () => {}, 10);
+      animation(function (timestamp, frame, frames) {
+        element.style.transform = 'translateY(' + (frames - frame) / frames * 100 + '%)';
+      }, function () {}, 10);
       keyboardCenter.open(this);
-      this.cursorTimer = window.setInterval(() => {
-        this.cursorVisible = !this.cursorVisible;
+      this.cursorTimer = window.setInterval(function () {
+        _this2.cursorVisible = !_this2.cursorVisible;
       }, 500);
       this.cursorPos = this.rawValue.length;
     },
-    closeKeyboard() {
+    closeKeyboard: function closeKeyboard() {
       if (!this._keyboard) {
         return;
       }
-      let keyboard = this._keyboard;
-      let element = keyboard.$el;
+      var keyboard = this._keyboard;
+      var element = keyboard.$el;
       this._keyboard = null;
-      animation((timestamp, frame, frames) => {
-        element.style.transform = `translateY(${frame / frames * 100}%)`;
-      }, () => {
+      animation(function (timestamp, frame, frames) {
+        element.style.transform = 'translateY(' + frame / frames * 100 + '%)';
+      }, function () {
         keyboard.$destroy();
       }, 10);
       keyboardCenter.close();
       window.clearInterval(this.cursorTimer);
       this.cursorTimer = null;
     },
-    focus(e) {
+    focus: function focus(e) {
       e.stopPropagation();
       this.openKeyboard();
       if (this.cursorTimer) {
         this.cursorPos = +e.target.dataset.index || this.rawValue.length;
       }
     },
-    input(key) {
+    input: function input(key) {
       switch (key) {
         case 'esc':
         case 'enter':
@@ -1571,7 +1661,7 @@ const keyboardCenter = function () {
       }
     }
   }
-});
+};
 
 /***/ }),
 /* 21 */
