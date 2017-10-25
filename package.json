@@ -1,6 +1,6 @@
 {
   "name": "vue-numeric-keyboard",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Mobile numeric keyboard component for Vue 2 project",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "css-loader": "^0.28.7",
     "style-loader": "^0.18.2",
