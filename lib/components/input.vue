@@ -86,6 +86,10 @@ export default {
     value: {
       type: [String, Number]
     },
+    format: {
+      type: Function,
+      default: val => val
+    },
     keyboard: {
       type: Object
     }
@@ -115,7 +119,9 @@ export default {
       handler(val) {
         if (val != null) {
           this.rawValue = val.toString().split('')
-          this.cursorPos = this.rawValue.length
+          if(this.cursorPos > this.rawValue.length) {
+            this.cursorPos = this.rawValue.length
+          }
         }
       }
     },
@@ -125,6 +131,10 @@ export default {
     },
     cursorPos(value) {
       if (!this.cursorTimer) { return }
+      if (value > this.rawValue.length) {
+        this.cursorPos = this.rawValue.length
+        return
+      }
       this.$nextTick(() => {
         let cursor = this.$el.querySelector('i')
         if (this.cursorPos) {
@@ -198,6 +208,7 @@ export default {
       }
     },
     input(key) {
+      let value = this.rawValue.slice()
       switch (key) {
         case 'esc':
         case 'enter':
@@ -205,13 +216,13 @@ export default {
           break
         case 'del':
           if (this.cursorPos > 0) {
-            this.rawValue.splice(this.cursorPos - 1, 1)
+            value.splice(this.cursorPos - 1, 1)
             this.cursorPos -= 1
           }
           break
         case '.':
-          if (this.rawValue && this.rawValue.indexOf(key) === -1) {
-            this.rawValue.splice(this.cursorPos, 0, key)
+          if (value && value.indexOf(key) === -1) {
+            value.splice(this.cursorPos, 0, key)
             this.cursorPos += 1
           }
           break
@@ -225,12 +236,15 @@ export default {
         case 7:
         case 8:
         case 9:
-          if (this.type === 'number' || typeof this.maxlength === 'undefined' || this.rawValue.length < this.maxlength) {
-            this.rawValue.splice(this.cursorPos, 0, key)
+          if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
+            value.splice(this.cursorPos, 0, key)
             this.cursorPos += 1
           }
           break
       }
+
+      value = this.format(value.join(''))
+      this.rawValue = value.toString().split('')
     }
   }
 }

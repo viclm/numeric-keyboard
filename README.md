@@ -220,6 +220,11 @@ name: {
 placeholder: {
   type: String
 },
+// pass input string as argument to format function, and return formated string
+format: {
+  type: Function
+  default: val => val 
+},
 readonly: {
   type: Boolean,
   default: false
