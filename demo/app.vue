@@ -15,9 +15,9 @@
     <hr>
     <div class="input">
       <label>Amount: </label>
-      <NumericInput type="number" placeholder="touch to input" :format="only2" :value="amount2" @input="input2" />
+      <NumericInput type="number" placeholder="touch to input" format="^\d+(\.\d{0,2})?$" :value="amount2" @input="input2" />
     </div>
-    <p>Limit up to two decimal</p>
+    <p>Limit input up to two decimal</p>
   </div>
 </template>
 
@@ -50,13 +50,6 @@
     methods: {
       press(key) {
         this.keyPressed = key
-      },
-      only2(val) {
-        if(/^\d+\.\d{2,}$/.test(val)) {
-          return parseFloat(val).toFixed(2).toString()
-        } else {
-          return val
-        }
       },
       input(value) {
         this.amount = value

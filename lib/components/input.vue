@@ -87,8 +87,7 @@ export default {
       type: [String, Number]
     },
     format: {
-      type: Function,
-      default: val => val
+      type: [String, Function]
     },
     keyboard: {
       type: Object
@@ -119,9 +118,7 @@ export default {
       handler(val) {
         if (val != null) {
           this.rawValue = val.toString().split('')
-          if(this.cursorPos > this.rawValue.length) {
-            this.cursorPos = this.rawValue.length
-          }
+          this.cursorPos = this.rawValue.length
         }
       }
     },
@@ -213,6 +210,7 @@ export default {
         case 'esc':
         case 'enter':
           this.closeKeyboard()
+          return
           break
         case 'del':
           if (this.cursorPos > 0) {
@@ -242,9 +240,19 @@ export default {
           }
           break
       }
+      
+      if (typeof this.format === 'function') {
+        if (!this.format(value.join(''))) {
+          return
+        }
+      } else if (typeof this.format === 'string') {
+        let reg = new RegExp(this.format)
+        if (!reg.test(value.join(''))) {
+          return
+        }
+      }
 
-      value = this.format(value.join(''))
-      this.rawValue = value.toString().split('')
+      this.rawValue = value
     }
   }
 }

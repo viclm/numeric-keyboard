@@ -220,10 +220,9 @@ name: {
 placeholder: {
   type: String
 },
-// pass input string as argument to format function, and return formated string
+// pass regexp string to test input format
 format: {
-  type: Function
-  default: val => val 
+  type: [String, Function]
 },
 readonly: {
   type: Boolean,
