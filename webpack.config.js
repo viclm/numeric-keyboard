@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack')
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   entry: "./lib/index.js",
@@ -7,6 +9,14 @@ module.exports = {
     filename: 'vue_numeric_keyboard.js',
     library: 'numericKeyboard',
     libraryTarget: 'umd'
+  },
+  externals: {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue'
+    }
   },
   module: {
     rules: [
@@ -33,5 +43,11 @@ module.exports = {
     ]
   },
   devtool: false,
-  externals: ['vue']
+  plugins: isProd
+    ? [
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': '"production"'
+        })
+      ]
+    : []
 }
