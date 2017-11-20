@@ -99,9 +99,6 @@ export default {
     }
   },
   mounted() {
-    if (this.value) {
-      this.rawValue = this.value.toString().split('')
-    }
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard()
     }
@@ -110,6 +107,15 @@ export default {
     window.clearInterval(this.cursorTimer)
   },
   watch: {
+    value: {
+      immediate: true,
+      handler(val) {
+        console.log(val)
+        if (val !== undefined || val !== null) {
+          this.rawValue = val.toString().split('')
+        }
+      }
+    },
     rawValue(value) {
       value = value.join('')
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value)
