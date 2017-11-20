@@ -1,6 +1,6 @@
 {
   "name": "vue-numeric-keyboard",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Mobile numeric keyboard component for Vue 2 project",
   "repository": {
     "type": "git",
