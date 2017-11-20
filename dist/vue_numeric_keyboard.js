@@ -2374,7 +2374,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15638871_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c9533de_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(87);
 function injectStyle (ssrContext) {
   __webpack_require__(83)
 }
@@ -2393,7 +2393,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15638871_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c9533de_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2424,8 +2424,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-15638871\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-15638871\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c9533de\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c9533de\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2560,6 +2560,9 @@ exports.default = {
     value: {
       type: [String, Number]
     },
+    format: {
+      type: [String, Function]
+    },
     keyboard: {
       type: Object
     }
@@ -2571,6 +2574,24 @@ exports.default = {
       cursorVisible: true,
       cursorTimer: null
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    if (typeof this.format === 'function') {
+      this._validate = function (val) {
+        return _this.format(val.join(''));
+      };
+    } else if (typeof this.format === 'string') {
+      this._validate = function (val) {
+        var reg = new RegExp(_this.format);
+        return reg.test(val.join(''));
+      };
+    } else {
+      this._validate = function (val) {
+        return true;
+      };
+    }
   },
   mounted: function mounted() {
     if (this.autofocus && !this.readonly && !this.disabled) {
@@ -2599,15 +2620,15 @@ exports.default = {
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value);
     },
     cursorPos: function cursorPos(value) {
-      var _this = this;
+      var _this2 = this;
 
       if (!this.cursorTimer) {
         return;
       }
       this.$nextTick(function () {
-        var cursor = _this.$el.querySelector('i');
-        if (_this.cursorPos) {
-          var charactor = _this.$el.querySelector('span:nth-of-type(' + _this.cursorPos + ')');
+        var cursor = _this2.$el.querySelector('i');
+        if (_this2.cursorPos) {
+          var charactor = _this2.$el.querySelector('span:nth-of-type(' + _this2.cursorPos + ')');
           cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
         } else {
           cursor.style.left = 0;
@@ -2617,7 +2638,7 @@ exports.default = {
   },
   methods: {
     openKeyboard: function openKeyboard() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this._keyboard) {
         return;
@@ -2626,11 +2647,11 @@ exports.default = {
         render: function render(h) {
           return h(_keyboard2.default, {
             props: (0, _assign2.default)({
-              layout: _this2.type
-            }, _this2.keyboard),
+              layout: _this3.type
+            }, _this3.keyboard),
             on: {
               press: function press(key) {
-                _this2.input(key);
+                _this3.input(key);
               }
             }
           });
@@ -2656,7 +2677,7 @@ exports.default = {
       }, function () {}, 10);
       keyboardCenter.open(this);
       this.cursorTimer = window.setInterval(function () {
-        _this2.cursorVisible = !_this2.cursorVisible;
+        _this3.cursorVisible = !_this3.cursorVisible;
       }, 500);
       this.cursorPos = this.rawValue.length;
     },
@@ -2684,20 +2705,26 @@ exports.default = {
       }
     },
     input: function input(key) {
+      var value = this.rawValue.slice();
       switch (key) {
         case 'esc':
         case 'enter':
           this.closeKeyboard();
+          return;
           break;
         case 'del':
           if (this.cursorPos > 0) {
-            this.rawValue.splice(this.cursorPos - 1, 1);
+            value.splice(this.cursorPos - 1, 1);
+            if (!this._validate(value)) return;
+            this.rawValue = value;
             this.cursorPos -= 1;
           }
           break;
         case '.':
-          if (this.rawValue && this.rawValue.indexOf(key) === -1) {
-            this.rawValue.splice(this.cursorPos, 0, key);
+          if (value && value.indexOf(key) === -1) {
+            value.splice(this.cursorPos, 0, key);
+            if (!this._validate(value)) return;
+            this.rawValue = value;
             this.cursorPos += 1;
           }
           break;
@@ -2711,8 +2738,10 @@ exports.default = {
         case 7:
         case 8:
         case 9:
-          if (this.type === 'number' || typeof this.maxlength === 'undefined' || this.rawValue.length < this.maxlength) {
-            this.rawValue.splice(this.cursorPos, 0, key);
+          if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
+            value.splice(this.cursorPos, 0, key);
+            if (!this._validate(value)) return;
+            this.rawValue = value;
             this.cursorPos += 1;
           }
           break;

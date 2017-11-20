@@ -220,6 +220,10 @@ name: {
 placeholder: {
   type: String
 },
+// pass regexp string to test input format
+format: {
+  type: [String, Function]
+},
 readonly: {
   type: Boolean,
   default: false

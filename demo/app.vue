@@ -6,11 +6,18 @@
       <p v-if="keyPressed == null" class="keyboard-output">Press the keyboard</p>
       <p v-else class="keyboard-output">Key({{keyPressed}}) is pressed</p>
     </div>
+    <hr>
     <div class="input">
       <label>Amount: </label>
       <NumericInput type="number" placeholder="touch to input" :value="amount" @input="input" />
     </div>
-    <button @click="reset">Reset Input</button>
+    <button @click="reset">Click reset to 10</button>
+    <hr>
+    <div class="input">
+      <label>Amount: </label>
+      <NumericInput type="number" placeholder="touch to input" format="^\d+(\.\d{0,2})?$" :value="amount2" @input="input2" />
+    </div>
+    <p>Limit input up to two decimal</p>
   </div>
 </template>
 
@@ -24,6 +31,7 @@
     data() {
       return {
         amount: 0,
+        amount2: 0,
         telTheme: {
           key: {
             [keys.DEL]: {
@@ -45,10 +53,12 @@
       },
       input(value) {
         this.amount = value
-        console.log(typeof value, value)
+      },
+      input2(value) {
+        this.amount2 = value
       },
       reset() {
-        this.amount = 0
+        this.amount = 10
       }
     }
   }
@@ -63,8 +73,8 @@
     .numeric-keyboard
       height 3.6rem !important
       border 1px solid #cfd4da
-    p
-      font-size 0.36rem
+  p
+    font-size 0.36rem
   .input
     font-size 0.36rem
     display flex
