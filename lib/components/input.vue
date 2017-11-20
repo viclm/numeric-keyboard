@@ -106,12 +106,14 @@ export default {
       this._validate = (val) => {
         return this.format(val.join(''))
       }
-    } else if (typeof this.format === 'string') {
+    }
+    else if (typeof this.format === 'string') {
       this._validate = (val) => {
         const reg = new RegExp(this.format)
         return reg.test(val.join(''))
       }
-    } else {
+    }
+    else {
       this._validate = val => true
     }
   },
@@ -120,7 +122,7 @@ export default {
       this.openKeyboard()
     }
   },
-  beforeDestory() {
+  beforeDestroy() {
     window.clearInterval(this.cursorTimer)
     if (this._keyboard) {
       this._keyboard.$destroy()
@@ -220,22 +222,23 @@ export default {
         case 'esc':
         case 'enter':
           this.closeKeyboard()
-          return
           break
         case 'del':
           if (this.cursorPos > 0) {
             value.splice(this.cursorPos - 1, 1)
-            if (!this._validate(value)) return
-            this.rawValue = value
-            this.cursorPos -= 1
+            if (this._validate(value)) {
+              this.rawValue = value
+              this.cursorPos -= 1
+            }
           }
           break
         case '.':
           if (value && value.indexOf(key) === -1) {
             value.splice(this.cursorPos, 0, key)
-            if (!this._validate(value)) return
-            this.rawValue = value
-            this.cursorPos += 1
+            if (this._validate(value)) {
+              this.rawValue = value
+              this.cursorPos += 1
+            }
           }
           break
         case 0:
@@ -250,9 +253,10 @@ export default {
         case 9:
           if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
             value.splice(this.cursorPos, 0, key)
-            if (!this._validate(value)) return
-            this.rawValue = value
-            this.cursorPos += 1
+            if (this._validate(value)) {
+              this.rawValue = value
+              this.cursorPos += 1
+            }
           }
           break
       }

@@ -2374,7 +2374,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c9533de_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e9d4d53c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(87);
 function injectStyle (ssrContext) {
   __webpack_require__(83)
 }
@@ -2393,7 +2393,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c9533de_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e9d4d53c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2424,8 +2424,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c9533de\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c9533de\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e9d4d53c\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e9d4d53c\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./input.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2598,7 +2598,7 @@ exports.default = {
       this.openKeyboard();
     }
   },
-  beforeDestory: function beforeDestory() {
+  beforeDestroy: function beforeDestroy() {
     window.clearInterval(this.cursorTimer);
     if (this._keyboard) {
       this._keyboard.$destroy();
@@ -2710,22 +2710,23 @@ exports.default = {
         case 'esc':
         case 'enter':
           this.closeKeyboard();
-          return;
           break;
         case 'del':
           if (this.cursorPos > 0) {
             value.splice(this.cursorPos - 1, 1);
-            if (!this._validate(value)) return;
-            this.rawValue = value;
-            this.cursorPos -= 1;
+            if (this._validate(value)) {
+              this.rawValue = value;
+              this.cursorPos -= 1;
+            }
           }
           break;
         case '.':
           if (value && value.indexOf(key) === -1) {
             value.splice(this.cursorPos, 0, key);
-            if (!this._validate(value)) return;
-            this.rawValue = value;
-            this.cursorPos += 1;
+            if (this._validate(value)) {
+              this.rawValue = value;
+              this.cursorPos += 1;
+            }
           }
           break;
         case 0:
@@ -2740,9 +2741,10 @@ exports.default = {
         case 9:
           if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
             value.splice(this.cursorPos, 0, key);
-            if (!this._validate(value)) return;
-            this.rawValue = value;
-            this.cursorPos += 1;
+            if (this._validate(value)) {
+              this.rawValue = value;
+              this.cursorPos += 1;
+            }
           }
           break;
       }
