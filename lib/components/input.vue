@@ -86,6 +86,9 @@ export default {
     value: {
       type: [String, Number]
     },
+    format: {
+      type: [String, Function]
+    },
     keyboard: {
       type: Object
     }
@@ -96,6 +99,20 @@ export default {
       cursorPos: 0,
       cursorVisible: true,
       cursorTimer: null
+    }
+  },
+  created() {
+    if (typeof this.format === 'function') {
+      this._validate = (val) => {
+        return this.format(val.join(''))
+      }
+    } else if (typeof this.format === 'string') {
+      this._validate = (val) => {
+        const reg = new RegExp(this.format)
+        return reg.test(val.join(''))
+      }
+    } else {
+      this._validate = val => true
     }
   },
   mounted() {
@@ -198,20 +215,26 @@ export default {
       }
     },
     input(key) {
+      let value = this.rawValue.slice()
       switch (key) {
         case 'esc':
         case 'enter':
           this.closeKeyboard()
+          return
           break
         case 'del':
           if (this.cursorPos > 0) {
-            this.rawValue.splice(this.cursorPos - 1, 1)
+            value.splice(this.cursorPos - 1, 1)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos -= 1
           }
           break
         case '.':
-          if (this.rawValue && this.rawValue.indexOf(key) === -1) {
-            this.rawValue.splice(this.cursorPos, 0, key)
+          if (value && value.indexOf(key) === -1) {
+            value.splice(this.cursorPos, 0, key)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos += 1
           }
           break
@@ -225,8 +248,10 @@ export default {
         case 7:
         case 8:
         case 9:
-          if (this.type === 'number' || typeof this.maxlength === 'undefined' || this.rawValue.length < this.maxlength) {
-            this.rawValue.splice(this.cursorPos, 0, key)
+          if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
+            value.splice(this.cursorPos, 0, key)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos += 1
           }
           break
