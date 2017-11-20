@@ -101,6 +101,20 @@ export default {
       cursorTimer: null
     }
   },
+  created() {
+    if (typeof this.format === 'function') {
+      this._validate = (val) => {
+        return this.format(val.join(''))
+      }
+    } else if (typeof this.format === 'string') {
+      this._validate = (val) => {
+        const reg = new RegExp(this.format)
+        return reg.test(val.join(''))
+      }
+    } else {
+      this._validate = val => true
+    }
+  },
   mounted() {
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard()
@@ -128,10 +142,6 @@ export default {
     },
     cursorPos(value) {
       if (!this.cursorTimer) { return }
-      if (value > this.rawValue.length) {
-        this.cursorPos = this.rawValue.length
-        return
-      }
       this.$nextTick(() => {
         let cursor = this.$el.querySelector('i')
         if (this.cursorPos) {
@@ -215,12 +225,16 @@ export default {
         case 'del':
           if (this.cursorPos > 0) {
             value.splice(this.cursorPos - 1, 1)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos -= 1
           }
           break
         case '.':
           if (value && value.indexOf(key) === -1) {
             value.splice(this.cursorPos, 0, key)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos += 1
           }
           break
@@ -236,23 +250,12 @@ export default {
         case 9:
           if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
             value.splice(this.cursorPos, 0, key)
+            if (!this._validate(value)) return
+            this.rawValue = value
             this.cursorPos += 1
           }
           break
       }
-      
-      if (typeof this.format === 'function') {
-        if (!this.format(value.join(''))) {
-          return
-        }
-      } else if (typeof this.format === 'string') {
-        let reg = new RegExp(this.format)
-        if (!reg.test(value.join(''))) {
-          return
-        }
-      }
-
-      this.rawValue = value
     }
   }
 }
