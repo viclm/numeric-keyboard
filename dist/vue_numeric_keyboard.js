@@ -2636,9 +2636,6 @@ exports.default = {
     };
   },
   mounted: function mounted() {
-    if (this.value) {
-      this.rawValue = this.value.toString().split('');
-    }
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard();
     }
@@ -2648,6 +2645,12 @@ exports.default = {
   },
 
   watch: {
+    value: {
+      immediate: true,
+      handler: function handler(val) {
+        this.rawValue = val.toString().split('');
+      }
+    },
     rawValue: function rawValue(value) {
       value = value.join('');
       this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value);

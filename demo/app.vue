@@ -8,8 +8,9 @@
     </div>
     <div class="input">
       <label>Amount: </label>
-      <NumericInput type="number" placeholder="touch to input" @input="input" />
+      <NumericInput type="number" placeholder="touch to input" :value="amount" @input="input" />
     </div>
+    <button @click="reset">Reset Input</button>
   </div>
 </template>
 
@@ -22,6 +23,7 @@
     },
     data() {
       return {
+        amount: 0,
         telTheme: {
           key: {
             [keys.DEL]: {
@@ -42,7 +44,11 @@
         this.keyPressed = key
       },
       input(value) {
+        this.amount = value
         console.log(typeof value, value)
+      },
+      reset() {
+        this.amount = 0
       }
     }
   }
@@ -68,4 +74,7 @@
       height 0.48rem
       margin-left 0.1rem
       border 1px solid #cfd4da
+  button
+    font-size 0.36rem
+    margin 0.1rem 0
 </style>
