@@ -110,8 +110,7 @@ export default {
     value: {
       immediate: true,
       handler(val) {
-        console.log(val)
-        if (val !== undefined || val !== null) {
+        if (val != null) {
           this.rawValue = val.toString().split('')
         }
       }
