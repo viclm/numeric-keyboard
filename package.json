@@ -9,13 +9,14 @@
   "main": "dist/vue_numeric_keyboard.js",
   "module": "lib/index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
     "style-loader": "^0.18.2",
     "stylus": "^0.54.5",

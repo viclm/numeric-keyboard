@@ -105,6 +105,9 @@ export default {
   },
   beforeDestory() {
     window.clearInterval(this.cursorTimer)
+    if (this._keyboard) {
+      this._keyboard.$destroy()
+    }
   },
   watch: {
     value: {
@@ -112,6 +115,7 @@ export default {
       handler(val) {
         if (val != null) {
           this.rawValue = val.toString().split('')
+          this.cursorPos = this.rawValue.length
         }
       }
     },
