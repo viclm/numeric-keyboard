@@ -226,10 +226,8 @@ export default {
         case 'del':
           if (this.cursorPos > 0) {
             value.splice(this.cursorPos - 1, 1)
-            if (this._validate(value)) {
-              this.rawValue = value
-              this.cursorPos -= 1
-            }
+            this.rawValue = value
+            this.cursorPos -= 1
           }
           break
         case '.':
