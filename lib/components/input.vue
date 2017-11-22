@@ -1,8 +1,8 @@
 <template>
-  <div class="numeric-input" :class="{ placeholder: rawValue.length === 0, readonly: readonly, disabled: disabled }" @touchend="focus">
+  <div class="numeric-input" :class="{ readonly: readonly, disabled: disabled }" @touchend="focus">
     <input type="hidden" :name="name" :value="value" />
     <div>
-      <span v-if="rawValue.length" v-for="(c, index) in rawValue" :data-index="index + 1">{{c}}</span><span v-if="rawValue.length === 0">{{placeholder}}</span><i v-if="cursorTimer" v-show="cursorVisible"></i>
+      <span class="numeric-input-placeholder" v-if="rawValue.length === 0">{{placeholder}}</span><span v-if="rawValue.length" v-for="(c, index) in rawValue" :data-index="index + 1">{{c}}</span><i v-show="cursorVisible"></i>
     </div>
   </div>
 </template>
@@ -97,7 +97,7 @@ export default {
     return {
       rawValue: [],
       cursorPos: 0,
-      cursorVisible: true,
+      cursorVisible: false,
       cursorTimer: null
     }
   },
@@ -121,6 +121,7 @@ export default {
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard()
     }
+    this.$el.querySelector('i').style.backgroundColor = getComputedStyle(this.$el).getPropertyValue('color')
   },
   beforeDestroy() {
     window.clearInterval(this.cursorTimer)
@@ -271,32 +272,34 @@ export default {
 .numeric-input
   display inline-block
   background white
-  box-sizing border-box
   width 12em
   height 1.2em
   padding 2px
   text-align left
-  &.placeholder
-    color #757575
+
   &.readonly, &.disabled
     opacity 0.5
     pointer-events none
+
   div
-    height 100%
-    display inline-table
     position relative
-    span
-      display table-cell
-      vertical-align middle
-    i
-      font-style normal
-      font-weight 100
-      pointer-events none
-      position absolute
-      top 50%
-      left 0
-      transform translate(-50%, -50%)
-      &::after
-        content '|'
+    height 100%
+
+  span
+    float left
+    height 100%
+    display table-cell
+    vertical-align middle
+
+  i
+    pointer-events none
+    position absolute
+    left 0
+    top 0
+    bottom 0
+    width 1px
+
+.numeric-input-placeholder
+  color #757575
 
 </style>
