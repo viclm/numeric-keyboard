@@ -195,6 +195,7 @@ export default {
         this.cursorVisible = !this.cursorVisible
       }, 500)
       this.cursorPos = this.rawValue.length
+      this.$emit('focus')
     },
     closeKeyboard() {
       if (!this._keyboard) { return }
@@ -209,6 +210,7 @@ export default {
       keyboardCenter.close()
       window.clearInterval(this.cursorTimer)
       this.cursorTimer = null
+      this.$emit('blur')
     },
     focus(e) {
       e.stopPropagation()
