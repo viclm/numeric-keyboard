@@ -2,7 +2,7 @@
   <div class="numeric-input" :class="{ readonly: readonly, disabled: disabled }" @touchend="focus">
     <input type="hidden" :name="name" :value="value" />
     <div>
-      <span class="numeric-input-placeholder" v-if="rawValue.length === 0">{{placeholder}}</span><span v-if="rawValue.length" v-for="(c, index) in rawValue" :data-index="index + 1">{{c}}</span><i v-show="cursorVisible"></i>
+      <span class="numeric-input-placeholder" v-if="rawValue.length === 0">{{placeholder}}</span><span v-if="rawValue.length" v-for="(c, index) in rawValue" :data-index="index + 1">{{c}}</span><i v-if="cursorTimer" v-show="cursorVisible" :style="{backgroundColor: cursorColor}"></i>
     </div>
   </div>
 </template>
@@ -98,6 +98,7 @@ export default {
       rawValue: [],
       cursorPos: 0,
       cursorVisible: false,
+      cursorColor: null,
       cursorTimer: null
     }
   },
@@ -121,7 +122,7 @@ export default {
     if (this.autofocus && !this.readonly && !this.disabled) {
       this.openKeyboard()
     }
-    this.$el.querySelector('i').style.backgroundColor = getComputedStyle(this.$el).getPropertyValue('color')
+    this.cursorColor = window.getComputedStyle(this.$el).getPropertyValue('color')
   },
   beforeDestroy() {
     window.clearInterval(this.cursorTimer)
@@ -135,7 +136,9 @@ export default {
       handler(val) {
         if (val != null) {
           this.rawValue = val.toString().split('')
-          this.cursorPos = this.rawValue.length
+        }
+        else {
+          this.rawValue = []
         }
       }
     },
@@ -191,10 +194,10 @@ export default {
         element.style.transform = `translateY(${(frames - frame) / frames * 100}%)`
       }, () => {}, 10)
       keyboardCenter.open(this)
+      this.cursorPos = this.rawValue.length
       this.cursorTimer = window.setInterval(() => {
         this.cursorVisible = !this.cursorVisible
       }, 500)
-      this.cursorPos = this.rawValue.length
       this.$emit('focus')
     },
     closeKeyboard() {
@@ -208,6 +211,7 @@ export default {
         keyboard.$destroy()
       }, 10)
       keyboardCenter.close()
+      this.cursorPos = 0
       window.clearInterval(this.cursorTimer)
       this.cursorTimer = null
       this.$emit('blur')
