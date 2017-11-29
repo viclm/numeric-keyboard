@@ -251,14 +251,14 @@ export default {
         case 7:
         case 8:
         case 9:
-          if (this.type === 'number' || typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
-            value.splice(this.cursorPos, 0, key)
-            if (this._validate(value)) {
-              this.rawValue = value
-              this.cursorPos += 1
-            }
+        if (typeof this.maxlength === 'undefined' || value.length < this.maxlength) {
+          value.splice(this.cursorPos, 0, key)
+          if (this._validate(value)) {
+            this.rawValue = value
+            this.cursorPos += 1
           }
-          break
+        }
+        break
       }
     }
   }
