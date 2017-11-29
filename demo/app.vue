@@ -8,16 +8,8 @@
     </div>
     <hr>
     <div class="input">
-      <label>Amount: </label>
-      <NumericInput type="number" placeholder="touch to input" :value="amount" @input="input" />
+      <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" v-model="amount" />
     </div>
-    <button @click="reset">Click reset to 10</button>
-    <hr>
-    <div class="input">
-      <label>Amount: </label>
-      <NumericInput type="number" placeholder="touch to input" format="^\d+(\.\d{0,2})?$" :value="amount2" @input="input2" />
-    </div>
-    <p>Limit input up to two decimal</p>
   </div>
 </template>
 
@@ -30,8 +22,7 @@
     },
     data() {
       return {
-        amount: 0,
-        amount2: 0,
+        amount: null,
         telTheme: {
           key: {
             [keys.DEL]: {
@@ -50,15 +41,6 @@
     methods: {
       press(key) {
         this.keyPressed = key
-      },
-      input(value) {
-        this.amount = value
-      },
-      input2(value) {
-        this.amount2 = value
-      },
-      reset() {
-        this.amount = 10
       }
     }
   }
@@ -67,24 +49,18 @@
 <style lang="stylus">
   body
     font-size 0.24rem
-    text-align center
     padding 0.32rem
+  h1
+    text-align center
   .keyboard
     .numeric-keyboard
-      height 3.6rem !important
+      height 3.6rem
       border 1px solid #cfd4da
-  p
-    font-size 0.36rem
+    .keyboard-output
+      font-size 0.32rem
   .input
-    font-size 0.36rem
-    display flex
-    justify-content flex-start
-    align-items center
     .numeric-input
+      font-size 0.36rem
       height 0.48rem
-      margin-left 0.1rem
       border 1px solid #cfd4da
-  button
-    font-size 0.36rem
-    margin 0.1rem 0
 </style>
