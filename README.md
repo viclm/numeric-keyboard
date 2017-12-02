@@ -1,45 +1,67 @@
 # Numeric Keyboard
 
-[![Build Status](https://travis-ci.org/viclm/vue-numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/vue-numeric-keyboard)
+A numeric keyboard works in mobile browsers. It contains a pluggable keyboard component and a input box in replace of native input element.
 
-A numeric keyboard used in mobile created by Vue 2 component. It contains a pluggable keyboard component and a input + keyboard suit.
+The numeric keyboard have several versions: plain javascript class and Vue component.
+
+:movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
+
+
+## Table of contents
+
+- [Install](#install)
+- [Keyboard](#keyboard)
+- [Input box ](#input-box)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Install
-You can intall this component via yarn
 
+You can install it via yarn
 ```shell
-yarn add vue-numeric-keyboard
+yarn add numeric-keyboard
 ```
 
-## Usage
+Config webpack to use the right version
+```javascript
+resolve: {
+  alias: {
+	// use Vue component
+    'numeric-keyboard': 'numeric-keyboard/dist/numeric_keyboard.vue.js'
+  }
+},
+```
+
+## Keyboard
+
+The keyboard is a pluggable component. In order to be able to work properly in a real scene, it usually needs to match an output interface.
+
+### Usage
+
+#### Plain JavaScript
+```javascript
+import { NumericKeyboard } from 'numeric-keyboard'
+new NumericKeyboard('.keyboard-ui', {
+  layout: 'tel',
+  onpress(key) {
+    ...
+  }
+})
+```
+
+#### Vue
 ```vue
 <template>
    <div class="keyboard">
-     <NumericKeyboard layout="tel" :theme="telTheme" entertext="send" @press="press"></NumericKeyboard>
+     <NumericKeyboard layout="tel" @press="press" />
    </div>
 </template>
 
 <script>
-  import { NumericKeyboard, keys } from 'vue-numeric-keyboard'
+  import { NumericKeyboard } from 'numeric-keyboard'
   export default {
     components: {
       NumericKeyboard
-    },
-    data() {
-      return {
-        telTheme: {
-          key: {
-            [keys.DEL]: {
-              color: '#ffffff',
-              backgroundColor: ['#a8b0bc', '#929ba8']
-            },
-            [keys.ENTER]: {
-              color: '#ffffff',
-              backgroundColor: ['#a8b0bc', '#929ba8']
-            }
-          }
-        }
-      }
     },
     methods: {
       press(key) {
@@ -50,7 +72,8 @@ yarn add vue-numeric-keyboard
 </script>
 ```
 
-## props
+### Options/Props
+
 ```javascript
 // change the layout of keyboard
  layout: {
@@ -69,20 +92,20 @@ yarn add vue-numeric-keyboard
  }
 ```
 
-### `layout`
+#### `layout`
 There are two build-in layout called **number** and **tel** which can be used as a replace of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
 
-#### number layout
-![number layout](https://raw.githubusercontent.com/viclm/vue-numeric-keyboard/master/demo/snapshot_number.png)
+##### number layout
+![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_number.png)
 
-#### tel layout
-![tel layout](https://raw.githubusercontent.com/viclm/vue-numeric-keyboard/master/demo/snapshot_tel.png)
+##### tel layout
+![tel layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_tel.png)
 
-#### custom layout
+##### custom layout
 ```javascript
 // the build-in number layout
 
-import { keys } from 'vue-numeric-keyboard'
+import { keys } from 'numeric-keyboard'
 
 [
   [
@@ -140,12 +163,12 @@ import { keys } from 'vue-numeric-keyboard'
 ]
 ```
 
-### `theme`
+#### `theme`
 The style of keyboard can be modified global or per key, currently it only supports several limit style like fontSize or color, however you can override CSS directly for complicated style.
 ```javascript
 // the default style declaration
 
-import { keys } from 'vue-numeric-keyboard'
+import { keys } from 'numeric-keyboard'
 
 {
   global: {
@@ -163,14 +186,18 @@ import { keys } from 'vue-numeric-keyboard'
 }
 ```
 
-## events
+### Callbacks/Events
 
-### `press`
+#### `press`
 the `press` event is emit with a key code when the key is pressed.
 
-## input + keyboard suit
+## Input box
 
-The keyboard which created by javascript can not work with normal text input element, the component provide a custom input + keyboard suit which can be used in a normal form situation.
+The keyboard above can not work with native input element which will call the native keyboard when focus (that's not what we expect), the input box is a virtual input element, will be good in most cases except you care about some native feature like magnifier in ios.
+
+### Usage
+
+#### Vue
 ```vue
 <template>
   <div class="input">
@@ -180,14 +207,14 @@ The keyboard which created by javascript can not work with normal text input ele
 </template>
 
 <script>
-  import { NumericInput } from 'vue-numeric-keyboard/lib'
+  import { NumericInput } from 'numeric-keyboard'
   export default {
     components: {
       NumericInput
     },
     data() {
       return {
-       amount: 0
+       amount: null
       }
     }
   }
@@ -195,8 +222,8 @@ The keyboard which created by javascript can not work with normal text input ele
 
 ```
 
-### props
-Since it is a replace of html input element, most properties is supported.
+### Options/Props
+
 ```javascript
 // There are only two types: number and tel because it only contains a numeric keyboard
 type: {
@@ -220,10 +247,6 @@ name: {
 placeholder: {
   type: String
 },
-// pass regexp string to test input format
-format: {
-  type: [String, Function]
-},
 readonly: {
   type: Boolean,
   default: false
@@ -231,16 +254,33 @@ readonly: {
 value: {
   type: [String, Number]
 },
+// Limit the format of input
+format: {
+  type: [String, Function]
+},
 // The keyboard options will be used by keyboard component inside
 keyboard: {
   type: Object
 }
 ```
 
-### events
+#### html5 compatible
+The input box supports most of the standard attributes, you can refer the html spec for details.
+
+#### format
+Parse a regexp string or function to limit the input.
+
+#### keyboard
+Config the keyboard component which will be called when focus.
+
+### Callback/Events
 
 #### `input`
-The `input` event is emit when the value of input changes
+The `input` event is emit when the value of input changes.
+
+## Contributing
+Welcome to contributing, the guidelines is being drafted.
 
 ## License
-Licensed under the MIT license
+
+Licensed under the MIT license.

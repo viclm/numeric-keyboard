@@ -3,10 +3,13 @@ const webpack = require('webpack')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  entry: "./lib/index.js",
+  entry: {
+    raw: "./lib/raw/index.js",
+    vue: "./lib/vue/index.js"
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'vue_numeric_keyboard.js',
+    filename: 'numeric_keyboard.[name].js',
     library: 'numericKeyboard',
     libraryTarget: 'umd'
   },
@@ -24,6 +27,11 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.styl$/,
+        exclude: /node_modules/,
+        loader: 'style-loader!css-loader!stylus-loader'
       },
       {
         test: /\.vue$/,

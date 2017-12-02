@@ -134,6 +134,9 @@ export default {
     value: {
       immediate: true,
       handler(val) {
+        if (this.toValue(this.rawValue) === val) {
+          return
+        }
         if (val != null) {
           this.rawValue = val.toString().split('')
         }
@@ -143,8 +146,7 @@ export default {
       }
     },
     rawValue(value) {
-      value = value.join('')
-      this.$emit('input', value && this.type === 'number' ? parseFloat(value, 10) : value)
+      this.$emit('input', this.toValue(value))
     },
     cursorPos(value) {
       if (!this.cursorTimer) { return }
@@ -161,6 +163,10 @@ export default {
     }
   },
   methods: {
+    toValue(rawValue) {
+      let value = rawValue.join('')
+      return value && this.type === 'number' ? parseFloat(value, 10) : value
+    },
     openKeyboard() {
       if (this._keyboard) { return }
       let keyboard = new Vue({

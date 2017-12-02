@@ -1,13 +1,12 @@
 {
-  "name": "vue-numeric-keyboard",
-  "version": "0.0.11",
-  "description": "Mobile numeric keyboard component for Vue 2 project",
+  "name": "numeric-keyboard",
+  "version": "0.0.1",
+  "description": "Numeric keyboard for mobile browsers",
   "repository": {
     "type": "git",
-    "url": "git@github.com:viclm/vue-numeric-keyboard.git"
+    "url": "git@github.com:viclm/numeric-keyboard.git"
   },
-  "main": "dist/vue_numeric_keyboard.js",
-  "module": "lib/index.js",
+  "main": "dist/numeric_keyboard.raw.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },

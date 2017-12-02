@@ -7,9 +7,8 @@ module.exports = {
     filename: 'app.js'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
     alias: {
-      'vue-numeric-keyboard': path.resolve(__dirname, '../')
+      'numeric-keyboard': path.resolve(__dirname, '../../lib/vue')
     }
   },
   module: {

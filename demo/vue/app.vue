@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <h1>Vue numeric keyboard</h1>
+    <h1>Numeric keyboard</h1>
     <div class="keyboard">
       <NumericKeyboard layout="tel" :theme="telTheme" entertext="send" @press="press"></NumericKeyboard>
       <p v-if="keyPressed == null" class="keyboard-output">Press the keyboard</p>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { NumericKeyboard, NumericInput, keys } from 'vue-numeric-keyboard/lib'
+  import { NumericKeyboard, NumericInput, keys } from 'numeric-keyboard'
   export default {
     components: {
       NumericKeyboard,
