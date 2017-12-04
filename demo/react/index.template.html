@@ -1,0 +1,23 @@
+<!doctype>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Numeric keyboard</title>
+    <script>
+      (function(doc) {
+        var scale = 1 / window.devicePixelRatio;
+        doc.querySelector('meta[name=viewport]').setAttribute('content', 'width=device-width,initial-scale='+scale+',maximum-scale='+scale+',minimum-scale='+scale+',user-scalable=no');
+
+        var rangingRem = doc.createElement('div')
+        rangingRem.style.cssText = 'width:1rem;'
+        doc.head.appendChild(rangingRem)
+        var defaultFontSize = parseFloat(window.getComputedStyle(rangingRem).getPropertyValue('width'), 10)
+        doc.head.removeChild(rangingRem)
+        doc.documentElement.style.fontSize = doc.documentElement.clientWidth * 10 / 75 / defaultFontSize * 100 + '%';
+      })(document);
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

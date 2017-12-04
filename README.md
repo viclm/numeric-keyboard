@@ -2,7 +2,7 @@
 
 A numeric keyboard works in mobile browsers. It contains a pluggable keyboard component and a input box in replace of native input element.
 
-The numeric keyboard have several versions: plain javascript class and Vue component.
+The numeric keyboard have several versions: plain javascript class, React component and Vue component.
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
@@ -26,7 +26,7 @@ Config webpack to use the right version
 ```javascript
 resolve: {
   alias: {
-	// use Vue component
+    // use Vue component
     'numeric-keyboard': 'numeric-keyboard/dist/numeric_keyboard.vue.js'
   }
 },
@@ -41,12 +41,30 @@ The keyboard is a pluggable component. In order to be able to work properly in a
 #### Plain JavaScript
 ```javascript
 import { NumericKeyboard } from 'numeric-keyboard'
-new NumericKeyboard('.keyboard-ui', {
+new NumericKeyboard('.keyboard', {
   layout: 'tel',
   onpress(key) {
     ...
   }
 })
+```
+
+#### React
+```jsx
+import { NumericKeyboard } from 'numeric-keyboard'
+class App extends React.Component {
+  constructor() {
+    super()
+  }
+  press(key) {
+    ...
+  }
+  render() {
+    return <div className="keyboard">
+      <NumericKeyboard layout="tel" onPress={this.press.bind(this)} />
+    </div>
+  }
+}
 ```
 
 #### Vue
@@ -104,9 +122,7 @@ There are two build-in layout called **number** and **tel** which can be used as
 ##### custom layout
 ```javascript
 // the build-in number layout
-
 import { keys } from 'numeric-keyboard'
-
 [
   [
     {
@@ -167,9 +183,7 @@ import { keys } from 'numeric-keyboard'
 The style of keyboard can be modified global or per key, currently it only supports several limit style like fontSize or color, however you can override CSS directly for complicated style.
 ```javascript
 // the default style declaration
-
 import { keys } from 'numeric-keyboard'
-
 {
   global: {
     fontSize: '0.46rem',
@@ -196,6 +210,16 @@ the `press` event is emit with a key code when the key is pressed.
 The keyboard above can not work with native input element which will call the native keyboard when focus (that's not what we expect), the input box is a virtual input element, will be good in most cases except you care about some native feature like magnifier in ios.
 
 ### Usage
+
+#### Plain JavaScript
+```javascript
+// comming soon
+```
+
+#### React
+```jsx
+// comming soon
+```
 
 #### Vue
 ```vue

@@ -5,6 +5,7 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
   entry: {
     raw: "./lib/raw/index.js",
+    react: "./lib/react/index.js",
     vue: "./lib/vue/index.js"
   },
   output: {
@@ -25,6 +26,11 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.jsx$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },

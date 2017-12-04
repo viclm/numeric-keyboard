@@ -28,15 +28,15 @@ export default {
     let props = {}
     for (let name in Options) {
       props[name] = {
-        type: Options[name].type,
-        default: Options[name].default
+        default: Options[name]
       }
     }
     return props
   })(),
   data() {
     return {
-      keys: null
+      _layout: null,
+      _keys: null
     }
   },
   created() {

@@ -1,0 +1,43 @@
+import React from 'react'
+import { NumericKeyboard, keys } from 'numeric-keyboard'
+import './app.styl'
+
+export default class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      keyPressed: null
+    }
+  }
+
+  press(key) {
+    this.setState({
+      keyPressed: key
+    })
+  }
+
+  render() {
+    return <div className="app">
+      <h1>Numeric keyboard</h1>
+      <div className="keyboard">
+        <NumericKeyboard layout="tel" theme={this.props.telTheme} entertext="send" onPress={this.press.bind(this)} />
+        <p className="keyboard-output">{this.state.keyPressed ? `Key(${this.state.keyPressed}) is pressed`: 'Press the keyboard'}</p>
+      </div>
+    </div>
+  }
+}
+
+App.defaultProps = {
+  telTheme: {
+    key: {
+      [keys.DEL]: {
+        color: '#ffffff',
+        backgroundColor: ['#a8b0bc', '#929ba8']
+      },
+      [keys.ENTER]: {
+        color: '#ffffff',
+        backgroundColor: ['#a8b0bc', '#929ba8']
+      }
+    }
+  }
+}
