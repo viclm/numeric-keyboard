@@ -1,5 +1,7 @@
 # Numeric Keyboard
 
+[![Build Status](https://travis-ci.org/viclm/numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/numeric-keyboard)
+
 A numeric keyboard works in mobile browsers. It contains a pluggable keyboard component and a input box in replace of native input element.
 
 The numeric keyboard have several versions: plain javascript class, React component and Vue component.
