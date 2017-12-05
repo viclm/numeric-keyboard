@@ -1408,7 +1408,7 @@ module.exports = function (index, length) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Interface = exports.Options = exports.Key = undefined;
+exports.Mixins = exports.Options = exports.Key = undefined;
 
 var _getIterator2 = __webpack_require__(55);
 
@@ -1510,7 +1510,7 @@ var Options = exports.Options = {
   entertext: 'enter'
 };
 
-var Interface = exports.Interface = {
+var Mixins = exports.Mixins = {
   init: function init(options) {
     var layout = options.layout,
         theme = options.theme,
@@ -1595,7 +1595,7 @@ var Interface = exports.Interface = {
     this._keys = keys;
   },
   dispatch: function dispatch(event) {
-    console.warn('this method should be overrided!');
+    throw new Error('dispatch method must be overrided!');
   },
   ontouchstart: function ontouchstart(key, event) {
     key.active(event.target);
@@ -2332,7 +2332,7 @@ var Parent = function (_React$Component) {
   return Parent;
 }(_react2.default.Component);
 
-(0, _assign2.default)(Parent.prototype, _keyboard.Interface);
+(0, _assign2.default)(Parent.prototype, _keyboard.Mixins);
 
 var Keyboard = function (_Parent) {
   (0, _inherits3.default)(Keyboard, _Parent);

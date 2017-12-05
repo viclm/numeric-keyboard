@@ -8,7 +8,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'numeric-keyboard': path.resolve(__dirname, '../../lib/react')
+      'numeric-keyboard': path.resolve(__dirname, '../../vendor/react'),
+      lib: path.resolve(__dirname, '../../lib')
     }
   },
   module: {

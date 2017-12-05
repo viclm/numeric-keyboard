@@ -18,11 +18,11 @@
 
 <script>
 
-import { Options, Interface } from '../func/keyboard'
+import { Options, Mixins } from 'lib/keyboard'
 
 export default {
   mixins: [{
-    methods: Interface
+    methods: Mixins
   }],
   props: (function () {
     let props = {}
@@ -51,4 +51,4 @@ export default {
 
 </script>
 
-<style lang="stylus" src="../style/keyboard.styl"></style>
+<style lang="stylus" src="lib/style/keyboard.styl"></style>

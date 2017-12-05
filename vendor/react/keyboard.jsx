@@ -1,11 +1,11 @@
 import React from 'react'
-import { Options, Interface } from '../func/keyboard'
-import '../style/keyboard.styl'
+import { Options, Mixins } from 'lib/keyboard'
+import 'lib/style/keyboard.styl'
 
 const rfirst = /^[a-z]/
 
 class Parent extends React.Component {}
-Object.assign(Parent.prototype, Interface)
+Object.assign(Parent.prototype, Mixins)
 
 export default class Keyboard extends Parent {
   constructor(props) {

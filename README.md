@@ -55,9 +55,6 @@ new NumericKeyboard('.keyboard', {
 ```jsx
 import { NumericKeyboard } from 'numeric-keyboard'
 class App extends React.Component {
-  constructor() {
-    super()
-  }
   press(key) {
     ...
   }

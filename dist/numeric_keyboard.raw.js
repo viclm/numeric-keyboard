@@ -1408,7 +1408,7 @@ module.exports = function (index, length) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Interface = exports.Options = exports.Key = undefined;
+exports.Mixins = exports.Options = exports.Key = undefined;
 
 var _getIterator2 = __webpack_require__(55);
 
@@ -1510,7 +1510,7 @@ var Options = exports.Options = {
   entertext: 'enter'
 };
 
-var Interface = exports.Interface = {
+var Mixins = exports.Mixins = {
   init: function init(options) {
     var layout = options.layout,
         theme = options.theme,
@@ -1595,7 +1595,7 @@ var Interface = exports.Interface = {
     this._keys = keys;
   },
   dispatch: function dispatch(event) {
-    console.warn('this method should be overrided!');
+    throw new Error('dispatch method must be overrided!');
   },
   ontouchstart: function ontouchstart(key, event) {
     key.active(event.target);
@@ -2253,7 +2253,7 @@ function Keyboard(el, options) {
   this._options = options;
 }
 
-Keyboard.prototype = _keyboard.Interface;
+Keyboard.prototype = _keyboard.Mixins;
 Keyboard.prototype.constructor = Keyboard;
 Keyboard.prototype.dispatch = function (event) {
   var callback = this._options['on' + event];

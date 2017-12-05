@@ -8,7 +8,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'numeric-keyboard': path.resolve(__dirname, '../../lib/vue')
+      'numeric-keyboard': path.resolve(__dirname, '../../vendor/vue'),
+      lib: path.resolve(__dirname, '../../lib')
     }
   },
   module: {

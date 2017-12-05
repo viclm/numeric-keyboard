@@ -21,7 +21,7 @@ export default class App extends React.Component {
       <h1>Numeric keyboard</h1>
       <div className="keyboard">
         <NumericKeyboard layout="tel" theme={this.props.telTheme} entertext="send" onPress={this.press.bind(this)} />
-        <p className="keyboard-output">{this.state.keyPressed ? `Key(${this.state.keyPressed}) is pressed`: 'Press the keyboard'}</p>
+        <p className="keyboard-output">{this.state.keyPressed != null ? `Key(${this.state.keyPressed}) is pressed`: 'Press the keyboard'}</p>
       </div>
     </div>
   }

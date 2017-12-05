@@ -1,4 +1,4 @@
-import { Key } from '../../lib/func/keyboard'
+import { Key } from 'lib/keyboard'
 
 describe('Key class', () => {
   it('init with a key which will be exposed by a gettter called code', () => {

@@ -1,6 +1,6 @@
-import tmpl from '../utils/tmpl'
-import { Options, Interface } from '../func/keyboard'
-import '../style/keyboard.styl'
+import tmpl from './tmpl'
+import { Options as OPTIONS, Mixins } from 'lib/keyboard'
+import 'lib/style/keyboard.styl'
 
 const rcapital = /[A-Z]/g
 
@@ -23,7 +23,7 @@ export default function Keyboard(el, options) {
     el = document.querySelector(el)
   }
 
-  options = Object.assign({}, Options, options)
+  options = Object.assign({}, OPTIONS, options)
 
   this.init(options)
 
@@ -46,7 +46,7 @@ export default function Keyboard(el, options) {
   this._options = options
 }
 
-Keyboard.prototype = Interface
+Keyboard.prototype = Mixins
 Keyboard.prototype.constructor = Keyboard
 Keyboard.prototype.dispatch = function (event, ...args) {
   const callback = this._options[`on${event}`]

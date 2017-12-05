@@ -4,15 +4,20 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   entry: {
-    raw: "./lib/raw/index.js",
-    react: "./lib/react/index.js",
-    vue: "./lib/vue/index.js"
+    raw: "./vendor/raw/index.js",
+    react: "./vendor/react/index.js",
+    vue: "./vendor/vue/index.js"
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'numeric_keyboard.[name].js',
     library: 'numericKeyboard',
     libraryTarget: 'umd'
+  },
+  resolve: {
+    alias: {
+      lib: path.resolve(__dirname, 'lib')
+    }
   },
   externals: {
     vue: {
