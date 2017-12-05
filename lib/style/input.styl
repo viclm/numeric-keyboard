@@ -1,0 +1,32 @@
+.numeric-input
+  display inline-block
+  background white
+  width 12em
+  height 1.2em
+  padding 2px
+  text-align left
+
+  &.readonly, &.disabled
+    opacity 0.5
+    pointer-events none
+
+  div
+    position relative
+    height 100%
+
+  span
+    float left
+    height 100%
+    display table-cell
+    vertical-align middle
+
+  i
+    pointer-events none
+    position absolute
+    left 0
+    top 0
+    bottom 0
+    width 1px
+
+.numeric-input-placeholder
+  color #757575
