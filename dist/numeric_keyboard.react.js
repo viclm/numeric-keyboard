@@ -2270,15 +2270,11 @@ var Mixins = exports.Mixins = {
       keyboard: null,
       rawValue: [],
       cursorPos: 0,
-      cursorVisible: false,
       cursorColor: null,
       cursorTimer: null
     };
   },
   destroy: function destroy() {
-    if (this.ks.cursorTimer) {
-      window.clearInterval(this.ks.cursorTimer);
-    }
     KeyboardCenter.unregister();
   },
   set: function set(key, value) {
@@ -2325,9 +2321,7 @@ var Mixins = exports.Mixins = {
       keyboard.style.transform = 'translateY(' + (frames - frame) / frames * 100 + '%)';
     }, function () {}, 10);
 
-    this.set('cursorTimer', window.setInterval(function () {
-      _this.set('cursorVisible', !_this.ks.cursorVisible);
-    }, 500));
+    this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
     this.moveCursor();
 
@@ -2353,9 +2347,8 @@ var Mixins = exports.Mixins = {
     this.set('keyboard', null);
     this.set('keyboardElement', null);
 
-    this.set('cursorPos', 0);
-    window.clearInterval(this.ks.cursorTimer);
     this.set('cursorTimer', null);
+    this.set('cursorPos', 0);
 
     KeyboardCenter.unregister();
     this.dispatch('blur');
@@ -3391,7 +3384,7 @@ var Input = function (_Parent) {
               c
             );
           }),
-          this.ks.cursorTimer && _react2.default.createElement('i', { style: { backgroundColor: this.ks.cursorColor, display: this.ks.cursorVisible ? '' : 'none' } })
+          this.ks.cursorTimer && _react2.default.createElement('i', { style: { backgroundColor: this.ks.cursorColor } })
         )
       );
     }
@@ -3528,7 +3521,7 @@ exports = module.exports = __webpack_require__(39)(undefined);
 
 
 // module
-exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n", ""]);
+exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n  animation: numeric-input-cursor 1s infinite;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n@-moz-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-o-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n", ""]);
 
 // exports
 

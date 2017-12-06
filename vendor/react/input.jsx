@@ -30,7 +30,7 @@ export default class Input extends Parent {
         <div>
           {this.ks.rawValue.length === 0 && <span className="numeric-input-placeholder">{this.props.placeholder}</span>}
           {this.ks.rawValue.map((c, i) => <span key={i} data-index={i + 1}>{c}</span>)}
-          {this.ks.cursorTimer && <i style={{backgroundColor: this.ks.cursorColor, display: this.ks.cursorVisible ? '' : 'none'}}></i>}
+          {this.ks.cursorTimer && <i style={{backgroundColor: this.ks.cursorColor}}></i>}
         </div>
       }
     </div>

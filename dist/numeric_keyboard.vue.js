@@ -2207,15 +2207,11 @@ var Mixins = exports.Mixins = {
       keyboard: null,
       rawValue: [],
       cursorPos: 0,
-      cursorVisible: false,
       cursorColor: null,
       cursorTimer: null
     };
   },
   destroy: function destroy() {
-    if (this.ks.cursorTimer) {
-      window.clearInterval(this.ks.cursorTimer);
-    }
     KeyboardCenter.unregister();
   },
   set: function set(key, value) {
@@ -2262,9 +2258,7 @@ var Mixins = exports.Mixins = {
       keyboard.style.transform = 'translateY(' + (frames - frame) / frames * 100 + '%)';
     }, function () {}, 10);
 
-    this.set('cursorTimer', window.setInterval(function () {
-      _this.set('cursorVisible', !_this.ks.cursorVisible);
-    }, 500));
+    this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
     this.moveCursor();
 
@@ -2290,9 +2284,8 @@ var Mixins = exports.Mixins = {
     this.set('keyboard', null);
     this.set('keyboardElement', null);
 
-    this.set('cursorPos', 0);
-    window.clearInterval(this.ks.cursorTimer);
     this.set('cursorTimer', null);
+    this.set('cursorPos', 0);
 
     KeyboardCenter.unregister();
     this.dispatch('blur');
@@ -2883,7 +2876,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_20c59699_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2587cf26_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(140);
 function injectStyle (ssrContext) {
   __webpack_require__(136)
 }
@@ -2902,7 +2895,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_20c59699_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2587cf26_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2933,8 +2926,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-20c59699\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-20c59699\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2587cf26\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2587cf26\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2952,7 +2945,7 @@ exports = module.exports = __webpack_require__(39)(undefined);
 
 
 // module
-exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n", ""]);
+exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n  animation: numeric-input-cursor 1s infinite;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n@-moz-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-webkit-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-o-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n", ""]);
 
 // exports
 
@@ -3079,7 +3072,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_139__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numeric-input",class:{ readonly: _vm.readonly, disabled: _vm.disabled },on:{"touchend":_vm.onFocus}},[_c('input',{attrs:{"type":"hidden","name":_vm.name},domProps:{"value":_vm.value}}),_vm._v(" "),(_vm.ks)?_c('div',[(_vm.ks.rawValue.length === 0)?_c('span',{staticClass:"numeric-input-placeholder"},[_vm._v(_vm._s(_vm.placeholder))]):_vm._e(),_vm._l((_vm.ks.rawValue),function(c,i){return _c('span',{key:i,attrs:{"data-index":i + 1}},[_vm._v(_vm._s(c))])}),(_vm.ks.cursorTimer)?_c('i',{directives:[{name:"show",rawName:"v-show",value:(_vm.ks.cursorVisible),expression:"ks.cursorVisible"}],style:({backgroundColor: _vm.ks.cursorColor})}):_vm._e()],2):_vm._e()])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numeric-input",class:{ readonly: _vm.readonly, disabled: _vm.disabled },on:{"touchend":_vm.onFocus}},[_c('input',{attrs:{"type":"hidden","name":_vm.name},domProps:{"value":_vm.value}}),_vm._v(" "),(_vm.ks)?_c('div',[(_vm.ks.rawValue.length === 0)?_c('span',{staticClass:"numeric-input-placeholder"},[_vm._v(_vm._s(_vm.placeholder))]):_vm._e(),_vm._l((_vm.ks.rawValue),function(c,i){return _c('span',{key:i,attrs:{"data-index":i + 1}},[_vm._v(_vm._s(c))])}),(_vm.ks.cursorTimer)?_c('i',{style:({backgroundColor: _vm.ks.cursorColor})}):_vm._e()],2):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

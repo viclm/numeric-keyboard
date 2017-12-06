@@ -2,7 +2,7 @@
   <div class="numeric-input" :class="{ readonly: readonly, disabled: disabled }" @touchend="onFocus">
     <input type="hidden" :name="name" :value="value" />
     <div v-if="ks">
-      <span class="numeric-input-placeholder" v-if="ks.rawValue.length === 0">{{placeholder}}</span><span v-for="(c, i) in ks.rawValue" :key="i" :data-index="i + 1">{{c}}</span><i v-if="ks.cursorTimer" v-show="ks.cursorVisible" :style="{backgroundColor: ks.cursorColor}"></i>
+      <span class="numeric-input-placeholder" v-if="ks.rawValue.length === 0">{{placeholder}}</span><span v-for="(c, i) in ks.rawValue" :key="i" :data-index="i + 1">{{c}}</span><i v-if="ks.cursorTimer" :style="{backgroundColor: ks.cursorColor}"></i>
     </div>
   </div>
 </template>
