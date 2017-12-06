@@ -1,5 +1,5 @@
 import React from 'react'
-import { NumericKeyboard, keys } from 'numeric-keyboard'
+import { NumericKeyboard, NumericInput, keys } from 'numeric-keyboard'
 import './app.styl'
 
 export default class App extends React.Component {
@@ -22,6 +22,9 @@ export default class App extends React.Component {
       <div className="keyboard">
         <NumericKeyboard layout="tel" theme={this.props.telTheme} entertext="send" onPress={this.press.bind(this)} />
         <p className="keyboard-output">{this.state.keyPressed != null ? `Key(${this.state.keyPressed}) is pressed`: 'Press the keyboard'}</p>
+      </div>
+      <div className="input">
+        <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" />
       </div>
     </div>
   }

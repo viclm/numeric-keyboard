@@ -13,10 +13,6 @@ export default class Keyboard extends Parent {
     this.init(props)
   }
 
-  dispatch(event, ...args) {
-    this.props[`on${event.replace(rfirst, s => s.toUpperCase())}`](...args)
-  }
-
   render() {
     const { _layout, _keys } = this
     return <div className="numeric-keyboard">
@@ -40,6 +36,13 @@ export default class Keyboard extends Parent {
         </tbody>
       </table>
     </div>
+  }
+
+  dispatch(event, ...args) {
+    const callback = this.props[`on${event.replace(rfirst, s => s.toUpperCase())}`]
+    if (callback) {
+      callback(...args)
+    }
   }
 }
 

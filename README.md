@@ -217,7 +217,14 @@ The keyboard above can not work with native input element which will call the na
 
 #### React
 ```jsx
-// comming soon
+class App extends React.Component {
+  input(val) {
+    ...
+  },
+  render() {
+    return <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
+  }
+}
 ```
 
 #### Vue

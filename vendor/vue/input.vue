@@ -1,8 +1,8 @@
 <template>
   <div class="numeric-input" :class="{ readonly: readonly, disabled: disabled }" @touchend="onFocus">
     <input type="hidden" :name="name" :value="value" />
-    <div v-if="state">
-      <span class="numeric-input-placeholder" v-if="state.rawValue.length === 0">{{placeholder}}</span><span v-for="(c, i) in state.rawValue" :key="i" :data-index="i + 1">{{c}}</span><i v-if="state.cursorTimer" v-show="state.cursorVisible" :style="{backgroundColor: state.cursorColor}"></i>
+    <div v-if="ks">
+      <span class="numeric-input-placeholder" v-if="ks.rawValue.length === 0">{{placeholder}}</span><span v-for="(c, i) in ks.rawValue" :key="i" :data-index="i + 1">{{c}}</span><i v-if="ks.cursorTimer" v-show="ks.cursorVisible" :style="{backgroundColor: ks.cursorColor}"></i>
     </div>
   </div>
 </template>
@@ -28,23 +28,22 @@ export default {
   })(),
   data() {
     return {
-      props: null,
-      state: null
+      ks: null
     }
   },
   created() {
-    this.constructor(this._props)
+    this.init(this._props)
   },
   mounted() {
     this.onMounted(this.$el)
   },
   beforeDestroy() {
-    this.destructor()
+    this.destroy()
   },
   watch: {
     value: {
       handler(val) {
-        let current = this.state.rawValue.join('')
+        let current = this.ks.rawValue.join('')
         if (current === val || parseFloat(current, 10) === val) {
           return
         }
@@ -53,15 +52,14 @@ export default {
     }
   },
   methods: {
-    setCursorPos() {
+    moveCursor() {
       this.$forceUpdate()
       this.$nextTick(() => {
-        Mixins.setCursorPos.call(this)
+        Mixins.moveCursor.call(this)
       })
     },
     createKeyboard(el, options, callback) {
-      return new Vue({
-        el,
+      let keyboard = new Vue({
         render: h => h(Keyboard, {
           props: options,
           on: {
@@ -69,9 +67,12 @@ export default {
           }
         })
       })
+      keyboard.$mount()
+      el.appendChild(keyboard.$el)
+      return keyboard
     },
-    destroyKeyboard(keyboardClass) {
-      keyboardClass.$destroy()
+    destroyKeyboard(keyboard, keyboardElement) {
+      keyboard.$destroy()
     },
     dispatch(event, ...args) {
       this.$emit(event, ...args)
