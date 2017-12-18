@@ -2296,12 +2296,13 @@ var Mixins = exports.Mixins = {
     var p = this.kp;
     var s = this.ks;
     var input = function input(key) {
-      var args = key ? [s.cursorPos, 0, key] : [s.cursorPos - 1, 1];
+      var isAdd = typeof key !== 'undefined';
+      var args = isAdd ? [s.cursorPos, 0, key] : [s.cursorPos - 1, 1];
       var rawValue = s.rawValue.slice();
       rawValue.splice.apply(rawValue, args);
       if (p.format(rawValue.join(''))) {
         s.rawValue.splice.apply(s.rawValue, args);
-        s.cursorPos += key ? 1 : -1;
+        s.cursorPos += isAdd ? 1 : -1;
         _this3.moveCursor();
         var val = s.rawValue.join('');
         if (val && p.type === 'number') {

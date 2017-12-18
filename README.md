@@ -217,12 +217,16 @@ The keyboard above can not work with native input element which will call the na
 
 #### React
 ```jsx
+import { NumericInput } from 'numeric-keyboard'
 class App extends React.Component {
   input(val) {
     ...
   },
   render() {
-    return <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
+    return <div className="input">
+      <label>Amount: </label>
+      <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
+    </div>
   }
 }
 ```
