@@ -9,6 +9,7 @@
     <hr>
     <div class="input">
       <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" v-model="amount" />
+      <button @click="clear">clear</button>
     </div>
   </div>
 </template>
@@ -41,6 +42,9 @@
     methods: {
       press(key) {
         this.keyPressed = key
+      },
+      clear() {
+        this.amount = null
       }
     }
   }

@@ -2250,9 +2250,7 @@ var Options = exports.Options = {
   maxlength: null,
   name: null,
   placeholder: null,
-  format: function format(val) {
-    return true;
-  },
+  format: '^',
   keyboard: null
 };
 
@@ -2286,6 +2284,8 @@ var Mixins = exports.Mixins = {
     } else {
       this.set('rawValue', []);
     }
+    this.set('cursorPos', this.ks.rawValue.length);
+    this.moveCursor();
   },
   moveCursor: function moveCursor() {
     var cursor = this.ks.inputElement.querySelector('i');
