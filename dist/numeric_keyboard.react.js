@@ -2228,7 +2228,7 @@ var KeyboardCenter = function () {
     register: function register(input) {
       this.unregister();
       activeInput = input;
-      document.addEventListener('touchend', this.close, false);
+      document.addEventListener('touchend', this.unregister, false);
     },
     unregister: function unregister() {
       if (!activeInput) {
@@ -2236,7 +2236,7 @@ var KeyboardCenter = function () {
       }
       activeInput.closeKeyboard();
       activeInput = null;
-      document.removeEventListener('touchend', this.close, false);
+      document.removeEventListener('touchend', this.unregister, false);
     }
   };
 }();
