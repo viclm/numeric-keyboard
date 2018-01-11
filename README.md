@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/viclm/numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/numeric-keyboard)
 
-A numeric keyboard works in mobile browsers. It contains a pluggable keyboard component and a input box in replace of native input element.
+A numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the custom keyboard instead of system keyboard, the input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the custom keyboard is a pluggable component can be used together with other input interfaces.
 
 The numeric keyboard have several versions: plain javascript class, React component and Vue component.
 
@@ -12,8 +12,8 @@ The numeric keyboard have several versions: plain javascript class, React compon
 ## Table of contents
 
 - [Install](#install)
+- [Usage](#usage)
 - [Keyboard](#keyboard)
-- [Input box ](#input-box)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -28,11 +28,111 @@ Config webpack to use the right version
 ```javascript
 resolve: {
   alias: {
-    // use Vue component
-    'numeric-keyboard': 'numeric-keyboard/dist/numeric_keyboard.vue.js'
+    // use Vue component for example
+    'numeric-keyboard$': 'numeric-keyboard/dist/numeric_keyboard.vue.js'
   }
 },
 ```
+
+
+## Usage
+
+#### Plain JavaScript
+```javascript
+// comming soon
+```
+
+#### React
+```jsx
+import { NumericInput } from 'numeric-keyboard'
+class App extends React.Component {
+  input(val) {
+    ...
+  },
+  render() {
+    return <div className="input">
+      <label>Amount: </label>
+      <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
+    </div>
+  }
+}
+```
+
+#### Vue
+```vue
+<template>
+  <div class="input">
+    <label>Amount: </label>
+    <NumericInput placeholder="touch to input" v-model="amount" />
+  </div>
+</template>
+
+<script>
+  import { NumericInput } from 'numeric-keyboard'
+  export default {
+    components: {
+      NumericInput
+    },
+    data() {
+      return {
+       amount: null
+      }
+    }
+  }
+</script>
+
+```
+
+### Options/Props
+
+The input box supports most of the standard attributes, you can refer the html spec for details.
+
+```javascript
+// There are only two types: number and tel
+// The layout propery for keyboard is inherit from it
+type: {
+  type:String,
+  default: 'number'
+},
+autofocus: {
+  type: Boolean,
+  default: false
+},
+disabled: {
+  type: Boolean,
+  default: false
+},
+maxlength: {
+  type: Number
+},
+name: {
+  type: String
+},
+placeholder: {
+  type: String
+},
+readonly: {
+  type: Boolean,
+  default: false
+},
+value: {
+  type: [String, Number]
+},
+// Parse a regexp string or function to limit the input.
+format: {
+  type: [String, Function]
+},
+// Config the custom keyboard component which will be called when focus. The config detail is described bellow.
+keyboard: {
+  type: Object
+}
+```
+
+### Callback/Events
+
+#### `input`
+The `input` event is emit when the value of input changes. The first argument for callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in plain javascript version.
+
 
 ## Keyboard
 
@@ -202,119 +302,12 @@ import { keys } from 'numeric-keyboard'
 ### Callbacks/Events
 
 #### `press`
-the `press` event is emit with a key code when the key is pressed.
+the `press` event is emit with a key code when the key is pressed. The first argument for callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
 
-## Input box
-
-The keyboard above can not work with native input element which will call the native keyboard when focus (that's not what we expect), the input box is a virtual input element, will be good in most cases except you care about some native feature like magnifier in ios.
-
-### Usage
-
-#### Plain JavaScript
-```javascript
-// comming soon
-```
-
-#### React
-```jsx
-import { NumericInput } from 'numeric-keyboard'
-class App extends React.Component {
-  input(val) {
-    ...
-  },
-  render() {
-    return <div className="input">
-      <label>Amount: </label>
-      <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
-    </div>
-  }
-}
-```
-
-#### Vue
-```vue
-<template>
-  <div class="input">
-    <label>Amount: </label>
-    <NumericInput placeholder="touch to input" v-model="amount" />
-  </div>
-</template>
-
-<script>
-  import { NumericInput } from 'numeric-keyboard'
-  export default {
-    components: {
-      NumericInput
-    },
-    data() {
-      return {
-       amount: null
-      }
-    }
-  }
-</script>
-
-```
-
-### Options/Props
-
-```javascript
-// There are only two types: number and tel because it only contains a numeric keyboard
-type: {
-  type:String,
-  default: 'number'
-},
-autofocus: {
-  type: Boolean,
-  default: false
-},
-disabled: {
-  type: Boolean,
-  default: false
-},
-maxlength: {
-  type: Number
-},
-name: {
-  type: String
-},
-placeholder: {
-  type: String
-},
-readonly: {
-  type: Boolean,
-  default: false
-},
-value: {
-  type: [String, Number]
-},
-// Limit the format of input
-format: {
-  type: [String, Function]
-},
-// The keyboard options will be used by keyboard component inside
-keyboard: {
-  type: Object
-}
-```
-
-#### html5 compatible
-The input box supports most of the standard attributes, you can refer the html spec for details.
-
-#### format
-Parse a regexp string or function to limit the input.
-
-#### keyboard
-Config the keyboard component which will be called when focus.
-
-### Callback/Events
-
-#### `input`
-The `input` event is emit when the value of input changes.
 
 ## Contributing
 Welcome to contributing, the guidelines is being drafted.
 
-## License
 
+## License
 Licensed under the MIT license.
