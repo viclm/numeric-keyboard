@@ -2,11 +2,13 @@
 
 [![Build Status](https://travis-ci.org/viclm/numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/numeric-keyboard)
 
-A numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the custom keyboard instead of system keyboard, the input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the custom keyboard is a pluggable component can be used together with other input interfaces.
+A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
 
-The numeric keyboard have several versions: plain javascript class, React component and Vue component.
+The numeric keyboard have several versions: plain **javascript** class, **React** component and **Vue** component.
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
+
+:cn: [中文说明](https://github.com/viclm/numeric-keyboard/wiki) :cn: :cn: :cn: :cn:
 
 
 ## Table of contents
@@ -19,12 +21,12 @@ The numeric keyboard have several versions: plain javascript class, React compon
 
 ## Install
 
-You can install it via yarn
+You can install it via **Yarn**
 ```shell
 yarn add numeric-keyboard
 ```
 
-Config webpack to use the right version
+Config **Webpack** to use the right version
 ```javascript
 resolve: {
   alias: {
@@ -85,7 +87,7 @@ class App extends React.Component {
 
 ### Options/Props
 
-The input box supports most of the standard attributes, you can refer the html spec for details.
+As a substitute for native input element, the input box supports most of the standard attributes, you can refer the html spec for details.
 
 ```javascript
 // There are only two types: number and tel
@@ -118,11 +120,11 @@ readonly: {
 value: {
   type: [String, Number]
 },
-// Parse a regexp string or function to limit the input.
+// Passs a regexp string or function to limit the input.
 format: {
   type: [String, Function]
 },
-// Config the custom keyboard component which will be called when focus. The config detail is described bellow.
+// Config the numeric keyboard which will be called when focus. The config detail is described bellow.
 keyboard: {
   type: Object
 }
@@ -136,7 +138,7 @@ The `input` event is emit when the value of input changes. The first argument fo
 
 ## Keyboard
 
-The keyboard is a pluggable component. In order to be able to work properly in a real scene, it usually needs to match an output interface.
+The keyboard is a pluggable component which supports custom layout and theme. In order to be able to work properly in a real scene, it usually needs to match an output interface.
 
 ### Usage
 
@@ -202,7 +204,7 @@ class App extends React.Component {
    type: [String, Object],
    default: 'default'
  },
- // change the label of submit button
+ // change the label of submit button, this is used for specific context and language
  entertext: {
    type: String,
    default: 'enter'
@@ -220,7 +222,7 @@ There are two build-in layout called **number** and **tel** which can be used as
 
 ##### custom layout
 ```javascript
-// the build-in number layout
+// code sample for the build-in number layout
 import { keys } from 'numeric-keyboard'
 [
   [
@@ -279,16 +281,14 @@ import { keys } from 'numeric-keyboard'
 ```
 
 #### `theme`
-The style of keyboard can be modified global or per key, currently it only supports several limit style like fontSize or color, however you can override CSS directly for complicated style.
+The style of keyboard can be modified global or per key, currently it only supports several limit style like font color and background color, however you can override CSS directly for complicated style.
 ```javascript
 // the default style declaration
 import { keys } from 'numeric-keyboard'
 {
   global: {
-    fontSize: '0.46rem',
     color: '#000000',
     backgroundColor: ['#ffffff', '#929ca8'], // specify a pair of colors for active pseudo class
-    borderColor: '#cfd4da',
   },
   key: {
     [keys.ENTER]: {
@@ -302,7 +302,7 @@ import { keys } from 'numeric-keyboard'
 ### Callbacks/Events
 
 #### `press`
-the `press` event is emit with a key code when the key is pressed. The first argument for callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
+the `press` event is emit with a key code when the key is pressed. The argument for callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
 
 
 ## Contributing
