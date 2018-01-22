@@ -8,7 +8,7 @@ The numeric keyboard have several versions: plain **javascript** class, **React*
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
-:cn: [中文说明](https://github.com/viclm/numeric-keyboard/wiki) :cn: :cn: :cn: :cn:
+:cn: [中文说明](https://github.com/viclm/numeric-keyboard/blob/master/docs/README.cn.md) :cn: :cn: :cn: :cn:
 
 
 ## Table of contents
