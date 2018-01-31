@@ -1,4 +1,5 @@
 import tmpl from './tmpl'
+import { capitalize } from './util'
 import { Options as OPTIONS, Mixins } from 'lib/keyboard'
 import 'lib/style/keyboard.styl'
 
@@ -49,7 +50,7 @@ export default function Keyboard(el, options) {
 Keyboard.prototype = Mixins
 Keyboard.prototype.constructor = Keyboard
 Keyboard.prototype.dispatch = function (event, ...args) {
-  const callback = this._options[`on${event}`]
+  const callback = this._options[`on${capitalize(event)}`]
   if (callback) {
     callback(...args)
   } 

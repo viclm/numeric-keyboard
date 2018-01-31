@@ -41,7 +41,14 @@ resolve: {
 
 #### Plain JavaScript
 ```javascript
-// comming soon
+import { NumericInput } from 'numeric-keyboard'
+new NumericInput('.input', {
+  type: 'number',
+  placeholder: 'touch to input',
+  onInput(value) {
+    ...
+  }
+})
 ```
 
 #### React
@@ -147,7 +154,7 @@ The keyboard is a pluggable component which supports custom layout and theme. In
 import { NumericKeyboard } from 'numeric-keyboard'
 new NumericKeyboard('.keyboard', {
   layout: 'tel',
-  onpress(key) {
+  onPress(key) {
     ...
   }
 })

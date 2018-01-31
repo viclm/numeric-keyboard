@@ -1,6 +1,6 @@
 {
   "name": "numeric-keyboard",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Numeric keyboard for mobile browsers",
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",

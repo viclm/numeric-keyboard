@@ -38,7 +38,14 @@ resolve: {
 
 #### JavaScript
 ```javascript
-// comming soon
+import { NumericInput } from 'numeric-keyboard'
+new NumericInput('.input', {
+  type: 'number',
+  placeholder: 'touch to input',
+  onInput(value) {
+    ...
+  }
+})
 ```
 
 #### React
@@ -144,7 +151,7 @@ keyboard: {
 import { NumericKeyboard } from 'numeric-keyboard'
 new NumericKeyboard('.keyboard', {
   layout: 'tel',
-  onpress(key) {
+  onPress(key) {
     ...
   }
 })

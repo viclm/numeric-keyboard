@@ -1,5 +1,5 @@
 import './app.styl'
-import { NumericKeyboard, keys } from 'numeric-keyboard'
+import { NumericKeyboard, NumericInput, keys } from 'numeric-keyboard'
 
 new NumericKeyboard('.keyboard-ui', {
   layout: 'tel',
@@ -16,7 +16,20 @@ new NumericKeyboard('.keyboard-ui', {
     }
   },
   entertext: 'send',
-  onpress(key) {
+  onPress(key) {
     document.querySelector('.keyboard-output').innerText = `Key(${key}) is pressed`
   }
 })
+
+const input = new NumericInput('.input-ui', {
+  type: 'number',
+  placeholder: 'touch to input',
+  format: '^(?:\\d+(?:\\.\\d{0,2})?)?$',
+  onInput(value) {
+    console.log(value)
+  }
+})
+
+document.querySelector('.input button').addEventListener('touchend', function () {
+  input.setValue()
+}, false)

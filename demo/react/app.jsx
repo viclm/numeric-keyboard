@@ -16,6 +16,10 @@ export default class App extends React.Component {
     })
   }
 
+  clear() {
+    
+  }
+
   render() {
     return <div className="app">
       <h1>Numeric keyboard</h1>
@@ -25,6 +29,7 @@ export default class App extends React.Component {
       </div>
       <div className="input">
         <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" />
+        <button onClick={this.clear.bind(this)}>Clear</button>
       </div>
     </div>
   }
