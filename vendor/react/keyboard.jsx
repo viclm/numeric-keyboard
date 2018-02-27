@@ -45,6 +45,11 @@ export default class Keyboard extends Parent {
       callback(...args)
     }
   }
+
+  ontouchend(key, event) {
+    super.ontouchend(key, event)
+    event.nativeEvent.stopImmediatePropagation()
+  }
 }
 
 Keyboard.defaultProps = Options
