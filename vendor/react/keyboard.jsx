@@ -28,7 +28,8 @@ export default class Keyboard extends Parent {
                   data-icon={_keys[c.key].icon}
                   style={_keys[c.key].style}
                   onTouchStart={e => this.ontouchstart(_keys[c.key], e)}
-                  onTouchEnd={e => this.ontouchend(_keys[c.key], e)}>
+                  onTouchEnd={e => this.ontouchend(_keys[c.key], e)}
+                  onClick={e => this.onclick(_keys[c.key], e)}>
                 </td>
               )}
             </tr>

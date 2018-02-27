@@ -9,7 +9,8 @@
           :data-icon="_keys[c.key].icon"
           :style="_keys[c.key].style"
           @touchstart="ontouchstart(_keys[c.key], $event)"
-          @touchend="ontouchend(_keys[c.key], $event)">
+          @touchend="ontouchend(_keys[c.key], $event)"
+          @click="onclick(_keys[c.key], $event)">
         </td>
       </tr>
     </table>

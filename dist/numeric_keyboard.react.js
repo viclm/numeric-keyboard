@@ -1624,15 +1624,17 @@ var Mixins = exports.Mixins = {
     this._theme = theme;
     this._keys = keys;
   },
-  dispatch: function dispatch(event) {
+  dispatch: function dispatch() /* event, ...args */{
     throw new Error('dispatch method must be overrided!');
   },
   ontouchstart: function ontouchstart(key, event) {
     key.active(event.target);
   },
   ontouchend: function ontouchend(key, event) {
-    event.stopPropagation();
     key.deactive(event.target);
+    event.stopPropagation();
+  },
+  onclick: function onclick(key) {
     this.dispatch('press', key.code);
   }
 };
@@ -2237,12 +2239,9 @@ var Mixins = exports.Mixins = {
     }
 
     var container = document.createElement('div');
-    var shadow = document.createElement('div');
     var keyboard = document.createElement('div');
     container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
-    shadow.style.cssText = 'height:100%;';
     keyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
-    container.appendChild(shadow);
     container.appendChild(keyboard);
     document.body.appendChild(container);
 
@@ -2351,13 +2350,13 @@ var Mixins = exports.Mixins = {
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
     this.moveCursor();
   },
-  createKeyboard: function createKeyboard(el, options, callback) {
+  createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');
   },
-  destroyKeyboard: function destroyKeyboard(keyboardClass) {
+  destroyKeyboard: function destroyKeyboard() /* keyboardClass */{
     throw new Error('destroyKeyboard method must be overrided!');
   },
-  dispatch: function dispatch(event) {
+  dispatch: function dispatch() /* event, ...args */{
     throw new Error('dispatch method must be overrided!');
   }
 };
@@ -2402,7 +2401,7 @@ exports = module.exports = __webpack_require__(31)(undefined);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + __webpack_require__(74) + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n}\n.numeric-keyboard table {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard td {\n  transition: background-color 0.5s;\n}\n.numeric-keyboard td[data-icon]::before {\n  content: attr(data-icon);\n  font-family: inherit !important;\n}\n.numeric-keyboard td[data-icon=del]::before,\n.numeric-keyboard td[data-icon=esc]::before {\n  content: attr(data-icon);\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + __webpack_require__(74) + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n}\n.numeric-keyboard table {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard td {\n  touch-action: manipulation;\n  transition: background-color 0.5s;\n}\n.numeric-keyboard td[data-icon]::before {\n  content: attr(data-icon);\n  font-family: inherit !important;\n}\n.numeric-keyboard td[data-icon=del]::before,\n.numeric-keyboard td[data-icon=esc]::before {\n  content: attr(data-icon);\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
 
 // exports
 
@@ -2610,6 +2609,9 @@ var Keyboard = function (_Parent) {
                     },
                     onTouchEnd: function onTouchEnd(e) {
                       return _this3.ontouchend(_keys[c.key], e);
+                    },
+                    onClick: function onClick(e) {
+                      return _this3.onclick(_keys[c.key], e);
                     } });
                 })
               );
@@ -3404,6 +3406,7 @@ __webpack_require__(80);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// eslint-disable-line
 var rfirst = /^[a-z]/;
 
 var Parent = function (_React$Component) {

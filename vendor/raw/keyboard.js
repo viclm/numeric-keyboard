@@ -43,6 +43,7 @@ export default function Keyboard(el, options) {
 
   el.addEventListener('touchstart', this.touchstart.bind(this), false)
   el.addEventListener('touchend', this.touchend.bind(this), false)
+  el.addEventListener('click', this.click.bind(this), false)
 
   this._options = options
 }
@@ -63,5 +64,10 @@ Keyboard.prototype.touchstart = function (e) {
 Keyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
     this.ontouchend(this._keys[e.target.getAttribute('data-key')], e)
+  }
+}
+Keyboard.prototype.click = function (e) {
+  if (e.target.tagName === 'TD') {
+    this.onclick(this._keys[e.target.getAttribute('data-key')], e)
   }
 }
