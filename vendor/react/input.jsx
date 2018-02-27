@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Keyboard from './keyboard.jsx'
+import Keyboard from './keyboard.jsx' // eslint-disable-line
 import { Options, Mixins } from 'lib/input'
 import 'lib/style/input.styl'
 

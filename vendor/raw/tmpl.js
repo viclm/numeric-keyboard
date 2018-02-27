@@ -30,4 +30,4 @@ export default function tmpl(str, data){
     
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
-};
+}

@@ -71,7 +71,7 @@ export default {
       el.appendChild(keyboard.$el)
       return keyboard
     },
-    destroyKeyboard(keyboard, keyboardElement) {
+    destroyKeyboard(keyboard) {
       keyboard.$destroy()
     },
     dispatch(event, ...args) {

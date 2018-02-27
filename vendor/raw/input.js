@@ -70,7 +70,7 @@ Input.prototype.createKeyboard = function (el, options, callback) {
   return keyboard
 }
 
-Input.prototype.destroyKeyboard = function (keyboard, keyboardElement) {
+Input.prototype.destroyKeyboard = function (keyboard) {
   keyboard.$destroy()
 }
 
