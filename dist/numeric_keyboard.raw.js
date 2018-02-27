@@ -2219,8 +2219,6 @@ var Mixins = exports.Mixins = {
     } else {
       this.set('rawValue', []);
     }
-    this.set('cursorPos', this.ks.rawValue.length);
-    this.moveCursor();
   },
   moveCursor: function moveCursor() {
     var cursor = this.ks.inputElement.querySelector('i');
@@ -2343,6 +2341,7 @@ var Mixins = exports.Mixins = {
     }
     this.set('cursorColor', window.getComputedStyle(el).getPropertyValue('color'));
     this.set('inputElement', el);
+    this.setValue(this.kp.value);
   },
   onFocus: function onFocus(e) {
     e.stopPropagation();
