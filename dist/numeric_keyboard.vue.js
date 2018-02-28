@@ -2219,6 +2219,11 @@ var Mixins = exports.Mixins = {
     } else {
       this.set('rawValue', []);
     }
+
+    if (this.ks.cursorTimer) {
+      this.set('cursorPos', this.ks.rawValue.length);
+      this.moveCursor();
+    }
   },
   moveCursor: function moveCursor() {
     var cursor = this.ks.inputElement.querySelector('i');
