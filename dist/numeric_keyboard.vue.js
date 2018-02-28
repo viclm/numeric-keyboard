@@ -2212,6 +2212,10 @@ var Mixins = exports.Mixins = {
   },
   set: function set(key, value) {
     this.ks[key] = value;
+
+    if (key === 'cursorPos' && this.ks.cursorTimer) {
+      this.moveCursor();
+    }
   },
   setValue: function setValue(val) {
     if (val != null) {
@@ -2220,10 +2224,7 @@ var Mixins = exports.Mixins = {
       this.set('rawValue', []);
     }
 
-    if (this.ks.cursorTimer) {
-      this.set('cursorPos', this.ks.rawValue.length);
-      this.moveCursor();
-    }
+    this.set('cursorPos', this.ks.rawValue.length);
   },
   moveCursor: function moveCursor() {
     var cursor = this.ks.inputElement.querySelector('i');
@@ -2258,7 +2259,6 @@ var Mixins = exports.Mixins = {
 
     this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
-    this.moveCursor();
 
     KeyboardCenter.register(this);
     this.dispatch('focus');
@@ -2301,7 +2301,6 @@ var Mixins = exports.Mixins = {
       if (p.format(rawValue.join(''))) {
         s.rawValue.splice.apply(s.rawValue, args);
         _this3.set('cursorPos', isAdd ? s.cursorPos + 1 : s.cursorPos - 1);
-        _this3.moveCursor();
         var val = s.rawValue.join('');
         if (val && p.type === 'number') {
           val = parseFloat(val, 10);
@@ -2352,7 +2351,6 @@ var Mixins = exports.Mixins = {
     e.stopPropagation();
     this.openKeyboard();
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
-    this.moveCursor();
   },
   createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');
@@ -2887,7 +2885,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_584b838a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5a5b0b02_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(146);
 function injectStyle (ssrContext) {
   __webpack_require__(142)
 }
@@ -2906,7 +2904,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_584b838a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5a5b0b02_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2937,8 +2935,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-584b838a\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-584b838a\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a5b0b02\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a5b0b02\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -3020,7 +3018,12 @@ exports.default = {
     value: {
       handler: function handler(val) {
         var current = this.ks.rawValue.join('');
-        if (current === val || parseFloat(current, 10) === val) {
+        if (this.kp.type === 'number') {
+          current = parseFloat(current, 10);
+          if (current === val || isNaN(current) && isNaN(val)) {
+            return;
+          }
+        } else if (current === val) {
           return;
         }
         this.setValue(val);

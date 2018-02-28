@@ -2212,6 +2212,10 @@ var Mixins = exports.Mixins = {
   },
   set: function set(key, value) {
     this.ks[key] = value;
+
+    if (key === 'cursorPos' && this.ks.cursorTimer) {
+      this.moveCursor();
+    }
   },
   setValue: function setValue(val) {
     if (val != null) {
@@ -2220,10 +2224,7 @@ var Mixins = exports.Mixins = {
       this.set('rawValue', []);
     }
 
-    if (this.ks.cursorTimer) {
-      this.set('cursorPos', this.ks.rawValue.length);
-      this.moveCursor();
-    }
+    this.set('cursorPos', this.ks.rawValue.length);
   },
   moveCursor: function moveCursor() {
     var cursor = this.ks.inputElement.querySelector('i');
@@ -2258,7 +2259,6 @@ var Mixins = exports.Mixins = {
 
     this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
-    this.moveCursor();
 
     KeyboardCenter.register(this);
     this.dispatch('focus');
@@ -2301,7 +2301,6 @@ var Mixins = exports.Mixins = {
       if (p.format(rawValue.join(''))) {
         s.rawValue.splice.apply(s.rawValue, args);
         _this3.set('cursorPos', isAdd ? s.cursorPos + 1 : s.cursorPos - 1);
-        _this3.moveCursor();
         var val = s.rawValue.join('');
         if (val && p.type === 'number') {
           val = parseFloat(val, 10);
@@ -2352,7 +2351,6 @@ var Mixins = exports.Mixins = {
     e.stopPropagation();
     this.openKeyboard();
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
-    this.moveCursor();
   },
   createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');

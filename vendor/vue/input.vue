@@ -44,7 +44,13 @@ export default {
     value: {
       handler(val) {
         let current = this.ks.rawValue.join('')
-        if (current === val || parseFloat(current, 10) === val) {
+        if (this.kp.type === 'number') {
+          current = parseFloat(current, 10)
+          if (current === val || (isNaN(current) && isNaN(val))) {
+            return
+          }
+        }
+        else if (current === val) {
           return
         }
         this.setValue(val)
