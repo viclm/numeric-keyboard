@@ -10,6 +10,7 @@ The numeric keyboard have several versions: plain **javascript** class, **React*
 
 :cn: [中文说明](https://github.com/viclm/numeric-keyboard/blob/master/docs/README.cn.md) :cn: :cn: :cn: :cn:
 
+![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot.png)
 
 ## Table of contents
 
