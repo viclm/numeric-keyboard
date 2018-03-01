@@ -1633,9 +1633,10 @@ var Mixins = exports.Mixins = {
   ontouchend: function ontouchend(key, event) {
     key.deactive(event.target);
     event.stopPropagation();
-  },
-  onclick: function onclick(key) {
     this.dispatch('press', key.code);
+  },
+  onclick: function onclick() {
+    // this.dispatch('press', key.code)
   }
 };
 
@@ -2243,9 +2244,12 @@ var Mixins = exports.Mixins = {
     }
 
     var container = document.createElement('div');
+    var shadow = document.createElement('div');
     var keyboard = document.createElement('div');
     container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
+    shadow.style.cssText = 'height:100%;';
     keyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
+    container.appendChild(shadow);
     container.appendChild(keyboard);
     document.body.appendChild(container);
 
@@ -2275,8 +2279,10 @@ var Mixins = exports.Mixins = {
     animation(function (timestamp, frame, frames) {
       keyboardElement.style.transform = 'translateY(' + frame / frames * 100 + '%)';
     }, function () {
-      _this2.destroyKeyboard(keyboard, keyboardElement);
-      document.body.removeChild(keyboardElement.parentNode);
+      setTimeout(function () {
+        _this2.destroyKeyboard(keyboard, keyboardElement);
+        document.body.removeChild(keyboardElement.parentNode);
+      }, 150);
     }, 10);
 
     this.set('keyboard', null);
