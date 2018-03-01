@@ -4,7 +4,7 @@
 
 A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
 
-The numeric keyboard have several versions: plain **javascript** class, **React** component and **Vue** component.
+The numeric keyboard has several versions: plain **javascript** class, **React** component and **Vue** component.
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
@@ -95,11 +95,11 @@ class App extends React.Component {
 
 ### Options/Props
 
-As a substitute for native input element, the input box supports most of the standard attributes, you can refer the html spec for details.
+As a substitute for native input element, the input box supports most of the standard attributes, you can refer the HTML spec for details.
 
 ```javascript
 // There are only two types: number and tel
-// The layout propery for keyboard is inherit from it
+// The layout property for keyboard is inherited from it
 type: {
   type:String,
   default: 'number'
@@ -132,7 +132,7 @@ value: {
 format: {
   type: [String, Function]
 },
-// Config the numeric keyboard which will be called when focus. The config detail is described bellow.
+// Config the numeric keyboard which will be called when focus. The config detail is described below.
 keyboard: {
   type: Object
 }
@@ -141,7 +141,7 @@ keyboard: {
 ### Callback/Events
 
 #### `input`
-The `input` event is emit when the value of input changes. The first argument for callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in plain javascript version.
+The `input` event is emitted when the value of input changes. The first argument for the callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in plain javascript version.
 
 
 ## Keyboard
@@ -220,7 +220,7 @@ class App extends React.Component {
 ```
 
 #### `layout`
-There are two build-in layout called **number** and **tel** which can be used as a replace of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
+There are two built-in layouts called **number** and **tel** which can be used as a replacement of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is a two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
 
 ##### number layout
 ![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_number.png)
@@ -289,7 +289,7 @@ import { keys } from 'numeric-keyboard'
 ```
 
 #### `theme`
-The style of keyboard can be modified global or per key, currently it only supports several limit style like font color and background color, however you can override CSS directly for complicated style.
+The style of the keyboard can be modified global or per key, currently, it only supports several limit style like font color and background color, however, you can override CSS directly for the complicated style.
 ```javascript
 // the default style declaration
 import { keys } from 'numeric-keyboard'
@@ -310,11 +310,11 @@ import { keys } from 'numeric-keyboard'
 ### Callbacks/Events
 
 #### `press`
-the `press` event is emit with a key code when the key is pressed. The argument for callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
+the `press` event is emitted with a key code when the key is pressed. The argument for the callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
 
 
 ## Contributing
-Welcome to contributing, the guidelines is being drafted.
+Welcome to contributing, the guidelines are being drafted.
 
 
 ## License
