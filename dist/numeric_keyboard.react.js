@@ -2282,7 +2282,7 @@ var Mixins = exports.Mixins = {
       setTimeout(function () {
         _this2.destroyKeyboard(keyboard, keyboardElement);
         document.body.removeChild(keyboardElement.parentNode);
-      }, 150);
+      }, 300);
     }, 10);
 
     this.set('keyboard', null);
