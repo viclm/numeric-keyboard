@@ -8,8 +8,7 @@
   },
   "main": "dist/numeric_keyboard.raw.js",
   "scripts": {
-    "karma": "node node_modules/karma/bin/karma start test/karma.conf.js",
-    "test": "yarn run karma -- --single-run",
+    "test": "karma start test/karma.conf.js",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "devDependencies": {
