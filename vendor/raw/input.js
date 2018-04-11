@@ -55,7 +55,7 @@ Input.prototype.constructor = Input
 
 Input.prototype.set = function(key, value) {
   Mixins.set.call(this, key, value)
-  if (key === 'cursorTimer' || key === 'cursorPos') {
+  if (key === 'cursorTimer' || key === 'rawValue') {
     this.renderInput()
   }
 }
@@ -71,7 +71,6 @@ Input.prototype.createKeyboard = function (el, options, callback) {
 }
 
 Input.prototype.destroyKeyboard = function (keyboard) {
-  keyboard.$destroy()
 }
 
 Input.prototype.dispatch = function (event, ...args) {
