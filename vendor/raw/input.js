@@ -70,7 +70,7 @@ Input.prototype.createKeyboard = function (el, options, callback) {
   return keyboard
 }
 
-Input.prototype.destroyKeyboard = function (keyboard) {
+Input.prototype.destroyKeyboard = function () {
 }
 
 Input.prototype.dispatch = function (event, ...args) {

@@ -2301,13 +2301,14 @@ var Mixins = exports.Mixins = {
     var s = this.ks;
     var input = function input(key) {
       var isAdd = typeof key !== 'undefined';
-      var args = isAdd ? [s.cursorPos, 0, key] : [s.cursorPos - 1, 1];
+      var cursorPos = s.cursorPos;
+      var args = isAdd ? [cursorPos, 0, key] : [cursorPos - 1, 1];
       var rawValue = s.rawValue.slice();
       rawValue.splice.apply(rawValue, args);
       if (p.format(rawValue.join(''))) {
-        s.rawValue.splice.apply(s.rawValue, args);
-        _this3.set('cursorPos', isAdd ? s.cursorPos + 1 : s.cursorPos - 1);
-        var val = s.rawValue.join('');
+        _this3.set('rawValue', rawValue);
+        _this3.set('cursorPos', isAdd ? cursorPos + 1 : cursorPos - 1);
+        var val = rawValue.join('');
         if (val && p.type === 'number') {
           val = parseFloat(val, 10);
         }
@@ -2326,7 +2327,12 @@ var Mixins = exports.Mixins = {
         break;
       case '.':
         if (s.rawValue.indexOf(key) === -1) {
-          input(key);
+          if (p.type === 'number' && s.rawValue.length === 0) {
+            input(0);
+            input(key);
+          } else {
+            input(key);
+          }
         }
         break;
       case 0:
