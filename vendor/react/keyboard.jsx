@@ -14,22 +14,21 @@ export default class Keyboard extends Parent {
   }
 
   render() {
-    const { _layout, _keys } = this
+    const { layout, keys } = this.ks
     return <div className="numeric-keyboard">
       <table>
         <tbody>
-          {_layout.map((r, i) =>
+          {layout.map((r, i) =>
             <tr key={i}>
               {r.map(c =>
                 <td
                   key={c.key}
                   rowSpan={c.rowspan}
                   colSpan={c.colspan}
-                  data-icon={_keys[c.key].icon}
-                  style={_keys[c.key].style}
-                  onTouchStart={e => this.ontouchstart(_keys[c.key], e)}
-                  onTouchEnd={e => this.ontouchend(_keys[c.key], e)}
-                  onClick={e => this.onclick(_keys[c.key], e)}>
+                  data-icon={keys[c.key].icon}
+                  style={keys[c.key].style}
+                  onTouchStart={e => this.onTouchstart(keys[c.key], e)}
+                  onTouchEnd={e => this.onTouchend(keys[c.key], e)} >
                 </td>
               )}
             </tr>
@@ -46,8 +45,8 @@ export default class Keyboard extends Parent {
     }
   }
 
-  ontouchend(key, event) {
-    super.ontouchend(key, event)
+  onTouchend(key, event) {
+    super.onTouchend(key, event)
     event.nativeEvent.stopImmediatePropagation()
   }
 }

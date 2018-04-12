@@ -60,24 +60,24 @@ Input.prototype.set = function(key, value) {
   }
 }
 
-Input.prototype.createKeyboard = function (el, options, callback) {
-  let element = document.createElement('div')
-  let keyboard = new Keyboard(element, {
-    ...options,
-    onPress: callback
-  })
-  el.appendChild(element)
-  return keyboard
-}
-
-Input.prototype.destroyKeyboard = function () {
-}
-
 Input.prototype.dispatch = function (event, ...args) {
   const callback = this.kp[`on${capitalize(event)}`]
   if (callback) {
     callback(...args)
   } 
+}
+
+Input.prototype.createKeyboard = function (el, options, callback) {
+  let element = document.createElement('div')
+  el.appendChild(element)
+  return new Keyboard(element, {
+    ...options,
+    onPress: callback
+  })
+}
+
+Input.prototype.destroyKeyboard = function (keyboard) {
+  keyboard.destroy()
 }
 
 Input.prototype.renderInput = function () {

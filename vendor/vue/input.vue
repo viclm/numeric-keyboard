@@ -64,6 +64,9 @@ export default {
         Mixins.moveCursor.call(this)
       })
     },
+    dispatch(event, ...args) {
+      this.$emit(event, ...args)
+    },
     createKeyboard(el, options, callback) {
       let keyboard = new Vue({
         render: h => h(Keyboard, {
@@ -79,9 +82,6 @@ export default {
     },
     destroyKeyboard(keyboard) {
       keyboard.$destroy()
-    },
-    dispatch(event, ...args) {
-      this.$emit(event, ...args)
     }
   }
 }

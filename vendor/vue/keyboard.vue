@@ -1,16 +1,15 @@
 <template>
   <div class="numeric-keyboard">
     <table>
-      <tr v-for="(r, i) in _layout" :key="i">
+      <tr v-for="(r, i) in ks.layout" :key="i">
         <td v-for="c in r"
           :key="c.key"
           :rowspan="c.rowspan"
           :colspan="c.colspan"
-          :data-icon="_keys[c.key].icon"
-          :style="_keys[c.key].style"
-          @touchstart="ontouchstart(_keys[c.key], $event)"
-          @touchend="ontouchend(_keys[c.key], $event)"
-          @click="onclick(_keys[c.key], $event)">
+          :data-icon="ks.keys[c.key].icon"
+          :style="ks.keys[c.key].style"
+          @touchstart="onTouchstart(ks.keys[c.key], $event)"
+          @touchend="onTouchend(ks.keys[c.key], $event)">
         </td>
       </tr>
     </table>
@@ -36,12 +35,14 @@ export default {
   })(),
   data() {
     return {
-      _layout: null,
-      _keys: null
+      ks: null
     }
   },
   created() {
     this.init(this._props)
+  },
+  beforeDestroy() {
+    this.destroy()
   },
   methods: {
     dispatch(event, ...args) {
