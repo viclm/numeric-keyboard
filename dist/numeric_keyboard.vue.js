@@ -7,7 +7,7 @@
 		exports["NumericKeyboard"] = factory(require("vue"));
 	else
 		root["NumericKeyboard"] = factory(root["Vue"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_145__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_144__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 129);
+/******/ 	return __webpack_require__(__webpack_require__.s = 128);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1473,7 +1473,7 @@ var Key = exports.Key = function () {
     (0, _classCallCheck3.default)(this, Key);
 
     this._code = code;
-    this._label = null;
+    this._label = code;
     this._style = null;
     this._activeStyle = null;
   }
@@ -1523,7 +1523,7 @@ var Key = exports.Key = function () {
   }, {
     key: 'icon',
     get: function get() {
-      return this._label || this._code;
+      return this._label;
     }
   }, {
     key: 'style',
@@ -1620,23 +1620,27 @@ var Mixins = exports.Mixins = {
       }
     }
 
-    this._layout = layout;
-    this._theme = theme;
-    this._keys = keys;
+    this.kp = (0, _assign2.default)({}, options);
+    this.ks = {
+      layout: layout,
+      theme: theme,
+      keys: keys
+    };
+  },
+  destroy: function destroy() {},
+  set: function set(key, value) {
+    this.ks[key] = value;
   },
   dispatch: function dispatch() /* event, ...args */{
     throw new Error('dispatch method must be overrided!');
   },
-  ontouchstart: function ontouchstart(key, event) {
+  onTouchstart: function onTouchstart(key, event) {
     key.active(event.target);
   },
-  ontouchend: function ontouchend(key, event) {
+  onTouchend: function onTouchend(key, event) {
     key.deactive(event.target);
     event.stopPropagation();
     this.dispatch('press', key.code);
-  },
-  onclick: function onclick() {
-    // this.dispatch('press', key.code)
   }
 };
 
@@ -2191,13 +2195,14 @@ var Options = exports.Options = {
 };
 
 var Mixins = exports.Mixins = {
-  init: function init(props) {
-    this.kp = (0, _assign2.default)({}, props);
-    if (typeof props.format === 'string') {
-      this.kp.format = function (val) {
-        return new RegExp(props.format).test(val);
+  init: function init(options) {
+    var format = typeof options.format === 'string' ? function (rformat) {
+      return function (val) {
+        return rformat.test(val);
       };
-    }
+    }(new RegExp(options.format)) : options.format;
+
+    this.kp = (0, _assign2.default)({}, options, { format: format });
     this.ks = {
       inputElement: null,
       keyboardElement: null,
@@ -2364,14 +2369,14 @@ var Mixins = exports.Mixins = {
     this.openKeyboard();
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
   },
+  dispatch: function dispatch() /* event, ...args */{
+    throw new Error('dispatch method must be overrided!');
+  },
   createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');
   },
   destroyKeyboard: function destroyKeyboard() /* keyboardClass */{
     throw new Error('destroyKeyboard method must be overrided!');
-  },
-  dispatch: function dispatch() /* event, ...args */{
-    throw new Error('dispatch method must be overrided!');
   }
 };
 
@@ -2399,11 +2404,11 @@ var Mixins = exports.Mixins = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b03be9a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b8311f32_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__ = __webpack_require__(139);
 function injectStyle (ssrContext) {
-  __webpack_require__(130)
+  __webpack_require__(129)
 }
 var normalizeComponent = __webpack_require__(96)
 /* script */
@@ -2420,7 +2425,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_keyboard_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b03be9a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b8311f32_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_keyboard_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2548,7 +2553,7 @@ module.exports = function normalizeComponent (
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(133);
+var _from = __webpack_require__(132);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -2597,8 +2602,7 @@ exports.default = function (arr) {
 /* 125 */,
 /* 126 */,
 /* 127 */,
-/* 128 */,
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2613,7 +2617,7 @@ var _keyboard = __webpack_require__(95);
 
 var _keyboard2 = _interopRequireDefault(_keyboard);
 
-var _input = __webpack_require__(141);
+var _input = __webpack_require__(140);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -2630,13 +2634,13 @@ exports.NumericInput = _input2.default;
 exports.keys = keys;
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(131);
+var content = __webpack_require__(130);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2650,8 +2654,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b03be9a\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./keyboard.styl", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b03be9a\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./keyboard.styl");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b8311f32\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./keyboard.styl", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b8311f32\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./keyboard.styl");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2661,7 +2665,7 @@ if(false) {
 }
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(31)(undefined);
@@ -2675,7 +2679,7 @@ exports.push([module.i, "\n@font-face {\n  font-family: numeric-keyboard;\n  src
 
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2708,12 +2712,14 @@ exports.default = {
   }(),
   data: function data() {
     return {
-      _layout: null,
-      _keys: null
+      ks: null
     };
   },
   created: function created() {
     this.init(this._props);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.destroy();
   },
 
   methods: {
@@ -2743,25 +2749,24 @@ exports.default = {
 //
 //
 //
-//
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(133), __esModule: true };
 
 /***/ }),
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(134), __esModule: true };
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
 __webpack_require__(38);
-__webpack_require__(135);
+__webpack_require__(134);
 module.exports = __webpack_require__(0).Array.from;
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2769,13 +2774,13 @@ module.exports = __webpack_require__(0).Array.from;
 var ctx = __webpack_require__(33);
 var $export = __webpack_require__(9);
 var toObject = __webpack_require__(21);
-var call = __webpack_require__(136);
-var isArrayIter = __webpack_require__(137);
+var call = __webpack_require__(135);
+var isArrayIter = __webpack_require__(136);
 var toLength = __webpack_require__(43);
-var createProperty = __webpack_require__(138);
+var createProperty = __webpack_require__(137);
 var getIterFn = __webpack_require__(47);
 
-$export($export.S + $export.F * !__webpack_require__(139)(function (iter) { Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(138)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
     var O = toObject(arrayLike);
@@ -2805,7 +2810,7 @@ $export($export.S + $export.F * !__webpack_require__(139)(function (iter) { Arra
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -2823,7 +2828,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -2837,7 +2842,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2852,7 +2857,7 @@ module.exports = function (object, index, value) {
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(1)('iterator');
@@ -2880,26 +2885,26 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numeric-keyboard"},[_c('table',_vm._l((_vm._layout),function(r,i){return _c('tr',{key:i},_vm._l((r),function(c){return _c('td',{key:c.key,style:(_vm._keys[c.key].style),attrs:{"rowspan":c.rowspan,"colspan":c.colspan,"data-icon":_vm._keys[c.key].icon},on:{"touchstart":function($event){_vm.ontouchstart(_vm._keys[c.key], $event)},"touchend":function($event){_vm.ontouchend(_vm._keys[c.key], $event)},"click":function($event){_vm.onclick(_vm._keys[c.key], $event)}}})}))}))])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numeric-keyboard"},[_c('table',_vm._l((_vm.ks.layout),function(r,i){return _c('tr',{key:i},_vm._l((r),function(c){return _c('td',{key:c.key,style:(_vm.ks.keys[c.key].style),attrs:{"rowspan":c.rowspan,"colspan":c.colspan,"data-icon":_vm.ks.keys[c.key].icon},on:{"touchstart":function($event){_vm.onTouchstart(_vm.ks.keys[c.key], $event)},"touchend":function($event){_vm.onTouchend(_vm.ks.keys[c.key], $event)}}})}))}))])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5a5b0b02_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_08d97bbb_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(145);
 function injectStyle (ssrContext) {
-  __webpack_require__(142)
+  __webpack_require__(141)
 }
 var normalizeComponent = __webpack_require__(96)
 /* script */
@@ -2916,7 +2921,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5a5b0b02_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_08d97bbb_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2927,13 +2932,13 @@ var Component = normalizeComponent(
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(143);
+var content = __webpack_require__(142);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2947,8 +2952,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a5b0b02\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a5b0b02\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-08d97bbb\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-08d97bbb\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/stylus-loader/index.js!./input.styl");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2958,7 +2963,7 @@ if(false) {
 }
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(31)(undefined);
@@ -2972,7 +2977,7 @@ exports.push([module.i, "\n.numeric-input {\n  display: inline-block;\n  backgro
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2986,7 +2991,7 @@ var _toConsumableArray2 = __webpack_require__(97);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _vue = __webpack_require__(145);
+var _vue = __webpack_require__(144);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -3051,6 +3056,13 @@ exports.default = {
         _input.Mixins.moveCursor.call(_this);
       });
     },
+    dispatch: function dispatch(event) {
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      this.$emit.apply(this, [event].concat((0, _toConsumableArray3.default)(args)));
+    },
     createKeyboard: function createKeyboard(el, options, callback) {
       var keyboard = new _vue2.default({
         render: function render(h) {
@@ -3068,13 +3080,6 @@ exports.default = {
     },
     destroyKeyboard: function destroyKeyboard(keyboard) {
       keyboard.$destroy();
-    },
-    dispatch: function dispatch(event) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      this.$emit.apply(this, [event].concat((0, _toConsumableArray3.default)(args)));
     }
   }
 }; //
@@ -3088,13 +3093,13 @@ exports.default = {
 //
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_145__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_144__;
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

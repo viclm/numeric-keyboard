@@ -4,7 +4,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   entry: {
-    raw: "./vendor/raw/index.js",
+    vanilla: "./vendor/vanilla/index.js",
     react: "./vendor/react/index.js",
     vue: "./vendor/vue/index.js"
   },

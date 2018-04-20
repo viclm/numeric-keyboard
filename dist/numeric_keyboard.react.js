@@ -7,7 +7,7 @@
 		exports["NumericKeyboard"] = factory(require("react"), require("react-dom"));
 	else
 		root["NumericKeyboard"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_94__, __WEBPACK_EXTERNAL_MODULE_128__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_94__, __WEBPACK_EXTERNAL_MODULE_127__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 101);
+/******/ 	return __webpack_require__(__webpack_require__.s = 100);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1473,7 +1473,7 @@ var Key = exports.Key = function () {
     (0, _classCallCheck3.default)(this, Key);
 
     this._code = code;
-    this._label = null;
+    this._label = code;
     this._style = null;
     this._activeStyle = null;
   }
@@ -1523,7 +1523,7 @@ var Key = exports.Key = function () {
   }, {
     key: 'icon',
     get: function get() {
-      return this._label || this._code;
+      return this._label;
     }
   }, {
     key: 'style',
@@ -1620,23 +1620,27 @@ var Mixins = exports.Mixins = {
       }
     }
 
-    this._layout = layout;
-    this._theme = theme;
-    this._keys = keys;
+    this.kp = (0, _assign2.default)({}, options);
+    this.ks = {
+      layout: layout,
+      theme: theme,
+      keys: keys
+    };
+  },
+  destroy: function destroy() {},
+  set: function set(key, value) {
+    this.ks[key] = value;
   },
   dispatch: function dispatch() /* event, ...args */{
     throw new Error('dispatch method must be overrided!');
   },
-  ontouchstart: function ontouchstart(key, event) {
+  onTouchstart: function onTouchstart(key, event) {
     key.active(event.target);
   },
-  ontouchend: function ontouchend(key, event) {
+  onTouchend: function onTouchend(key, event) {
     key.deactive(event.target);
     event.stopPropagation();
     this.dispatch('press', key.code);
-  },
-  onclick: function onclick() {
-    // this.dispatch('press', key.code)
   }
 };
 
@@ -2191,13 +2195,14 @@ var Options = exports.Options = {
 };
 
 var Mixins = exports.Mixins = {
-  init: function init(props) {
-    this.kp = (0, _assign2.default)({}, props);
-    if (typeof props.format === 'string') {
-      this.kp.format = function (val) {
-        return new RegExp(props.format).test(val);
+  init: function init(options) {
+    var format = typeof options.format === 'string' ? function (rformat) {
+      return function (val) {
+        return rformat.test(val);
       };
-    }
+    }(new RegExp(options.format)) : options.format;
+
+    this.kp = (0, _assign2.default)({}, options, { format: format });
     this.ks = {
       inputElement: null,
       keyboardElement: null,
@@ -2364,14 +2369,14 @@ var Mixins = exports.Mixins = {
     this.openKeyboard();
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
   },
+  dispatch: function dispatch() /* event, ...args */{
+    throw new Error('dispatch method must be overrided!');
+  },
   createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');
   },
   destroyKeyboard: function destroyKeyboard() /* keyboardClass */{
     throw new Error('destroyKeyboard method must be overrided!');
-  },
-  dispatch: function dispatch() /* event, ...args */{
-    throw new Error('dispatch method must be overrided!');
   }
 };
 
@@ -2498,7 +2503,7 @@ exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  backgroun
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(103), __esModule: true };
+module.exports = { "default": __webpack_require__(102), __esModule: true };
 
 /***/ }),
 /* 83 */
@@ -2561,7 +2566,7 @@ var _createClass2 = __webpack_require__(40);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _get2 = __webpack_require__(102);
+var _get2 = __webpack_require__(101);
 
 var _get3 = _interopRequireDefault(_get2);
 
@@ -2627,8 +2632,9 @@ var Keyboard = function (_Parent) {
     value: function render() {
       var _this3 = this;
 
-      var _layout = this._layout,
-          _keys = this._keys;
+      var _ks = this.ks,
+          layout = _ks.layout,
+          keys = _ks.keys;
 
       return _react2.default.createElement(
         'div',
@@ -2639,7 +2645,7 @@ var Keyboard = function (_Parent) {
           _react2.default.createElement(
             'tbody',
             null,
-            _layout.map(function (r, i) {
+            layout.map(function (r, i) {
               return _react2.default.createElement(
                 'tr',
                 { key: i },
@@ -2648,16 +2654,13 @@ var Keyboard = function (_Parent) {
                     key: c.key,
                     rowSpan: c.rowspan,
                     colSpan: c.colspan,
-                    'data-icon': _keys[c.key].icon,
-                    style: _keys[c.key].style,
+                    'data-icon': keys[c.key].icon,
+                    style: keys[c.key].style,
                     onTouchStart: function onTouchStart(e) {
-                      return _this3.ontouchstart(_keys[c.key], e);
+                      return _this3.onTouchstart(keys[c.key], e);
                     },
                     onTouchEnd: function onTouchEnd(e) {
-                      return _this3.ontouchend(_keys[c.key], e);
-                    },
-                    onClick: function onClick(e) {
-                      return _this3.onclick(_keys[c.key], e);
+                      return _this3.onTouchend(keys[c.key], e);
                     } });
                 })
               );
@@ -2681,9 +2684,9 @@ var Keyboard = function (_Parent) {
       }
     }
   }, {
-    key: 'ontouchend',
-    value: function ontouchend(key, event) {
-      (0, _get3.default)(Keyboard.prototype.__proto__ || (0, _getPrototypeOf2.default)(Keyboard.prototype), 'ontouchend', this).call(this, key, event);
+    key: 'onTouchend',
+    value: function onTouchend(key, event) {
+      (0, _get3.default)(Keyboard.prototype.__proto__ || (0, _getPrototypeOf2.default)(Keyboard.prototype), 'onTouchend', this).call(this, key, event);
       event.nativeEvent.stopImmediatePropagation();
     }
   }]);
@@ -2743,11 +2746,11 @@ exports.default = function (self, call) {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(108);
+var _iterator = __webpack_require__(107);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(110);
+var _symbol = __webpack_require__(109);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -2783,11 +2786,11 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(120);
+var _setPrototypeOf = __webpack_require__(119);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(124);
+var _create = __webpack_require__(123);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -2825,8 +2828,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_94__;
 /* 97 */,
 /* 98 */,
 /* 99 */,
-/* 100 */,
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2841,7 +2843,7 @@ var _keyboard = __webpack_require__(88);
 
 var _keyboard2 = _interopRequireDefault(_keyboard);
 
-var _input = __webpack_require__(127);
+var _input = __webpack_require__(126);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -2858,7 +2860,7 @@ exports.NumericInput = _input2.default;
 exports.keys = keys;
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2870,7 +2872,7 @@ var _getPrototypeOf = __webpack_require__(82);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _getOwnPropertyDescriptor = __webpack_require__(105);
+var _getOwnPropertyDescriptor = __webpack_require__(104);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -2902,15 +2904,15 @@ exports.default = function get(object, property, receiver) {
 };
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(104);
+__webpack_require__(103);
 module.exports = __webpack_require__(0).Object.getPrototypeOf;
 
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -2925,16 +2927,16 @@ __webpack_require__(89)('getPrototypeOf', function () {
 
 
 /***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(105), __esModule: true };
+
+/***/ }),
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(106), __esModule: true };
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(107);
+__webpack_require__(106);
 var $Object = __webpack_require__(0).Object;
 module.exports = function getOwnPropertyDescriptor(it, key) {
   return $Object.getOwnPropertyDescriptor(it, key);
@@ -2942,7 +2944,7 @@ module.exports = function getOwnPropertyDescriptor(it, key) {
 
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -2957,13 +2959,13 @@ __webpack_require__(89)('getOwnPropertyDescriptor', function () {
 
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(109), __esModule: true };
+module.exports = { "default": __webpack_require__(108), __esModule: true };
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(38);
@@ -2972,24 +2974,24 @@ module.exports = __webpack_require__(84).f('iterator');
 
 
 /***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(110), __esModule: true };
+
+/***/ }),
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(111), __esModule: true };
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(112);
+__webpack_require__(111);
+__webpack_require__(116);
 __webpack_require__(117);
 __webpack_require__(118);
-__webpack_require__(119);
 module.exports = __webpack_require__(0).Symbol;
 
 
 /***/ }),
-/* 112 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3000,7 +3002,7 @@ var has = __webpack_require__(7);
 var DESCRIPTORS = __webpack_require__(3);
 var $export = __webpack_require__(9);
 var redefine = __webpack_require__(45);
-var META = __webpack_require__(113).KEY;
+var META = __webpack_require__(112).KEY;
 var $fails = __webpack_require__(13);
 var shared = __webpack_require__(23);
 var setToStringTag = __webpack_require__(25);
@@ -3008,14 +3010,14 @@ var uid = __webpack_require__(20);
 var wks = __webpack_require__(1);
 var wksExt = __webpack_require__(84);
 var wksDefine = __webpack_require__(85);
-var enumKeys = __webpack_require__(114);
-var isArray = __webpack_require__(115);
+var enumKeys = __webpack_require__(113);
+var isArray = __webpack_require__(114);
 var anObject = __webpack_require__(6);
 var toIObject = __webpack_require__(10);
 var toPrimitive = __webpack_require__(34);
 var createDesc = __webpack_require__(15);
 var _create = __webpack_require__(37);
-var gOPNExt = __webpack_require__(116);
+var gOPNExt = __webpack_require__(115);
 var $GOPD = __webpack_require__(83);
 var $DP = __webpack_require__(5);
 var $keys = __webpack_require__(19);
@@ -3230,7 +3232,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 113 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var META = __webpack_require__(20)('meta');
@@ -3289,7 +3291,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 114 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -3310,7 +3312,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 115 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -3321,7 +3323,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -3346,50 +3348,50 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(85)('asyncIterator');
 
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(85)('observable');
 
 
 /***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(120), __esModule: true };
+
+/***/ }),
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(121), __esModule: true };
+__webpack_require__(121);
+module.exports = __webpack_require__(0).Object.setPrototypeOf;
+
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(122);
-module.exports = __webpack_require__(0).Object.setPrototypeOf;
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(9);
+$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(122).set });
 
 
 /***/ }),
 /* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(9);
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(123).set });
-
-
-/***/ }),
-/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -3420,16 +3422,16 @@ module.exports = {
 
 
 /***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(124), __esModule: true };
+
+/***/ }),
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(125), __esModule: true };
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(126);
+__webpack_require__(125);
 var $Object = __webpack_require__(0).Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
@@ -3437,7 +3439,7 @@ module.exports = function create(P, D) {
 
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(9);
@@ -3446,7 +3448,7 @@ $export($export.S, 'Object', { create: __webpack_require__(37) });
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3492,7 +3494,7 @@ var _react = __webpack_require__(94);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(128);
+var _reactDom = __webpack_require__(127);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -3627,10 +3629,10 @@ exports.default = Input;
 Input.defaultProps = _input.Options;
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_128__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_127__;
 
 /***/ })
 /******/ ]);

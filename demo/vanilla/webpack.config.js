@@ -8,7 +8,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'numeric-keyboard': path.resolve(__dirname, '../../vendor/raw'),
+      'numeric-keyboard': path.resolve(__dirname, '../../vendor/vanilla'),
       lib: path.resolve(__dirname, '../../lib')
     }
   },

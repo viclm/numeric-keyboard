@@ -5,7 +5,7 @@
 
 A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
 
-The numeric keyboard has several versions: plain **javascript** class, **React** component and **Vue** component.
+The numeric keyboard has several versions: **Vanilla JavaScript** class, **React** component and **Vue** component.
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
@@ -41,7 +41,7 @@ resolve: {
 
 ## Usage
 
-#### Plain JavaScript
+#### Vanilla JavaScript
 ```javascript
 import { NumericInput } from 'numeric-keyboard'
 new NumericInput('.input', {
@@ -142,7 +142,7 @@ keyboard: {
 ### Callback/Events
 
 #### `input`
-The `input` event is emitted when the value of input changes. The first argument for the callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in plain javascript version.
+The `input` event is emitted when the value of input changes. The first argument for the callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in vanilla javascript version.
 
 
 ## Keyboard
@@ -151,7 +151,7 @@ The keyboard is a pluggable component which supports custom layout and theme. In
 
 ### Usage
 
-#### Plain JavaScript
+#### Vanilla JavaScript
 ```javascript
 import { NumericKeyboard } from 'numeric-keyboard'
 new NumericKeyboard('.keyboard', {
@@ -311,7 +311,7 @@ import { keys } from 'numeric-keyboard'
 ### Callbacks/Events
 
 #### `press`
-the `press` event is emitted with a key code when the key is pressed. The argument for the callback is the key just pressed. A `onPress()` callback is used in plain javascript version.
+the `press` event is emitted with a key code when the key is pressed. The argument for the callback is the key just pressed. A `onPress()` callback is used in vanilla javascript version.
 
 
 ## Contributing

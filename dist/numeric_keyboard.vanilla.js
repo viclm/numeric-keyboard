@@ -1473,7 +1473,7 @@ var Key = exports.Key = function () {
     (0, _classCallCheck3.default)(this, Key);
 
     this._code = code;
-    this._label = null;
+    this._label = code;
     this._style = null;
     this._activeStyle = null;
   }
@@ -1523,7 +1523,7 @@ var Key = exports.Key = function () {
   }, {
     key: 'icon',
     get: function get() {
-      return this._label || this._code;
+      return this._label;
     }
   }, {
     key: 'style',
@@ -1620,23 +1620,27 @@ var Mixins = exports.Mixins = {
       }
     }
 
-    this._layout = layout;
-    this._theme = theme;
-    this._keys = keys;
+    this.kp = (0, _assign2.default)({}, options);
+    this.ks = {
+      layout: layout,
+      theme: theme,
+      keys: keys
+    };
+  },
+  destroy: function destroy() {},
+  set: function set(key, value) {
+    this.ks[key] = value;
   },
   dispatch: function dispatch() /* event, ...args */{
     throw new Error('dispatch method must be overrided!');
   },
-  ontouchstart: function ontouchstart(key, event) {
+  onTouchstart: function onTouchstart(key, event) {
     key.active(event.target);
   },
-  ontouchend: function ontouchend(key, event) {
+  onTouchend: function onTouchend(key, event) {
     key.deactive(event.target);
     event.stopPropagation();
     this.dispatch('press', key.code);
-  },
-  onclick: function onclick() {
-    // this.dispatch('press', key.code)
   }
 };
 
@@ -2191,13 +2195,14 @@ var Options = exports.Options = {
 };
 
 var Mixins = exports.Mixins = {
-  init: function init(props) {
-    this.kp = (0, _assign2.default)({}, props);
-    if (typeof props.format === 'string') {
-      this.kp.format = function (val) {
-        return new RegExp(props.format).test(val);
+  init: function init(options) {
+    var format = typeof options.format === 'string' ? function (rformat) {
+      return function (val) {
+        return rformat.test(val);
       };
-    }
+    }(new RegExp(options.format)) : options.format;
+
+    this.kp = (0, _assign2.default)({}, options, { format: format });
     this.ks = {
       inputElement: null,
       keyboardElement: null,
@@ -2364,14 +2369,14 @@ var Mixins = exports.Mixins = {
     this.openKeyboard();
     this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
   },
+  dispatch: function dispatch() /* event, ...args */{
+    throw new Error('dispatch method must be overrided!');
+  },
   createKeyboard: function createKeyboard() /* el, options, callback */{
     throw new Error('createKeyboard method must be overrided!');
   },
   destroyKeyboard: function destroyKeyboard() /* keyboardClass */{
     throw new Error('destroyKeyboard method must be overrided!');
-  },
-  dispatch: function dispatch() /* event, ...args */{
-    throw new Error('dispatch method must be overrided!');
   }
 };
 
@@ -2515,10 +2520,6 @@ var _assign2 = _interopRequireDefault(_assign);
 
 exports.default = Keyboard;
 
-var _tmpl = __webpack_require__(99);
-
-var _tmpl2 = _interopRequireDefault(_tmpl);
-
 var _util = __webpack_require__(87);
 
 var _keyboard = __webpack_require__(55);
@@ -2529,9 +2530,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var rcapital = /[A-Z]/g;
 
-var template = '\n<div class="numeric-keyboard">\n<table>\n  <% layout.forEach(function (r) { %>\n  <tr>\n    <% r.forEach(function (c) { %>\n    <td rowspan="<%=c.rowspan%>" colspan="<%=c.colspan%>" data-key="<%=c.key%>" data-icon="<%=keys[c.key].icon%>" style="<%=keys[c.key].csstext%>"></td>\n    <% }); %>\n  </tr>\n  <% }); %>\n</table>\n</div>\n';
-
 function Keyboard(el, options) {
+  var _this = this;
+
   if (typeof el === 'string') {
     el = document.querySelector(el);
   }
@@ -2540,32 +2541,50 @@ function Keyboard(el, options) {
 
   this.init(options);
 
-  for (var key in this._keys) {
-    var css = '';
-    for (var name in this._keys[key].style) {
-      css += name.replace(rcapital, function (s) {
-        return '-' + s.toLowerCase();
-      }) + ':' + this._keys[key].style[name] + ';';
-    }
-    this._keys[key].csstext = css;
-  }
-
-  el.innerHTML = (0, _tmpl2.default)(template, {
-    layout: this._layout,
-    keys: this._keys
+  var element = (0, _util.createdom)({
+    tag: 'div',
+    attrs: {
+      'class': 'numeric-keyboard'
+    },
+    children: [{
+      tag: 'table',
+      children: this.ks.layout.map(function (r) {
+        return {
+          tag: 'tr',
+          children: r.map(function (c) {
+            var k = _this.ks.keys[c.key];
+            var csstext = '';
+            for (var name in k.style) {
+              csstext += name.replace(rcapital, function (s) {
+                return '-' + s.toLowerCase();
+              }) + ':' + k.style[name] + ';';
+            }
+            return {
+              tag: 'td',
+              attrs: {
+                rowspan: c.rowspan,
+                colspan: c.colspan,
+                'data-key': k.code,
+                'data-icon': k.icon,
+                style: csstext
+              }
+            };
+          })
+        };
+      })
+    }]
   });
 
-  el.addEventListener('touchstart', this.touchstart.bind(this), false);
-  el.addEventListener('touchend', this.touchend.bind(this), false);
-  el.addEventListener('click', this.click.bind(this), false);
+  el.parentNode.replaceChild(element, el);
 
-  this._options = options;
+  element.addEventListener('touchstart', this.touchstart.bind(this), false);
+  element.addEventListener('touchend', this.touchend.bind(this), false);
 }
 
 Keyboard.prototype = _keyboard.Mixins;
 Keyboard.prototype.constructor = Keyboard;
 Keyboard.prototype.dispatch = function (event) {
-  var callback = this._options['on' + (0, _util.capitalize)(event)];
+  var callback = this.kp['on' + (0, _util.capitalize)(event)];
   if (callback) {
     for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
@@ -2576,17 +2595,12 @@ Keyboard.prototype.dispatch = function (event) {
 };
 Keyboard.prototype.touchstart = function (e) {
   if (e.target.tagName === 'TD') {
-    this.ontouchstart(this._keys[e.target.getAttribute('data-key')], e);
+    this.onTouchstart(this.ks.keys[e.target.getAttribute('data-key')], e);
   }
 };
 Keyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
-    this.ontouchend(this._keys[e.target.getAttribute('data-key')], e);
-  }
-};
-Keyboard.prototype.click = function (e) {
-  if (e.target.tagName === 'TD') {
-    this.onclick(this._keys[e.target.getAttribute('data-key')], e);
+    this.onTouchend(this.ks.keys[e.target.getAttribute('data-key')], e);
   }
 };
 
@@ -2645,7 +2659,7 @@ var _keyboard = __webpack_require__(86);
 
 var _keyboard2 = _interopRequireDefault(_keyboard);
 
-var _input = __webpack_require__(100);
+var _input = __webpack_require__(99);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -2663,40 +2677,6 @@ exports.keys = keys;
 
 /***/ }),
 /* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = tmpl;
-// Simple JavaScript Templating
-// John Resig - https://johnresig.com/ - MIT Licensed
-var cache = {};
-
-function tmpl(str, data) {
-    // Figure out if we're getting a template, or if we need to
-    // load the template - and be sure to cache the result.
-    var fn = !/\W/.test(str) ? cache[str] = cache[str] || tmpl(str) :
-
-    // Generate a reusable function that will serve as a template
-    // generator (and which will be cached).
-    new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);};" +
-
-    // Introduce the data as local variables using with(){}
-    "with(obj){p.push('" +
-
-    // Convert the template into pure JavaScript
-    str.replace(/[\r\t\n]/g, " ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g, "$1\r").replace(/\t=(.*?)%>/g, "',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'") + "');}return p.join('');");
-
-    // Provide some basic currying to the user
-    return data ? fn(data) : fn;
-}
-
-/***/ }),
-/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2782,17 +2762,6 @@ Input.prototype.set = function (key, value) {
   }
 };
 
-Input.prototype.createKeyboard = function (el, options, callback) {
-  var element = document.createElement('div');
-  var keyboard = new _keyboard2.default(element, (0, _extends3.default)({}, options, {
-    onPress: callback
-  }));
-  el.appendChild(element);
-  return keyboard;
-};
-
-Input.prototype.destroyKeyboard = function () {};
-
 Input.prototype.dispatch = function (event) {
   var callback = this.kp['on' + (0, _util.capitalize)(event)];
   if (callback) {
@@ -2802,6 +2771,18 @@ Input.prototype.dispatch = function (event) {
 
     callback.apply(undefined, args);
   }
+};
+
+Input.prototype.createKeyboard = function (el, options, callback) {
+  var element = document.createElement('div');
+  el.appendChild(element);
+  return new _keyboard2.default(element, (0, _extends3.default)({}, options, {
+    onPress: callback
+  }));
+};
+
+Input.prototype.destroyKeyboard = function (keyboard) {
+  keyboard.destroy();
 };
 
 Input.prototype.renderInput = function () {
