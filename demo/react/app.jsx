@@ -6,46 +6,34 @@ export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      keyPressed: null
+      keyboardOutput: null,
+      inputOutput: null
     }
   }
 
   press(key) {
     this.setState({
-      keyPressed: key
+      keyboardOutput: `${typeof key}: ${key}`
     })
   }
 
-  clear() {
-    
+  input(val) {
+    this.setState({
+      inputOutput: `${typeof val}: ${val}`
+    })
   }
 
   render() {
     return <div className="app">
-      <h1>Numeric keyboard</h1>
-      <div className="keyboard">
-        <NumericKeyboard layout="tel" theme={this.props.telTheme} entertext="send" onPress={this.press.bind(this)} />
-        <p className="keyboard-output">{this.state.keyPressed != null ? `Key(${this.state.keyPressed}) is pressed`: 'Press the keyboard'}</p>
-      </div>
-      <div className="input">
-        <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" />
-        <button onClick={this.clear.bind(this)}>Clear</button>
-      </div>
+      <h1 className="title">Numeric keyboard</h1>
+      <section className="keyboard">
+        <NumericKeyboard layout="tel" entertext="send" onPress={this.press.bind(this)} />
+        <p className="output">{this.state.keyboardOutput}</p>
+      </section>
+      <section className="input">
+        <NumericInput type="number" placeholder="touch to input" format="^(?:\d+(?:\.\d{0,2})?)?$" onInput={this.input.bind(this)} />
+        <p className="output">{this.state.inputOutput}</p>
+      </section>
     </div>
-  }
-}
-
-App.defaultProps = {
-  telTheme: {
-    key: {
-      [keys.DEL]: {
-        color: '#ffffff',
-        backgroundColor: ['#a8b0bc', '#929ba8']
-      },
-      [keys.ENTER]: {
-        color: '#ffffff',
-        backgroundColor: ['#a8b0bc', '#929ba8']
-      }
-    }
   }
 }

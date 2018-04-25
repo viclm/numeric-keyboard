@@ -18,22 +18,24 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
         loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {
         test: /\.html$/,
-        exclude: /node_modules/,
         loader: 'html-loader'
       },
       {
         test: /\.styl$/,
-        exclude: /node_modules/,
+        exclude: [path.resolve('./src/styles.styl')],
         loaders: ['to-string-loader', 'css-loader', 'stylus-loader']
       },
       {
+        test: /\.styl$/,
+        include: [path.resolve('./src/styles.styl')],
+        loaders: ['style-loader', 'css-loader', 'stylus-loader']
+      },
+      {
         test: /\.woff$/,
-        exclude: /node_modules/,
         loader: 'url-loader'
       }
     ]

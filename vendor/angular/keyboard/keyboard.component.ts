@@ -19,9 +19,7 @@ const template = `
 `
 
 
-class Parent {
-  init: Function
-}
+class Parent {}
 Parent.prototype = Mixins
 
 @Component({
@@ -35,11 +33,11 @@ export class NumericKeyboard extends Parent implements OnInit {
   @Input() entertext: string = Options.entertext
   @Output() onPress = new EventEmitter<number | string>()
 
-  public ks: any
   public kp: any
+  public ks: any
 
   ngOnInit() {
-    this.init({
+    Mixins.init.call(this, {
       layout: this.layout,
       theme: this.theme,
       entertext: this.entertext

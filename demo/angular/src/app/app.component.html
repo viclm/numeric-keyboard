@@ -1,13 +1,9 @@
 <div class="app">
   <h1 class="title">Numeric keyboard</h1>
   <section class="keyboard">
-    <div class="keyboard-ui">
-      <numeric-keyboard class="numeric-keyboard" [layout]="'tel'" [entertext]="'send'" (onPress)="press($event)"></numeric-keyboard>
-    </div>
-    <p class="keyboard-output">{{keyboardOutput}}</p>
+    <numeric-keyboard class="numeric-keyboard" [layout]="'tel'" [entertext]="'send'" (onPress)="press($event)"></numeric-keyboard>
+    <p class="output">{{keyboardOutput}}</p>
   </section>
   <section class="input">
-    <div class="input-ui"></div>
-    <p class="input-output"></p>
   </section>
 </div>
