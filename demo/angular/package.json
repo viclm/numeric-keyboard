@@ -1,20 +1,13 @@
 {
   "name": "angular",
-  "version": "0.0.0",
-  "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0"
+    "start": "node ../../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   },
-  "private": true,
   "dependencies": {
     "@angular/compiler": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "core-js": "^2.4.1",
     "zone.js": "^0.8.19"
-  },
-  "devDependencies": {
-    "html-webpack-plugin": "^2.30.1",
-    "webpack-dev-server": "^2.9.1"
   }
 }

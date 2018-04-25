@@ -16,22 +16,18 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
         test: /\.jsx$/,
-        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
         test: /\.styl$/,
-        exclude: /node_modules/,
         loader: 'style-loader!css-loader!stylus-loader'
       },
       {
         test: /\.woff$/,
-        exclude: /node_modules/,
         loader: 'url-loader'
       }
     ]
