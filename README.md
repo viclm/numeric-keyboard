@@ -5,7 +5,9 @@
 
 A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
 
-The numeric keyboard has several versions: **Vanilla JavaScript** class, **React** component and **Vue** component.
+The numeric keyboard is created respectively for **Vanilla JavaScript**, **React**, **Angular** and **Vue**.
+
+> for **React**, **Angular** and **Vue**, only the latest version is supported.
 
 :movie_camera: [Watch the demo video](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
@@ -66,6 +68,23 @@ class App extends React.Component {
       <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
     </div>
   }
+}
+```
+
+#### Angular
+```typescript
+import { Component } from '@angular/core';
+@Component({
+  selector: 'app-root',
+  template: `
+    <div className="input">
+      <label>Amount: </label>
+      <numeric-input type="number" placeholder="touch to input" [(ngModel)]="amount"></numeric-input>
+    </div>
+  `,
+})
+export class AppComponent {
+  public amount: number
 }
 ```
 
@@ -173,6 +192,24 @@ class App extends React.Component {
     return <div className="keyboard">
       <NumericKeyboard layout="tel" onPress={this.press.bind(this)} />
     </div>
+  }
+}
+```
+
+#### Angular
+```typescript
+import { Component } from '@angular/core';
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="keyboard">
+      <numeric-keyboard layout="tel" (onPress)="press($event)"></numeric-keyboard>
+    </div>
+  `,
+})
+export class AppComponent {
+  press(key) {
+    ...
   }
 }
 ```

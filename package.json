@@ -53,10 +53,13 @@
     "webpack-dev-server": "^2.9.1"
   },
   "keywords": [
-    "keyboard",
     "numeric keyboard",
-    "vue",
-    "react"
+    "number keyboard",
+    "keyboard",
+    "javascript",
+    "react",
+    "angular",
+    "vue"
   ],
   "license": "MIT"
 }

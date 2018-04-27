@@ -4,7 +4,9 @@
 
 用于手机浏览器的虚拟的可自定义数字键盘，它包含一个可以调起虚拟自定义数字键盘的文本框，支持大部分的 HTML5 标准属性和光标操作。同时，虚拟键盘本身可以单独和其他自定义输入界面一起使用，比如互联网金融场景常见的数字验证码输入方格。
 
-数字键盘拥有多个版本：**原生 JavaScript** 类，**React** 组件和 **Vue** 组件。
+数字键盘有多个版本：**原生 JavaScript**、**React**、**Angular** 和 **Vue**。
+
+> 对于 **React**、**Angular** and **Vue**，仅支持最新版本的实现。
 
 :movie_camera: [观看演示视频](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
@@ -61,6 +63,23 @@ class App extends React.Component {
       <NumericInput type="number" placeholder="touch to input" onInput={this.input.bind(this)} />
     </div>
   }
+}
+```
+
+#### Angular
+```typescript
+import { Component } from '@angular/core';
+@Component({
+  selector: 'app-root',
+  template: `
+    <div className="input">
+      <label>Amount: </label>
+      <numeric-input type="number" placeholder="touch to input" [(ngModel)]="amount"></numeric-input>
+    </div>
+  `,
+})
+export class AppComponent {
+  public amount: number
 }
 ```
 
@@ -168,6 +187,24 @@ class App extends React.Component {
     return <div className="keyboard">
       <NumericKeyboard layout="tel" onPress={this.press.bind(this)} />
     </div>
+  }
+}
+```
+
+#### Angular
+```typescript
+import { Component } from '@angular/core';
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="keyboard">
+      <numeric-keyboard layout="tel" (onPress)="press($event)"></numeric-keyboard>
+    </div>
+  `,
+})
+export class AppComponent {
+  press(key) {
+    ...
   }
 }
 ```
