@@ -7,6 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public keyboardOutput: string
+  public val: string | number
+
+  get inputOutput() {
+    return `${typeof this.val}: ${this.val}`
+  }
 
   press(key) {
     this.keyboardOutput = `${typeof key}: ${key}`

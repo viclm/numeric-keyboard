@@ -1,5 +1,9 @@
-import { Component,  EventEmitter, Input, Output, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core'
 import { Options, Mixins } from 'lib/keyboard'
+
+enum Event {
+  Press = 'press'
+}
 
 const template = `
 <div class="numeric-keyboard">
@@ -18,7 +22,6 @@ const template = `
 </div>
 `
 
-
 class Parent {}
 Parent.prototype = Mixins
 
@@ -27,9 +30,9 @@ Parent.prototype = Mixins
   template: template,
   styleUrls: [ '../../../lib/style/keyboard.styl', './keyboard.component.styl' ]
 })
-export class NumericKeyboard extends Parent implements OnInit {
-  @Input() layout: string | Array<Array<any>> = Options.layout
-  @Input() theme: string | { global: any, key: any } = Options.theme
+export class NumericKeyboard extends Parent implements OnInit, OnDestroy {
+  @Input() layout: string | { key: number | string }[][] = Options.layout
+  @Input() theme: string | { global?: any, key?: any } = Options.theme
   @Input() entertext: string = Options.entertext
   @Output() onPress = new EventEmitter<number | string>()
 
@@ -44,7 +47,15 @@ export class NumericKeyboard extends Parent implements OnInit {
     })
   }
 
-  dispatch(event, ...args) {
-    this.onPress.emit(...args)
+  ngOnDestroy() {
+    Mixins.destroy.call(this)
+  }
+
+  dispatch(event: Event, argument?: number | string) {
+    switch (event) {
+      case Event.Press:
+        this.onPress.emit(argument)
+        break
+    }
   }
 }
