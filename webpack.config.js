@@ -73,6 +73,7 @@ module.exports = {
       },
       {
         test: /\.ts$/,
+        exclude: /node_modules/,
         loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {
