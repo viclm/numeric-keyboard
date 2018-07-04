@@ -1639,7 +1639,7 @@ var Mixins = exports.Mixins = {
   },
   onTouchend: function onTouchend(key, event) {
     key.deactive(event.target);
-    event.stopPropagation();
+    //event.stopPropagation()
     this.dispatch('press', key.code);
   }
 };
@@ -2170,8 +2170,11 @@ var KeyboardCenter = function () {
       activeInput = input;
       document.addEventListener('touchend', this.unregister, false);
     },
-    unregister: function unregister() {
+    unregister: function unregister(e) {
       if (!activeInput) {
+        return;
+      }
+      if (e && activeInput.ks.keyboardElement.contains(e.target)) {
         return;
       }
       activeInput.closeKeyboard();
