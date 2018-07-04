@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("@angular/core"), require("@angular/common"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["@angular/core", "@angular/common"], factory);
 	else if(typeof exports === 'object')
-		exports["NumericKeyboard"] = factory();
+		exports["NumericKeyboard"] = factory(require("@angular/core"), require("@angular/common"));
 	else
-		root["NumericKeyboard"] = factory();
-})(this, function() {
+		root["NumericKeyboard"] = factory(root["ng"], root["ng"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_86__, __WEBPACK_EXTERNAL_MODULE_150__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 100);
+/******/ 	return __webpack_require__(__webpack_require__.s = 148);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2471,170 +2471,19 @@ exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  backgroun
 
 
 /***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _assign = __webpack_require__(13);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _assign2.default || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-/***/ }),
+/* 81 */,
 /* 82 */,
 /* 83 */,
 /* 84 */,
 /* 85 */,
-/* 86 */,
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 86 */
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(13);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-exports.default = Keyboard;
-
-var _util = __webpack_require__(88);
-
-var _keyboard = __webpack_require__(55);
-
-__webpack_require__(77);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var rcapital = /[A-Z]/g;
-
-function Keyboard(el, options) {
-  var _this = this;
-
-  if (typeof el === 'string') {
-    el = document.querySelector(el);
-  }
-
-  options = (0, _assign2.default)({}, _keyboard.Options, options);
-
-  this.init(options);
-
-  var element = (0, _util.createdom)({
-    tag: 'div',
-    attrs: {
-      'class': 'numeric-keyboard'
-    },
-    children: [{
-      tag: 'table',
-      children: this.ks.layout.map(function (r) {
-        return {
-          tag: 'tr',
-          children: r.map(function (c) {
-            var k = _this.ks.keys[c.key];
-            var csstext = '';
-            for (var name in k.style) {
-              csstext += name.replace(rcapital, function (s) {
-                return '-' + s.toLowerCase();
-              }) + ':' + k.style[name] + ';';
-            }
-            return {
-              tag: 'td',
-              attrs: {
-                rowspan: c.rowspan,
-                colspan: c.colspan,
-                'data-key': k.code,
-                'data-icon': k.icon,
-                style: csstext
-              }
-            };
-          })
-        };
-      })
-    }]
-  });
-
-  el.parentNode.replaceChild(element, el);
-
-  element.addEventListener('touchstart', this.touchstart.bind(this), false);
-  element.addEventListener('touchend', this.touchend.bind(this), false);
-}
-
-Keyboard.prototype = _keyboard.Mixins;
-Keyboard.prototype.constructor = Keyboard;
-Keyboard.prototype.dispatch = function (event) {
-  var callback = this.kp['on' + (0, _util.capitalize)(event)];
-  if (callback) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    callback.apply(undefined, args);
-  }
-};
-Keyboard.prototype.touchstart = function (e) {
-  if (e.target.tagName === 'TD') {
-    this.onTouchstart(this.ks.keys[e.target.getAttribute('data-key')], e);
-  }
-};
-Keyboard.prototype.touchend = function (e) {
-  if (e.target.tagName === 'TD') {
-    this.onTouchend(this.ks.keys[e.target.getAttribute('data-key')], e);
-  }
-};
+module.exports = __WEBPACK_EXTERNAL_MODULE_86__;
 
 /***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createdom = exports.createdom = function createdom(tree) {
-  var el = document.createElement(tree.tag);
-  if (tree.attrs) {
-    for (var name in tree.attrs) {
-      el.setAttribute(name, tree.attrs[name]);
-    }
-  }
-  if (tree.children) {
-    for (var i = 0; i < tree.children.length; i++) {
-      el.appendChild(createdom(tree.children[i]));
-    }
-  }
-  return el;
-};
-
-var capitalize = exports.capitalize = function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.substring(1);
-};
-
-/***/ }),
+/* 87 */,
+/* 88 */,
 /* 89 */,
 /* 90 */,
 /* 91 */,
@@ -2645,162 +2494,475 @@ var capitalize = exports.capitalize = function capitalize(str) {
 /* 96 */,
 /* 97 */,
 /* 98 */,
-/* 99 */,
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(86);
+var keyboard_1 = __webpack_require__(55);
+var Event;
+(function (Event) {
+    Event["Press"] = "press";
+})(Event || (Event = {}));
+var template = "\n<div class=\"numeric-keyboard\">\n  <table>\n    <tr *ngFor=\"let r of ks.layout\">\n      <td *ngFor=\"let c of r\"\n        [attr.rowspan]=\"c.rowspan\"\n        [attr.colspan]=\"c.colspan\"\n        [attr.data-icon]=\"ks.keys[c.key].icon\"\n        [ngStyle]=\"ks.keys[c.key].style\"\n        (touchstart)=\"onTouchstart(ks.keys[c.key], $event)\"\n        (touchend)=\"onTouchend(ks.keys[c.key], $event)\">\n      </td>\n    </tr>\n  </table>\n</div>\n";
+var Parent = /** @class */ (function () {
+    function Parent() {
+    }
+    return Parent;
+}());
+Parent.prototype = keyboard_1.Mixins;
+var NumericKeyboard = /** @class */ (function (_super) {
+    __extends(NumericKeyboard, _super);
+    function NumericKeyboard() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.layout = keyboard_1.Options.layout;
+        _this.theme = keyboard_1.Options.theme;
+        _this.entertext = keyboard_1.Options.entertext;
+        _this.onPress = new core_1.EventEmitter();
+        return _this;
+    }
+    NumericKeyboard.prototype.ngOnInit = function () {
+        keyboard_1.Mixins.init.call(this, {
+            layout: this.layout,
+            theme: this.theme,
+            entertext: this.entertext
+        });
+    };
+    NumericKeyboard.prototype.ngOnDestroy = function () {
+        keyboard_1.Mixins.destroy.call(this);
+    };
+    NumericKeyboard.prototype.dispatch = function (event, argument) {
+        switch (event) {
+            case Event.Press:
+                this.onPress.emit(argument);
+                break;
+        }
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericKeyboard.prototype, "layout", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericKeyboard.prototype, "theme", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], NumericKeyboard.prototype, "entertext", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NumericKeyboard.prototype, "onPress", void 0);
+    NumericKeyboard = __decorate([
+        core_1.Component({
+            selector: 'numeric-keyboard',
+            template: template,
+            styles: [__webpack_require__(77), __webpack_require__(151)]
+        })
+    ], NumericKeyboard);
+    return NumericKeyboard;
+}(Parent));
+exports.NumericKeyboard = NumericKeyboard;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.keys = exports.NumericInput = exports.NumericKeyboard = undefined;
-
-var _keyboard = __webpack_require__(87);
-
-var _keyboard2 = _interopRequireDefault(_keyboard);
-
-var _input = __webpack_require__(101);
-
-var _input2 = _interopRequireDefault(_input);
-
-var _keys = __webpack_require__(6);
-
-var keys = _interopRequireWildcard(_keys);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.NumericKeyboard = _keyboard2.default;
-exports.NumericInput = _input2.default;
-exports.keys = keys;
 
 /***/ }),
-/* 101 */
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var module_1 = __webpack_require__(149);
+exports.NumericKeyboardModule = module_1.NumericKeyboardModule;
+var keys = __webpack_require__(6);
+exports.keys = keys;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
-var _extends2 = __webpack_require__(81);
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var _extends3 = _interopRequireDefault(_extends2);
+"use strict";
 
-var _assign = __webpack_require__(13);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(86);
+var common_1 = __webpack_require__(150);
+var keyboard_component_1 = __webpack_require__(99);
+var input_component_1 = __webpack_require__(153);
+var NumericKeyboardModule = /** @class */ (function () {
+    function NumericKeyboardModule() {
+    }
+    NumericKeyboardModule = __decorate([
+        core_1.NgModule({
+            declarations: [keyboard_component_1.NumericKeyboard, input_component_1.NumericInput],
+            entryComponents: [keyboard_component_1.NumericKeyboard],
+            imports: [common_1.CommonModule],
+            exports: [keyboard_component_1.NumericKeyboard, input_component_1.NumericInput]
+        })
+    ], NumericKeyboardModule);
+    return NumericKeyboardModule;
+}());
+exports.NumericKeyboardModule = NumericKeyboardModule;
 
-var _assign2 = _interopRequireDefault(_assign);
 
-exports.default = Input;
+/***/ }),
+/* 150 */
+/***/ (function(module, exports) {
 
-var _util = __webpack_require__(88);
+module.exports = __WEBPACK_EXTERNAL_MODULE_150__;
 
-var _keyboard = __webpack_require__(87);
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var _keyboard2 = _interopRequireDefault(_keyboard);
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-var _input = __webpack_require__(76);
+// load the styles
+var content = __webpack_require__(152);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
 
-__webpack_require__(79);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Input(el, options) {
-  if (typeof el === 'string') {
-    el = document.querySelector(el);
-  }
-
-  options = (0, _assign2.default)({}, _input.Options, options);
-
-  this.init(options);
-
-  var classnames = ['numeric-input'];
-  if (this.kp.readonly) {
-    classnames.push('readonly');
-  }
-  if (this.kp.disabled) {
-    classnames.push('disabled');
-  }
-
-  var element = (0, _util.createdom)({
-    tag: 'div',
-    attrs: {
-      'class': classnames.join(' ')
-    },
-    children: [{
-      tag: 'input',
-      attrs: {
-        type: 'hidden',
-        name: this.kp.name,
-        value: this.kp.value
-      }
-    }, {
-      tag: 'div'
-    }]
-  });
-
-  this.$input = element.querySelector('input');
-  this.$fakeinput = element.querySelector('div');
-
-  el.parentNode.replaceChild(element, el);
-  this.onMounted(element);
-  this.renderInput();
-
-  element.addEventListener('touchend', this.onFocus.bind(this), false);
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(23)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/stylus-loader/index.js!./keyboard.component.styl", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/stylus-loader/index.js!./keyboard.component.styl");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
-Input.prototype = (0, _assign2.default)({}, _input.Mixins);
-Input.prototype.constructor = Input;
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
 
-Input.prototype.set = function (key, value) {
-  _input.Mixins.set.call(this, key, value);
-  if (key === 'cursorTimer' || key === 'rawValue') {
-    this.renderInput();
-  }
+exports = module.exports = __webpack_require__(22)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ":host .numeric-keyboard {\n  width: inherit;\n  height: inherit;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-Input.prototype.dispatch = function (event) {
-  var callback = this.kp['on' + (0, _util.capitalize)(event)];
-  if (callback) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(86);
+var input_1 = __webpack_require__(76);
+var keyboard_component_1 = __webpack_require__(99);
+var Event;
+(function (Event) {
+    Event["Focus"] = "focus";
+    Event["Blur"] = "blur";
+    Event["Input"] = "input";
+})(Event || (Event = {}));
+var template = "\n<div class=\"numeric-input\" [class.readonly]=\"kp.readonly\" [class.disabled]=\"kp.disabled\" (touchend)=\"handleFocus($event)\">\n  <input type=\"hidden\" [attr.name]=\"kp.name\" [value]=\"kp.ngModel\" />\n  <div *ngIf=\"ks\">\n    <span class=\"numeric-input-placeholder\" *ngIf=\"ks.rawValue.length === 0\">{{kp.placeholder}}</span>\n    <span *ngFor=\"let c of ks.rawValue; let i = index; trackBy: trackByIndex\" [attr.data-index]=\"i + 1\">{{c}}</span>\n    <i *ngIf=\"ks.cursorTimer\" [style.backgroundColor]=\"ks.cursorColor\"></i>\n  </div>\n</div>\n";
+var Parent = /** @class */ (function () {
+    function Parent() {
     }
-
-    callback.apply(undefined, args);
-  }
-};
-
-Input.prototype.createKeyboard = function (el, options, callback) {
-  var element = document.createElement('div');
-  el.appendChild(element);
-  return new _keyboard2.default(element, (0, _extends3.default)({}, options, {
-    onPress: callback
-  }));
-};
-
-Input.prototype.destroyKeyboard = function (keyboard) {
-  keyboard.destroy();
-};
-
-Input.prototype.renderInput = function () {
-  var html = '';
-  if (this.ks.rawValue.length === 0) {
-    html += '<span class="numeric-input-placeholder">' + this.kp.placeholder + '</span>';
-  } else {
-    for (var i = 0; i < this.ks.rawValue.length; i++) {
-      html += '<span data-index="' + (i + 1) + '">' + this.ks.rawValue[i] + '</span>';
+    return Parent;
+}());
+Parent.prototype = input_1.Mixins;
+var NumericInput = /** @class */ (function (_super) {
+    __extends(NumericInput, _super);
+    function NumericInput(element, appRef, componentFactoryResolver, injector) {
+        var _this = _super.call(this) || this;
+        _this.element = element;
+        _this.appRef = appRef;
+        _this.componentFactoryResolver = componentFactoryResolver;
+        _this.injector = injector;
+        _this.type = input_1.Options.type;
+        _this.value = input_1.Options.value;
+        _this.autofocus = input_1.Options.autofocus;
+        _this.disabled = input_1.Options.disabled;
+        _this.readonly = input_1.Options.readonly;
+        _this.maxlength = input_1.Options.maxlength;
+        _this.name = input_1.Options.name;
+        _this.placeholder = input_1.Options.placeholder;
+        _this.format = input_1.Options.format;
+        _this.keyboard = input_1.Options.keyboard;
+        _this.ngModel = input_1.Options.value;
+        _this.onFocus = new core_1.EventEmitter();
+        _this.onBlur = new core_1.EventEmitter();
+        _this.ngModelChange = new core_1.EventEmitter();
+        return _this;
     }
-  }
-  if (this.ks.cursorTimer) {
-    html += '<i style="background-color: ' + this.ks.cursorColor + '"></i>';
-  }
-  this.$fakeinput.innerHTML = html;
-};
+    NumericInput.prototype.ngOnInit = function () {
+        var resolvedOptions = {};
+        for (var key in input_1.Options) {
+            resolvedOptions[key] = this[key];
+        }
+        input_1.Mixins.init.call(this, resolvedOptions);
+        input_1.Mixins.onMounted.call(this, this.element.nativeElement.querySelector('.numeric-input'));
+    };
+    NumericInput.prototype.ngOnDestroy = function () {
+        input_1.Mixins.destroy.call(this);
+    };
+    NumericInput.prototype.trackByIndex = function (index) {
+        return index;
+    };
+    NumericInput.prototype.handleFocus = function (event) {
+        input_1.Mixins.onFocus.call(this, event);
+    };
+    NumericInput.prototype.moveCursor = function () {
+        this.appRef.tick();
+        input_1.Mixins.moveCursor.call(this);
+    };
+    NumericInput.prototype.dispatch = function (event, argument) {
+        switch (event) {
+            case Event.Focus:
+                this.onFocus.emit();
+                break;
+            case Event.Blur:
+                this.onFocus.emit();
+                break;
+            case Event.Focus:
+                this.ngModelChange.emit(argument);
+                break;
+        }
+    };
+    NumericInput.prototype.createKeyboard = function (el, options, callback) {
+        var componentRef = this.componentFactoryResolver
+            .resolveComponentFactory(keyboard_component_1.NumericKeyboard)
+            .create(this.injector);
+        Object.assign(componentRef.instance, options);
+        componentRef.instance.ngOnInit();
+        componentRef.instance.onPress.subscribe(callback);
+        this.appRef.attachView(componentRef.hostView);
+        el.appendChild(componentRef.hostView.rootNodes[0]);
+        return componentRef;
+    };
+    NumericInput.prototype.destroyKeyboard = function (keyboardClass) {
+        keyboardClass.destroy();
+        this.appRef.detachView(keyboardClass.hostView);
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], NumericInput.prototype, "type", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "value", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], NumericInput.prototype, "autofocus", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], NumericInput.prototype, "disabled", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], NumericInput.prototype, "readonly", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], NumericInput.prototype, "maxlength", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], NumericInput.prototype, "name", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], NumericInput.prototype, "placeholder", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "format", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "keyboard", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "ngModel", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "onFocus", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "onBlur", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NumericInput.prototype, "ngModelChange", void 0);
+    NumericInput = __decorate([
+        core_1.Component({
+            selector: 'numeric-input',
+            template: template,
+            styles: [__webpack_require__(79), __webpack_require__(154)]
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef,
+            core_1.ApplicationRef,
+            core_1.ComponentFactoryResolver,
+            core_1.Injector])
+    ], NumericInput);
+    return NumericInput;
+}(Parent));
+exports.NumericInput = NumericInput;
+
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(155);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(23)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/stylus-loader/index.js!./input.component.styl", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/stylus-loader/index.js!./input.component.styl");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(22)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ":host {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n:host .numeric-input {\n  display: block;\n  background: transparent;\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  text-align: inherit;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

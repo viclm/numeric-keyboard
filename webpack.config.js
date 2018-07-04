@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     vanilla: "./vendor/vanilla/index.js",
     react: "./vendor/react/index.js",
-    vue: "./vendor/vue/index.js"
+    vue: "./vendor/vue/index.js",
+    angular: "./vendor/angular/index.ts"
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -15,6 +16,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   resolve: {
+    extensions: ['.js', '.jsx', '.ts'],
     alias: {
       lib: path.resolve(__dirname, 'lib')
     }
@@ -37,6 +39,18 @@ module.exports = {
       commonjs2: 'react-dom',
       commonjs: 'react-dom',
       amd: 'react-dom'
+    },
+    '@angular/core': {
+      root: 'ng',
+      commonjs2: '@angular/core',
+      commonjs: '@angular/core',
+      amd: '@angular/core'
+    },
+    '@angular/common': {
+      root: 'ng',
+      commonjs2: '@angular/common',
+      commonjs: '@angular/common',
+      amd: '@angular/common'
     }
   },
   module: {
@@ -56,6 +70,10 @@ module.exports = {
         test: /\.jsx$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.ts$/,
+        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {
         test: /\.styl$/,

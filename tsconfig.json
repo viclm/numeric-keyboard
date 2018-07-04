@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["ES2015", "DOM"],
+    "target": "ES5"
+  },
+  "include": ["vendor/angular/*"]
+}
