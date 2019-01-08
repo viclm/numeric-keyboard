@@ -3,11 +3,12 @@ const webpack = require('webpack')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  mode: 'production',
   entry: {
-    vanilla: "./vendor/vanilla/index.js",
-    react: "./vendor/react/index.js",
-    vue: "./vendor/vue/index.js",
-    angular: "./vendor/angular/index.ts"
+    vanilla: './vendor/vanilla/index.js',
+    react: './vendor/react/index.js',
+    vue: './vendor/vue/index.js',
+    angular: './vendor/angular/index.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -62,12 +63,7 @@ module.exports = {
         enforce: 'pre'
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
-      {
-        test: /\.jsx$/,
+        test: /\.js(x)?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
@@ -77,19 +73,14 @@ module.exports = {
         loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {
-        test: /\.styl$/,
+        test: /\.styl(us)?$/,
         exclude: /node_modules/,
-        loader: 'style-loader!css-loader!stylus-loader'
+        use: ['style-loader', 'css-loader', 'stylus-loader']
       },
       {
         test: /\.vue$/,
         exclude: /node_modules/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            stylus: 'style-loader!css-loader!stylus-loader'
-          }
-        }
+        loader: 'vue-loader'
       },
       {
         test: /\.woff$/,
