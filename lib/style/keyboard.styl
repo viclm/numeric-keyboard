@@ -7,37 +7,41 @@
 .numeric-keyboard
   width 100%
   height 100%
+  background #cfd4da
+  table-layout fixed
+  border-collapse separate
+  border-spacing 1px
+  font-size 2em
+  text-align center
+    
+.numeric-keyboard-key
+  touch-action manipulation
+  transition background 0.5s
+  color #000000
+  background #ffffff
+  &:active
+    background #929ca8
+  &[data-key=enter]
+    color #ffffff
+    background #007aff
+  &[data-key=enter]:active
+    background #0051a8
+  &[data-icon]::before
+    content attr(data-icon)
+  &[data-icon=del]::before,
+  &[data-icon=esc]::before
+    font-family numeric-keyboard !important
+    speak none
+    font-style normal
+    font-weight normal
+    font-variant normal
+    text-transform none
+    line-height 1
 
-  table
-    width 100%
-    height 100%
-    background #cfd4da
-    table-layout fixed
-    border-collapse separate
-    border-spacing 1px
-    font-size 2em
-    text-align center
-  td
-    touch-action manipulation
-    transition background-color 0.5s
-    &[data-icon]::before
-      content attr(data-icon)
-      font-family inherit !important
-    &[data-icon=del]::before,
-    &[data-icon=esc]::before
-      content attr(data-icon)
-      font-family numeric-keyboard !important
-      speak none
-      font-style normal
-      font-weight normal
-      font-variant normal
-      text-transform none
-      line-height 1
+    letter-spacing 0
+    -webkit-font-feature-settings "liga"
+    font-feature-settings "liga"
+    -webkit-font-variant-ligatures discretionary-ligatures
+    font-variant-ligatures discretionary-ligatures
 
-      letter-spacing 0
-      -webkit-font-feature-settings "liga"
-      font-feature-settings "liga"
-      -webkit-font-variant-ligatures discretionary-ligatures
-      font-variant-ligatures discretionary-ligatures
-
-      -webkit-font-smoothing antialiased
+    -webkit-font-smoothing antialiased

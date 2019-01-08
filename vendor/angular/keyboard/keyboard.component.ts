@@ -6,20 +6,18 @@ enum Event {
 }
 
 const template = `
-<div class="numeric-keyboard">
-  <table>
-    <tr *ngFor="let r of ks.layout">
-      <td *ngFor="let c of r"
-        [attr.rowspan]="c.rowspan"
-        [attr.colspan]="c.colspan"
-        [attr.data-icon]="ks.keys[c.key].icon"
-        [ngStyle]="ks.keys[c.key].style"
-        (touchstart)="onTouchstart(ks.keys[c.key], $event)"
-        (touchend)="onTouchend(ks.keys[c.key], $event)">
-      </td>
-    </tr>
-  </table>
-</div>
+<table class="numeric-keyboard">
+  <tr *ngFor="let r of ks.layout">
+    <td *ngFor="let c of r"
+      [attr.rowspan]="c.rowspan"
+      [attr.colspan]="c.colspan"
+      [attr.data-key]="ks.keys[c.key].key"
+      [attr.data-icon]="ks.keys[c.key].icon"
+      class="numeric-keyboard-key"
+      (touchend)="onTouchend(ks.keys[c.key].key, $event)">
+    </td>
+  </tr>
+</table>
 `
 
 class Parent {}
@@ -32,7 +30,6 @@ Parent.prototype = Mixins
 })
 export class NumericKeyboard extends Parent implements OnInit, OnDestroy {
   @Input() layout: string | { key: number | string }[][] = Options.layout
-  @Input() theme: string | { global?: any, key?: any } = Options.theme
   @Input() entertext: string = Options.entertext
   @Output() onPress = new EventEmitter<number | string>()
 
@@ -42,7 +39,6 @@ export class NumericKeyboard extends Parent implements OnInit, OnDestroy {
   ngOnInit() {
     Mixins.init.call(this, {
       layout: this.layout,
-      theme: this.theme,
       entertext: this.entertext
     })
   }

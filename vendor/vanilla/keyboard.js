@@ -2,8 +2,6 @@ import { createdom, capitalize } from './util'
 import { Options as OPTIONS, Mixins } from 'lib/keyboard'
 import 'lib/style/keyboard.styl'
 
-const rcapital = /[A-Z]/g
-
 export default function Keyboard(el, options) {
   if (typeof el === 'string') {
     el = document.querySelector(el)
@@ -14,42 +12,32 @@ export default function Keyboard(el, options) {
   this.init(options)
 
   let element = createdom({
-    tag: 'div',
+    tag: 'table',
     attrs: {
       'class': 'numeric-keyboard'
     },
-    children: [
-      {
-        tag: 'table',
-        children: this.ks.layout.map(r => {
+    children: this.ks.layout.map(r => {
+      return {
+        tag: 'tr',
+        children: r.map(c => {
+          const k = this.ks.keys[c.key]
           return {
-            tag: 'tr',
-            children: r.map(c => {
-              const k = this.ks.keys[c.key]
-              let csstext = ''
-              for (let name in k.style) {
-                csstext += `${name.replace(rcapital, s => '-' + s.toLowerCase())}:${k.style[name]};`
-              }
-              return {
-                tag: 'td',
-                attrs: {
-                  rowspan: c.rowspan,
-                  colspan: c.colspan,
-                  'data-key': k.code,
-                  'data-icon': k.icon,
-                  style: csstext
-                }
-              }
-            })
+            tag: 'td',
+            attrs: {
+              rowspan: c.rowspan,
+              colspan: c.colspan,
+              'data-key': k.key,
+              'data-icon': k.icon,
+              class: 'numeric-keyboard-key'
+            }
           }
         })
       }
-    ]
+    })
   })
 
   el.parentNode.replaceChild(element, el)
 
-  element.addEventListener('touchstart', this.touchstart.bind(this), false)
   element.addEventListener('touchend', this.touchend.bind(this), false)
 }
 
@@ -61,13 +49,8 @@ Keyboard.prototype.dispatch = function (event, ...args) {
     callback(...args)
   } 
 }
-Keyboard.prototype.touchstart = function (e) {
-  if (e.target.tagName === 'TD') {
-    this.onTouchstart(this.ks.keys[e.target.getAttribute('data-key')], e)
-  }
-}
 Keyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
-    this.onTouchend(this.ks.keys[e.target.getAttribute('data-key')], e)
+    this.onTouchend(e.target.getAttribute('data-key'), e)
   }
 }

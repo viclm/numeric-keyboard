@@ -5,7 +5,7 @@ describe('input mixins', () => {
   const createComponent = (options) => {
     let componnet = Object.create(Mixins)
     componnet.dispatch = jasmine.createSpy()
-    componnet.init(Object.assign(Options, options))
+    componnet.init(Object.assign({}, Options, options))
     return componnet
   }
 

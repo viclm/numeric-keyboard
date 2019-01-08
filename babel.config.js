@@ -5,7 +5,8 @@ module.exports = function (api) {
     ['@babel/preset-env', {
       'targets': {
         'browsers': ['iOS >= 8', 'Android >= 4']
-      }
+      },
+      useBuiltIns: 'usage'
     }]
   ]
   const plugins = ['@babel/plugin-transform-runtime', '@babel/plugin-transform-react-jsx']

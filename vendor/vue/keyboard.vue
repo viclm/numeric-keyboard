@@ -1,19 +1,17 @@
 <template>
-  <div class="numeric-keyboard">
-    <table>
-      <tr v-for="(r, i) in ks.layout" :key="i">
-        <td v-for="c in r"
-          :key="c.key"
-          :rowspan="c.rowspan"
-          :colspan="c.colspan"
-          :data-icon="ks.keys[c.key].icon"
-          :style="ks.keys[c.key].style"
-          @touchstart="onTouchstart(ks.keys[c.key], $event)"
-          @touchend="onTouchend(ks.keys[c.key], $event)">
-        </td>
-      </tr>
-    </table>
-  </div>
+  <table class="numeric-keyboard">
+    <tr v-for="(r, i) in ks.layout" :key="i">
+      <td v-for="c in r"
+        :key="c.key"
+        :rowspan="c.rowspan"
+        :colspan="c.colspan"
+        :data-key="ks.keys[c.key].key"
+        :data-icon="ks.keys[c.key].icon"
+        class="numeric-keyboard-key"
+        @touchend="onTouchend(ks.keys[c.key].key, $event)">
+      </td>
+    </tr>
+  </table>
 </template>
 
 <script>

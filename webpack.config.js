@@ -1,9 +1,8 @@
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
-const webpack = require('webpack')
-const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  mode: 'production',
+  mode: 'none',
   entry: {
     vanilla: './vendor/vanilla/index.js',
     react: './vendor/react/index.js',
@@ -57,10 +56,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|vue|jsx)$/,
+        test: /\.js(x)?$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
         enforce: 'pre'
+      },
+      {
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        loader: 'vue-loader'
       },
       {
         test: /\.js(x)?$/,
@@ -78,11 +82,6 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'stylus-loader']
       },
       {
-        test: /\.vue$/,
-        exclude: /node_modules/,
-        loader: 'vue-loader'
-      },
-      {
         test: /\.woff$/,
         exclude: /node_modules/,
         loader: 'url-loader'
@@ -90,11 +89,7 @@ module.exports = {
     ]
   },
   devtool: false,
-  plugins: isProd
-    ? [
-        new webpack.DefinePlugin({
-          'process.env.NODE_ENV': '"production"'
-        })
-      ]
-    : []
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 }
