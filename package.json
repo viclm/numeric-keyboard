@@ -29,7 +29,7 @@
     "eslint-loader": "^1.9.0",
     "eslint-plugin-html": "^4.0.1",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^3.2.0",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -50,8 +50,9 @@
     "vue": "^2.5.8",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.5.8",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "keywords": [
     "numeric keyboard",
