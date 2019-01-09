@@ -10,6 +10,8 @@
 
 :movie_camera: [观看演示视频](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
 
+![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot.png)
+
 
 ## 目录
 
@@ -161,7 +163,7 @@ keyboard: {
 
 ## 键盘
 
-虚拟数字键盘本身是一个独立的可插拔组件，可自定义布局和样式，通常它需要和一个输入界面一起使用。
+虚拟数字键盘本身是一个独立的可插拔组件，可自定义布局，通常它需要和一个输入界面一起使用。
 
 ### 使用
 
@@ -240,11 +242,6 @@ export class AppComponent {
    type: [String, Array],
    default: 'number'
  },
- // 修改键盘主题
- theme: {
-   type: [String, Object],
-   default: 'default'
- },
  // 自定义确认按钮文本，主要用于自定义使用场景和语言
  entertext: {
    type: String,
@@ -256,10 +253,10 @@ export class AppComponent {
 有两种内置的布局： **number** 和 **tel** 对应两种标准输入类型。你可以自定义任何布局样式，数字键盘使用一个二维数组构建了一种表格布局，支持单元格合并。
 
 ##### number 布局
-![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_number.png)
+![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_number.png)
 
 ##### tel 布局
-![tel layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_tel.png)
+![tel layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_tel.png)
 
 ##### 自定义布局
 ```javascript
@@ -319,26 +316,6 @@ import { keys } from 'numeric-keyboard'
     },
   ],
 ]
-```
-
-#### `theme`
-修改键盘主题样式，可全局修改或者只针对某个按键。目前只支持文字颜色和背景颜色的修改，其他复杂的样式可直接覆盖 CSS 样式表。
-```javascript
-
-// 默认样式定义
-import { keys } from 'numeric-keyboard'
-{
-  global: {
-    color: '#000000',
-    backgroundColor: ['#ffffff', '#929ca8'], // 数组内第二个样式用于配置 active 伪类
-  },
-  key: {
-    [keys.ENTER]: {
-      color: '#ffffff',
-      backgroundColor: ['#007aff', '#0051a8'],
-    },
-  }
-}
 ```
 
 ### 回调函数/事件

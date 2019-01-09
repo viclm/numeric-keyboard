@@ -13,7 +13,7 @@ The numeric keyboard is created respectively for **Vanilla JavaScript**, **React
 
 :cn: [中文说明](https://github.com/viclm/numeric-keyboard/blob/master/docs/README.cn.md) :cn: :cn: :cn: :cn:
 
-![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot.png)
+![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot.png)
 
 ## Table of contents
 
@@ -166,7 +166,7 @@ The `input` event is emitted when the value of input changes. The first argument
 
 ## Keyboard
 
-The keyboard is a pluggable component which supports custom layout and theme. In order to be able to work properly in a real scene, it usually needs to match an output interface.
+The keyboard is a pluggable component which supports custom layout. In order to be able to work properly in a real scene, it usually needs to match an output interface.
 
 ### Usage
 
@@ -245,11 +245,6 @@ export class AppComponent {
    type: [String, Array],
    default: 'number'
  },
- // change the style of keyboard
- theme: {
-   type: [String, Object],
-   default: 'default'
- },
  // change the label of submit button, this is used for specific context and language
  entertext: {
    type: String,
@@ -261,10 +256,10 @@ export class AppComponent {
 There are two built-in layouts called **number** and **tel** which can be used as a replacement of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is a two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
 
 ##### number layout
-![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_number.png)
+![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_number.png)
 
 ##### tel layout
-![tel layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/demo/snapshot_tel.png)
+![tel layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_tel.png)
 
 ##### custom layout
 ```javascript
@@ -324,25 +319,6 @@ import { keys } from 'numeric-keyboard'
     },
   ],
 ]
-```
-
-#### `theme`
-The style of the keyboard can be modified global or per key, currently, it only supports several limit style like font color and background color, however, you can override CSS directly for the complicated style.
-```javascript
-// the default style declaration
-import { keys } from 'numeric-keyboard'
-{
-  global: {
-    color: '#000000',
-    backgroundColor: ['#ffffff', '#929ca8'], // specify a pair of colors for active pseudo class
-  },
-  key: {
-    [keys.ENTER]: {
-      color: '#ffffff',
-      backgroundColor: ['#007aff', '#0051a8'],
-    },
-  }
-}
 ```
 
 ### Callbacks/Events
