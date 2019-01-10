@@ -10,27 +10,29 @@
     opacity 0.5
     pointer-events none
 
-  div
+  & > div
     position relative
+    overflow hidden
     height 100%
-
-  span
-    float left
-    height 100%
-    display table-cell
-    vertical-align middle
-
-  i
-    pointer-events none
-    position absolute
-    left 0
-    top 0
-    bottom 0
-    width 1px
-    animation numeric-input-cursor 1s infinite
 
 .numeric-input-placeholder
   color #757575
+
+.numeric-input-text
+  width 10000%
+
+  // span
+  //   display table-cell
+  //   vertical-align middle
+
+.numeric-input-cursor
+  pointer-events none
+  position absolute
+  left 0
+  top 0
+  width 1px
+  height 100%
+  animation numeric-input-cursor 1s infinite
 
 @keyframes numeric-input-cursor {
   from {

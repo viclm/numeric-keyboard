@@ -2366,7 +2366,7 @@ var KeyboardCenter = function () {
         return;
       }
 
-      if (e && activeInput.ks.keyboardElement.contains(e.target)) {
+      if (e && (activeInput.ks.inputElement.contains(e.target) || activeInput.ks.keyboardElement.contains(e.target))) {
         return;
       }
 
@@ -2429,14 +2429,24 @@ var Mixins = {
     this.set('cursorPos', this.ks.rawValue.length);
   },
   moveCursor: function moveCursor() {
-    var cursor = this.ks.inputElement.querySelector('i');
-
-    if (this.ks.cursorPos) {
-      var charactor = this.ks.inputElement.querySelector("span:nth-of-type(".concat(this.ks.cursorPos, ")"));
-      cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
-    } else {
-      cursor.style.left = 0;
+    if (!this.ks.cursorTimer) {
+      return;
     }
+
+    var input = this.ks.inputElement;
+    var cursor = input.querySelector('.numeric-input-cursor');
+
+    if (this.ks.cursorPos === 0) {
+      cursor.style.transform = 'translateX(0)';
+      return;
+    }
+
+    var text = input.querySelector('.numeric-input-text');
+    var charactor = text.querySelector("span:nth-child(".concat(this.ks.cursorPos, ")"));
+    var cursorOffset = charactor.offsetLeft + charactor.offsetWidth;
+    var maxVisibleWidth = text.parentNode.offsetWidth;
+    cursor.style.transform = "translateX(".concat(Math.min(maxVisibleWidth - 1, cursorOffset), "px)");
+    text.style.transform = "translateX(".concat(Math.min(0, maxVisibleWidth - cursorOffset), "px)");
   },
   openKeyboard: function openKeyboard() {
     var _this = this;
@@ -2575,7 +2585,8 @@ var Mixins = {
   onFocus: function onFocus(e) {
     e.stopPropagation();
     this.openKeyboard();
-    this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
+    var cursorPos = +e.target.dataset.index;
+    this.set('cursorPos', isNaN(cursorPos) ? this.ks.rawValue.length : cursorPos);
   },
   dispatch: function dispatch()
   /* event, ...args */
@@ -3646,25 +3657,29 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.ks
-        ? _c(
-            "div",
-            [
-              _vm.ks.rawValue.length === 0
-                ? _c("span", { staticClass: "numeric-input-placeholder" }, [
-                    _vm._v(_vm._s(_vm.placeholder))
-                  ])
-                : _vm._e(),
-              _vm._l(_vm.ks.rawValue, function(c, i) {
-                return _c("span", { key: i, attrs: { "data-index": i + 1 } }, [
-                  _vm._v(_vm._s(c))
+        ? _c("div", [
+            _vm.ks.rawValue.length === 0
+              ? _c("div", { staticClass: "numeric-input-placeholder" }, [
+                  _vm._v(_vm._s(_vm.placeholder))
                 ])
-              }),
-              _vm.ks.cursorTimer
-                ? _c("i", { style: { backgroundColor: _vm.ks.cursorColor } })
-                : _vm._e()
-            ],
-            2
-          )
+              : _c(
+                  "div",
+                  { staticClass: "numeric-input-text" },
+                  _vm._l(_vm.ks.rawValue, function(c, i) {
+                    return _c("span", { key: i, attrs: { "data-index": i } }, [
+                      _vm._v(_vm._s(c))
+                    ])
+                  }),
+                  0
+                ),
+            _vm._v(" "),
+            _vm.ks.cursorTimer
+              ? _c("div", {
+                  staticClass: "numeric-input-cursor",
+                  style: { background: _vm.ks.cursorColor }
+                })
+              : _vm._e()
+          ])
         : _vm._e()
     ]
   )
@@ -3693,6 +3708,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _keyboard_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(116);
 /* harmony import */ var lib_input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(78);
+//
+//
 //
 //
 //
@@ -3838,7 +3855,7 @@ if(false) {}
 
 exports = module.exports = __webpack_require__(70)(false);
 // Module
-exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n  animation: numeric-input-cursor 1s infinite;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n@-moz-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-webkit-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-o-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n", ""]);
+exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input > div {\n  position: relative;\n  overflow: hidden;\n  height: 100%;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n.numeric-input-text {\n  width: 10000%;\n}\n.numeric-input-cursor {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 1px;\n  height: 100%;\n  animation: numeric-input-cursor 1s infinite;\n}\n@-moz-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-webkit-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@-o-keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n@keyframes numeric-input-cursor {\nfrom {\n    opacity: 1;\n}\nto {\n    opacity: 0;\n}\n}\n", ""]);
 
 
 

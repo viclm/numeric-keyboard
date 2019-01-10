@@ -51,6 +51,7 @@ Keyboard.prototype.dispatch = function (event, ...args) {
 }
 Keyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
-    this.onTouchend(e.target.getAttribute('data-key'), e)
+    const key = e.target.getAttribute('data-key')
+    this.onTouchend(isNaN(+key) ? key : +key, e)
   }
 }

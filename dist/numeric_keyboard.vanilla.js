@@ -189,7 +189,8 @@ Keyboard.prototype.dispatch = function (event) {
 
 Keyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
-    this.onTouchend(e.target.getAttribute('data-key'), e);
+    var key = e.target.getAttribute('data-key');
+    this.onTouchend(isNaN(+key) ? key : +key, e);
   }
 };
 
@@ -2565,15 +2566,19 @@ Input.prototype.renderInput = function () {
   var html = '';
 
   if (this.ks.rawValue.length === 0) {
-    html += "<span class=\"numeric-input-placeholder\">".concat(this.kp.placeholder, "</span>");
+    html += "<div class=\"numeric-input-placeholder\">".concat(this.kp.placeholder, "</div>");
   } else {
+    html += '<div class="numeric-input-text">';
+
     for (var i = 0; i < this.ks.rawValue.length; i++) {
-      html += "<span data-index=\"".concat(i + 1, "\">").concat(this.ks.rawValue[i], "</span>");
+      html += "<span data-index=\"".concat(i, "\">").concat(this.ks.rawValue[i], "</span>");
     }
+
+    html += '</div>';
   }
 
   if (this.ks.cursorTimer) {
-    html += "<i style=\"background-color: ".concat(this.ks.cursorColor, "\"></i>");
+    html += "<div class=\"numeric-input-cursor\" style=\"background: ".concat(this.ks.cursorColor, "\"></div>");
   }
 
   this.$fakeinput.innerHTML = html;
@@ -2688,7 +2693,7 @@ var KeyboardCenter = function () {
         return;
       }
 
-      if (e && activeInput.ks.keyboardElement.contains(e.target)) {
+      if (e && (activeInput.ks.inputElement.contains(e.target) || activeInput.ks.keyboardElement.contains(e.target))) {
         return;
       }
 
@@ -2751,14 +2756,24 @@ var Mixins = {
     this.set('cursorPos', this.ks.rawValue.length);
   },
   moveCursor: function moveCursor() {
-    var cursor = this.ks.inputElement.querySelector('i');
-
-    if (this.ks.cursorPos) {
-      var charactor = this.ks.inputElement.querySelector("span:nth-of-type(".concat(this.ks.cursorPos, ")"));
-      cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
-    } else {
-      cursor.style.left = 0;
+    if (!this.ks.cursorTimer) {
+      return;
     }
+
+    var input = this.ks.inputElement;
+    var cursor = input.querySelector('.numeric-input-cursor');
+
+    if (this.ks.cursorPos === 0) {
+      cursor.style.transform = 'translateX(0)';
+      return;
+    }
+
+    var text = input.querySelector('.numeric-input-text');
+    var charactor = text.querySelector("span:nth-child(".concat(this.ks.cursorPos, ")"));
+    var cursorOffset = charactor.offsetLeft + charactor.offsetWidth;
+    var maxVisibleWidth = text.parentNode.offsetWidth;
+    cursor.style.transform = "translateX(".concat(Math.min(maxVisibleWidth - 1, cursorOffset), "px)");
+    text.style.transform = "translateX(".concat(Math.min(0, maxVisibleWidth - cursorOffset), "px)");
   },
   openKeyboard: function openKeyboard() {
     var _this = this;
@@ -2897,7 +2912,8 @@ var Mixins = {
   onFocus: function onFocus(e) {
     e.stopPropagation();
     this.openKeyboard();
-    this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
+    var cursorPos = +e.target.dataset.index;
+    this.set('cursorPos', isNaN(cursorPos) ? this.ks.rawValue.length : cursorPos);
   },
   dispatch: function dispatch()
   /* event, ...args */
@@ -3572,7 +3588,7 @@ if(false) {}
 
 exports = module.exports = __webpack_require__(70)(false);
 // Module
-exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n  animation: numeric-input-cursor 1s infinite;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n@-moz-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-o-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n", ""]);
+exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input > div {\n  position: relative;\n  overflow: hidden;\n  height: 100%;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n.numeric-input-text {\n  width: 10000%;\n}\n.numeric-input-cursor {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 1px;\n  height: 100%;\n  animation: numeric-input-cursor 1s infinite;\n}\n@-moz-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-o-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n", ""]);
 
 
 

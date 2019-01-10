@@ -83,15 +83,17 @@ Input.prototype.destroyKeyboard = function (keyboard) {
 Input.prototype.renderInput = function () {
   let html = ''
   if (this.ks.rawValue.length === 0) {
-    html += `<span class="numeric-input-placeholder">${this.kp.placeholder}</span>`
+    html += `<div class="numeric-input-placeholder">${this.kp.placeholder}</div>`
   }
   else {
+    html += '<div class="numeric-input-text">'
     for (let i = 0; i < this.ks.rawValue.length ; i++) {
-      html += `<span data-index="${i+1}">${this.ks.rawValue[i]}</span>`
+      html += `<span data-index="${i}">${this.ks.rawValue[i]}</span>`
     }
+    html += '</div>'
   }
   if (this.ks.cursorTimer) {
-    html += `<i style="background-color: ${this.ks.cursorColor}"></i>`
+    html += `<div class="numeric-input-cursor" style="background: ${this.ks.cursorColor}"></div>`
   }
   this.$fakeinput.innerHTML = html
 }

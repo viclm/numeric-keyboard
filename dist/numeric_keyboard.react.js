@@ -2423,7 +2423,7 @@ var KeyboardCenter = function () {
         return;
       }
 
-      if (e && activeInput.ks.keyboardElement.contains(e.target)) {
+      if (e && (activeInput.ks.inputElement.contains(e.target) || activeInput.ks.keyboardElement.contains(e.target))) {
         return;
       }
 
@@ -2486,14 +2486,24 @@ var Mixins = {
     this.set('cursorPos', this.ks.rawValue.length);
   },
   moveCursor: function moveCursor() {
-    var cursor = this.ks.inputElement.querySelector('i');
-
-    if (this.ks.cursorPos) {
-      var charactor = this.ks.inputElement.querySelector("span:nth-of-type(".concat(this.ks.cursorPos, ")"));
-      cursor.style.left = charactor.offsetLeft + charactor.offsetWidth + 'px';
-    } else {
-      cursor.style.left = 0;
+    if (!this.ks.cursorTimer) {
+      return;
     }
+
+    var input = this.ks.inputElement;
+    var cursor = input.querySelector('.numeric-input-cursor');
+
+    if (this.ks.cursorPos === 0) {
+      cursor.style.transform = 'translateX(0)';
+      return;
+    }
+
+    var text = input.querySelector('.numeric-input-text');
+    var charactor = text.querySelector("span:nth-child(".concat(this.ks.cursorPos, ")"));
+    var cursorOffset = charactor.offsetLeft + charactor.offsetWidth;
+    var maxVisibleWidth = text.parentNode.offsetWidth;
+    cursor.style.transform = "translateX(".concat(Math.min(maxVisibleWidth - 1, cursorOffset), "px)");
+    text.style.transform = "translateX(".concat(Math.min(0, maxVisibleWidth - cursorOffset), "px)");
   },
   openKeyboard: function openKeyboard() {
     var _this = this;
@@ -2632,7 +2642,8 @@ var Mixins = {
   onFocus: function onFocus(e) {
     e.stopPropagation();
     this.openKeyboard();
-    this.set('cursorPos', +e.target.dataset.index || this.ks.rawValue.length);
+    var cursorPos = +e.target.dataset.index;
+    this.set('cursorPos', isNaN(cursorPos) ? this.ks.rawValue.length : cursorPos);
   },
   dispatch: function dispatch()
   /* event, ...args */
@@ -3307,7 +3318,7 @@ if(false) {}
 
 exports = module.exports = __webpack_require__(70)(false);
 // Module
-exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input div {\n  position: relative;\n  height: 100%;\n}\n.numeric-input span {\n  float: left;\n  height: 100%;\n  display: table-cell;\n  vertical-align: middle;\n}\n.numeric-input i {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 1px;\n  animation: numeric-input-cursor 1s infinite;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n@-moz-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-o-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n", ""]);
+exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  background: #fff;\n  width: 12em;\n  height: 1.2em;\n  padding: 2px;\n  text-align: left;\n}\n.numeric-input.readonly,\n.numeric-input.disabled {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.numeric-input > div {\n  position: relative;\n  overflow: hidden;\n  height: 100%;\n}\n.numeric-input-placeholder {\n  color: #757575;\n}\n.numeric-input-text {\n  width: 10000%;\n}\n.numeric-input-cursor {\n  pointer-events: none;\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 1px;\n  height: 100%;\n  animation: numeric-input-cursor 1s infinite;\n}\n@-moz-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@-o-keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@keyframes numeric-input-cursor {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n", ""]);
 
 
 
@@ -3889,16 +3900,19 @@ function (_Parent) {
         type: "hidden",
         name: this.props.name,
         value: this.props.value
-      }), this.ks && react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", null, this.ks.rawValue.length === 0 && react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("span", {
+      }), this.ks && react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", null, this.ks.rawValue.length === 0 ? react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
         className: "numeric-input-placeholder"
-      }, this.props.placeholder), this.ks.rawValue.map(function (c, i) {
+      }, this.props.placeholder) : react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
+        className: "numeric-input-text"
+      }, this.ks.rawValue.map(function (c, i) {
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("span", {
           key: i,
-          "data-index": i + 1
+          "data-index": i
         }, c);
-      }), this.ks.cursorTimer && react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("i", {
+      })), this.ks.cursorTimer && react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
+        className: "numeric-input-cursor",
         style: {
-          backgroundColor: this.ks.cursorColor
+          background: this.ks.cursorColor
         }
       })));
     }

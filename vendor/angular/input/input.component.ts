@@ -13,9 +13,9 @@ const template = `
 <div class="numeric-input" [class.readonly]="kp.readonly" [class.disabled]="kp.disabled" (touchend)="handleFocus($event)">
   <input type="hidden" [attr.name]="kp.name" [value]="kp.ngModel" />
   <div *ngIf="ks">
-    <span class="numeric-input-placeholder" *ngIf="ks.rawValue.length === 0">{{kp.placeholder}}</span>
-    <span *ngFor="let c of ks.rawValue; let i = index; trackBy: trackByIndex" [attr.data-index]="i + 1">{{c}}</span>
-    <i *ngIf="ks.cursorTimer" [style.backgroundColor]="ks.cursorColor"></i>
+    <div *ngIf="ks.rawValue.length === 0" class="numeric-input-placeholder">{{kp.placeholder}}</div>
+    <div *ngIf="ks.rawValue.length > 0" class="numeric-input-text"><span *ngFor="let c of ks.rawValue; let i = index; trackBy: trackByIndex" [attr.data-index]="i">{{c}}</span></div>
+    <div *ngIf="ks.cursorTimer" class="numeric-input-cursor" [style.background]="ks.cursorColor"></div>
   </div>
 </div>
 `

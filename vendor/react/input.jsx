@@ -28,9 +28,12 @@ export default class Input extends Parent {
       <input type="hidden" name={this.props.name} value={this.props.value} />
       {this.ks &&
         <div>
-          {this.ks.rawValue.length === 0 && <span className="numeric-input-placeholder">{this.props.placeholder}</span>}
-          {this.ks.rawValue.map((c, i) => <span key={i} data-index={i + 1}>{c}</span>)}
-          {this.ks.cursorTimer && <i style={{backgroundColor: this.ks.cursorColor}}></i>}
+          {
+            this.ks.rawValue.length === 0
+            ? <div className="numeric-input-placeholder">{this.props.placeholder}</div>
+            : <div className="numeric-input-text">{this.ks.rawValue.map((c, i) => <span key={i} data-index={i}>{c}</span>)}</div>
+          }
+          {this.ks.cursorTimer && <div className="numeric-input-cursor" style={{background: this.ks.cursorColor}}></div>}
         </div>
       }
     </div>
