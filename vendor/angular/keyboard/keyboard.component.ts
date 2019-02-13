@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core'
 import { Options, Mixins } from 'lib/keyboard'
 
-enum Event {
-  Press = 'press'
-}
-
 const template = `
 <table class="numeric-keyboard">
   <tr *ngFor="let r of ks.layout">
@@ -31,7 +27,9 @@ Parent.prototype = Mixins
 export class NumericKeyboard extends Parent implements OnInit, OnDestroy {
   @Input() layout: string | { key: number | string }[][] = Options.layout
   @Input() entertext: string = Options.entertext
+
   @Output() onPress = new EventEmitter<number | string>()
+  @Output() onEnterpress = new EventEmitter()
 
   public kp: any
   public ks: any
@@ -47,10 +45,13 @@ export class NumericKeyboard extends Parent implements OnInit, OnDestroy {
     Mixins.destroy.call(this)
   }
 
-  dispatch(event: Event, argument?: number | string) {
+  dispatch(event: string, argument?: number | string) {
     switch (event) {
-      case Event.Press:
+      case 'press':
         this.onPress.emit(argument)
+        break
+      case 'enterpress':
+        this.onEnterpress.emit(argument)
         break
     }
   }

@@ -3,12 +3,6 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy,
 import { Options, Mixins } from 'lib/input'
 import { NumericKeyboard } from '../keyboard/keyboard.component'
 
-enum Event {
-  Focus = 'focus',
-  Blur  = 'blur',
-  Input = 'input'
-}
-
 const template = `
 <div class="numeric-input" [class.readonly]="kp.readonly" [class.disabled]="kp.disabled" (touchend)="handleFocus($event)">
   <input type="hidden" [attr.name]="kp.name" [value]="kp.ngModel" />
@@ -38,12 +32,14 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
   @Input() name: string = Options.name
   @Input() placeholder: string = Options.placeholder
   @Input() format: string | { (val: string): boolean } = Options.format
-  @Input() keyboard: any = Options.keyboard
+  @Input() layout: string | { key: number | string }[][] = Options.layout
+  @Input() entertext: string = Options.entertext
 
   @Input() ngModel: number | string = Options.value
 
   @Output() onFocus = new EventEmitter()
   @Output() onBlur = new EventEmitter()
+  @Output() onEnterpress = new EventEmitter()
   @Output() ngModelChange = new EventEmitter<number | string>()
 
   public kp
@@ -83,21 +79,24 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
     Mixins.moveCursor.call(this)
   }
 
-  dispatch(event: Event, argument?: number | string) {
+  dispatch(event: string, argument?: number | string) {
     switch (event) {
-      case Event.Focus:
-        this.onFocus.emit()
+      case 'focus':
+        this.onFocus.emit(argument)
         break
-      case Event.Blur:
-        this.onFocus.emit()
+      case 'blur':
+        this.onBlur.emit(argument)
         break
-      case Event.Focus:
+      case 'enterpress':
+        this.onEnterpress.emit(argument)
+        break
+      case 'input':
         this.ngModelChange.emit(argument)
         break
     }
   }
 
-  createKeyboard(el, options, callback) {
+  createKeyboard(el, options, events, callback) {
     const componentRef = this.componentFactoryResolver
       .resolveComponentFactory(NumericKeyboard)
       .create(this.injector)

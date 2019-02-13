@@ -152,9 +152,15 @@ value: {
 format: {
   type: [String, Function]
 },
-// Config the numeric keyboard which will be called when focus. The config detail is described below.
-keyboard: {
-  type: Object
+// change the layout of keyboard
+layout: {
+ type: [String, Array],
+ default: 'number'
+},
+// change the label of keyboard enter key, this is used for specific context and language
+entertext: {
+ type: String,
+ default: 'enter'
 }
 ```
 
@@ -162,6 +168,9 @@ keyboard: {
 
 #### `input`
 The `input` event is emitted when the value of input changes. The first argument for the callback is the value of the input box rather than an event object from a native input element. A `onInput()` callback is used in vanilla javascript version.
+
+#### `enterpress`
+The `enterpress` event is emitted when the enter key of keyboard is pressed.
 
 
 ## Keyboard
@@ -245,7 +254,7 @@ export class AppComponent {
    type: [String, Array],
    default: 'number'
  },
- // change the label of submit button, this is used for specific context and language
+ // change the label of keyboard enter key, this is used for specific context and language
  entertext: {
    type: String,
    default: 'enter'
@@ -325,6 +334,9 @@ import { keys } from 'numeric-keyboard'
 
 #### `press`
 the `press` event is emitted with a key code when the key is pressed. The argument for the callback is the key just pressed. A `onPress()` callback is used in vanilla javascript version.
+
+#### `enterpress`
+The `enterpress` event is emitted when the enter key of keyboard is pressed.
 
 
 ## Contributing
