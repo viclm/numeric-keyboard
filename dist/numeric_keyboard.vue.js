@@ -7,7 +7,7 @@
 		exports["NumericKeyboard"] = factory(require("vue"));
 	else
 		root["NumericKeyboard"] = factory(root["Vue"]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE__130__) {
+})(window, function(__WEBPACK_EXTERNAL_MODULE__129__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 114);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1042,7 +1042,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Options = {
   layout: 'number',
-  entertext: 'enter'
+  entertext: '1enter'
 };
 var Mixins = {
   init: function init(options) {
@@ -1130,6 +1130,10 @@ var Mixins = {
   },
   onTouchend: function onTouchend(key) {
     this.dispatch('press', key);
+
+    if (key === _constants_keys__WEBPACK_IMPORTED_MODULE_5__["ENTER"]) {
+      this.dispatch('enterpress');
+    }
   }
 };
 
@@ -1629,6 +1633,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEL", function() { return DEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ENTER", function() { return ENTER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ESC", function() { return ESC; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BLANK", function() { return BLANK; });
 var ZERO = 0;
 var ONE = 1;
 var TWO = 2;
@@ -1643,6 +1648,7 @@ var DOT = '.';
 var DEL = 'del';
 var ENTER = 'enter';
 var ESC = 'esc';
+var BLANK = '';
 
 /***/ }),
 /* 67 */
@@ -2304,23 +2310,23 @@ module.exports = function (css) {
 
 /***/ }),
 /* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Options", function() { return Options; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Mixins", function() { return Mixins; });
-/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(79);
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(77);
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(82);
+/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(80);
 /* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
 /* harmony import */ var core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(92);
+/* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(90);
 /* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _constants_keys__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(66);
+
 
 
 
@@ -2384,10 +2390,11 @@ var Options = {
   disabled: false,
   readonly: false,
   maxlength: null,
-  name: null,
-  placeholder: null,
+  name: '',
+  placeholder: '',
   format: '^',
-  keyboard: null
+  layout: 'number',
+  entertext: 'enter'
 };
 var Mixins = {
   init: function init(options) {
@@ -2455,28 +2462,37 @@ var Mixins = {
       return;
     }
 
-    var container = document.createElement('div');
-    var shadow = document.createElement('div');
-    var keyboard = document.createElement('div');
-    container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
-    shadow.style.cssText = 'height:100%;';
-    keyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
-    container.appendChild(shadow);
-    container.appendChild(keyboard);
-    document.body.appendChild(container);
-    this.set('keyboardElement', keyboard);
-    this.set('keyboard', this.createKeyboard(keyboard, Object.assign({
-      layout: this.kp.type
-    }, this.kp.keyboard), function (key) {
-      _this.input(key);
-    }));
+    var elContainer = document.createElement('div');
+    var elShadow = document.createElement('div');
+    var elKeyboard = document.createElement('div');
+    elContainer.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
+    elShadow.style.cssText = 'height:100%;';
+    elKeyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
+    elContainer.appendChild(elShadow);
+    elContainer.appendChild(elKeyboard);
+    document.body.appendChild(elContainer);
+    this.createKeyboard(elKeyboard, {
+      layout: this.kp.layout || this.kp.type,
+      entertext: this.kp.entertext
+    }, {
+      press: function press(key) {
+        _this.input(key);
+
+        if (key === _constants_keys__WEBPACK_IMPORTED_MODULE_4__["ENTER"]) {
+          _this.dispatch('enterpress');
+        }
+      }
+    }, function (keyboard) {
+      return _this.set('keyboard', keyboard);
+    });
     animation(function (timestamp, frame, frames) {
-      keyboard.style.transform = "translateY(".concat((frames - frame) / frames * 100, "%)");
+      elKeyboard.style.transform = "translateY(".concat((frames - frame) / frames * 100, "%)");
     }, function () {}, 10);
+    this.set('keyboardElement', elKeyboard);
     this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
-    KeyboardCenter.register(this);
     this.dispatch('focus');
+    KeyboardCenter.register(this);
   },
   closeKeyboard: function closeKeyboard() {
     var _this2 = this;
@@ -2486,22 +2502,22 @@ var Mixins = {
     }
 
     var keyboard = this.ks.keyboard;
-    var keyboardElement = this.ks.keyboardElement;
+    var elKeyboard = this.ks.keyboardElement;
     animation(function (timestamp, frame, frames) {
-      keyboardElement.style.transform = "translateY(".concat(frame / frames * 100, "%)");
+      elKeyboard.style.transform = "translateY(".concat(frame / frames * 100, "%)");
     }, function () {
       setTimeout(function () {
-        _this2.destroyKeyboard(keyboard, keyboardElement);
+        _this2.destroyKeyboard(elKeyboard, keyboard);
 
-        document.body.removeChild(keyboardElement.parentNode);
+        document.body.removeChild(elKeyboard.parentNode);
       }, 300);
     }, 10);
     this.set('keyboard', null);
     this.set('keyboardElement', null);
     this.set('cursorTimer', null);
     this.set('cursorPos', 0);
-    KeyboardCenter.unregister();
     this.dispatch('blur');
+    KeyboardCenter.unregister();
   },
   input: function input(key) {
     var _this3 = this;
@@ -2594,26 +2610,26 @@ var Mixins = {
     throw new Error('dispatch method must be overrided!');
   },
   createKeyboard: function createKeyboard()
-  /* el, options, callback */
+  /* el, options, events, callback */
   {
     throw new Error('createKeyboard method must be overrided!');
   },
   destroyKeyboard: function destroyKeyboard()
-  /* keyboardClass */
+  /* el, keyboard */
   {
     throw new Error('destroyKeyboard method must be overrided!');
   }
 };
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(80);
+__webpack_require__(78);
 var anObject = __webpack_require__(13);
-var $flags = __webpack_require__(81);
+var $flags = __webpack_require__(79);
 var DESCRIPTORS = __webpack_require__(16);
 var TO_STRING = 'toString';
 var $toString = /./[TO_STRING];
@@ -2638,18 +2654,18 @@ if (__webpack_require__(17)(function () { return $toString.call({ source: 'a', f
 
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 21.2.5.3 get RegExp.prototype.flags()
 if (__webpack_require__(16) && /./g.flags != 'g') __webpack_require__(12).f(RegExp.prototype, 'flags', {
   configurable: true,
-  get: __webpack_require__(81)
+  get: __webpack_require__(79)
 });
 
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2669,19 +2685,19 @@ module.exports = function () {
 
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isRegExp = __webpack_require__(83);
+var isRegExp = __webpack_require__(81);
 var anObject = __webpack_require__(13);
-var speciesConstructor = __webpack_require__(84);
-var advanceStringIndex = __webpack_require__(85);
+var speciesConstructor = __webpack_require__(82);
+var advanceStringIndex = __webpack_require__(83);
 var toLength = __webpack_require__(39);
-var callRegExpExec = __webpack_require__(87);
-var regexpExec = __webpack_require__(89);
+var callRegExpExec = __webpack_require__(85);
+var regexpExec = __webpack_require__(87);
 var $min = Math.min;
 var $push = [].push;
 var $SPLIT = 'split';
@@ -2692,7 +2708,7 @@ var LAST_INDEX = 'lastIndex';
 var SUPPORTS_Y = !!(function () { try { return new RegExp('x', 'y'); } catch (e) {} })();
 
 // @@split logic
-__webpack_require__(90)('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
+__webpack_require__(88)('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
   var internalSplit;
   if (
     'abbc'[$SPLIT](/(b)*/)[1] == 'c' ||
@@ -2808,7 +2824,7 @@ __webpack_require__(90)('split', 2, function (defined, SPLIT, $split, maybeCallN
 
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.8 IsRegExp(argument)
@@ -2822,7 +2838,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -2837,12 +2853,12 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var at = __webpack_require__(86)(true);
+var at = __webpack_require__(84)(true);
 
  // `AdvanceStringIndex` abstract operation
 // https://tc39.github.io/ecma262/#sec-advancestringindex
@@ -2852,7 +2868,7 @@ module.exports = function (S, index, unicode) {
 
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(40);
@@ -2875,13 +2891,13 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 87 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var classof = __webpack_require__(88);
+var classof = __webpack_require__(86);
 var builtinExec = RegExp.prototype.exec;
 
  // `RegExpExec` abstract operation
@@ -2903,7 +2919,7 @@ module.exports = function (R, S) {
 
 
 /***/ }),
-/* 88 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -2932,13 +2948,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 89 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var regexpFlags = __webpack_require__(81);
+var regexpFlags = __webpack_require__(79);
 
 var nativeExec = RegExp.prototype.exec;
 // This always refers to the native implementation, because the
@@ -2997,18 +3013,18 @@ module.exports = patchedExec;
 
 
 /***/ }),
-/* 90 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(91);
+__webpack_require__(89);
 var redefine = __webpack_require__(29);
 var hide = __webpack_require__(11);
 var fails = __webpack_require__(17);
 var defined = __webpack_require__(26);
 var wks = __webpack_require__(5);
-var regexpExec = __webpack_require__(89);
+var regexpExec = __webpack_require__(87);
 
 var SPECIES = wks('species');
 
@@ -3100,12 +3116,12 @@ module.exports = function (KEY, length, exec) {
 
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var regexpExec = __webpack_require__(89);
+var regexpExec = __webpack_require__(87);
 __webpack_require__(28)({
   target: 'RegExp',
   proto: true,
@@ -3116,15 +3132,15 @@ __webpack_require__(28)({
 
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(8);
-var inheritIfRequired = __webpack_require__(93);
+var inheritIfRequired = __webpack_require__(91);
 var dP = __webpack_require__(12).f;
 var gOPN = __webpack_require__(62).f;
-var isRegExp = __webpack_require__(83);
-var $flags = __webpack_require__(81);
+var isRegExp = __webpack_require__(81);
+var $flags = __webpack_require__(79);
 var $RegExp = global.RegExp;
 var Base = $RegExp;
 var proto = $RegExp.prototype;
@@ -3161,15 +3177,15 @@ if (__webpack_require__(16) && (!CORRECT_NEW || __webpack_require__(17)(function
   __webpack_require__(29)(global, 'RegExp', $RegExp);
 }
 
-__webpack_require__(95)('RegExp');
+__webpack_require__(93)('RegExp');
 
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14);
-var setPrototypeOf = __webpack_require__(94).set;
+var setPrototypeOf = __webpack_require__(92).set;
 module.exports = function (that, target, C) {
   var S = target.constructor;
   var P;
@@ -3180,7 +3196,7 @@ module.exports = function (that, target, C) {
 
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -3211,7 +3227,7 @@ module.exports = {
 
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3231,6 +3247,8 @@ module.exports = function (KEY) {
 
 
 /***/ }),
+/* 94 */,
+/* 95 */,
 /* 96 */,
 /* 97 */,
 /* 98 */,
@@ -3249,16 +3267,15 @@ module.exports = function (KEY) {
 /* 111 */,
 /* 112 */,
 /* 113 */,
-/* 114 */,
-/* 115 */
+/* 114 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _keyboard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(116);
+/* harmony import */ var _keyboard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(115);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NumericKeyboard", function() { return _keyboard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _input_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(125);
+/* harmony import */ var _input_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(124);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NumericInput", function() { return _input_vue__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
 /* harmony import */ var lib_constants_keys__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
@@ -3269,15 +3286,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(117);
-/* harmony import */ var _keyboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(119);
-/* empty/unused harmony star reexport *//* harmony import */ var lib_style_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(121);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(124);
+/* harmony import */ var _keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(116);
+/* harmony import */ var _keyboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
+/* empty/unused harmony star reexport *//* harmony import */ var lib_style_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(120);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(123);
 
 
 
@@ -3303,12 +3320,12 @@ component.options.__file = "vendor/vue/keyboard.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(118);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(117);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_template_id_38b92219___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -3316,7 +3333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3363,16 +3380,16 @@ render._withStripped = true
 
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(120);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(119);
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_keyboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3433,22 +3450,22 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(121);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_keyboard_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 122 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(123);
+var content = __webpack_require__(122);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3469,7 +3486,7 @@ if(content.locals) module.exports = content.locals;
 if(false) {}
 
 /***/ }),
-/* 123 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(70)(false);
@@ -3478,12 +3495,12 @@ var urlEscape = __webpack_require__(71);
 var ___CSS_LOADER_URL___0___ = urlEscape(__webpack_require__(72));
 
 // Module
-exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + ___CSS_LOADER_URL___0___ + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard-key {\n  touch-action: manipulation;\n  transition: background 0.5s;\n  color: #000;\n  background: #fff;\n}\n.numeric-keyboard-key:active {\n  background: #929ca8;\n}\n.numeric-keyboard-key[data-key=enter] {\n  color: #fff;\n  background: #007aff;\n}\n.numeric-keyboard-key[data-key=enter]:active {\n  background: #0051a8;\n}\n.numeric-keyboard-key[data-icon]::before {\n  content: attr(data-icon);\n}\n.numeric-keyboard-key[data-icon=del]::before,\n.numeric-keyboard-key[data-icon=esc]::before {\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + ___CSS_LOADER_URL___0___ + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard-key {\n  touch-action: manipulation;\n  transition: background 0.5s;\n  color: #000;\n  background: #fff;\n}\n.numeric-keyboard-key:active {\n  background: #929ca8;\n}\n.numeric-keyboard-key[data-key=\"\"] {\n  pointer-events: none;\n}\n.numeric-keyboard-key[data-key=enter] {\n  color: #fff;\n  background: #007aff;\n}\n.numeric-keyboard-key[data-key=enter]:active {\n  background: #0051a8;\n}\n.numeric-keyboard-key[data-icon]::before {\n  content: attr(data-icon);\n}\n.numeric-keyboard-key[data-icon=del]::before,\n.numeric-keyboard-key[data-icon=esc]::before {\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
 
 
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3585,15 +3602,15 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(126);
-/* harmony import */ var _input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(128);
-/* empty/unused harmony star reexport *//* harmony import */ var lib_style_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(131);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(124);
+/* harmony import */ var _input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(125);
+/* harmony import */ var _input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(127);
+/* empty/unused harmony star reexport *//* harmony import */ var lib_style_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(130);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(123);
 
 
 
@@ -3619,12 +3636,12 @@ component.options.__file = "vendor/vue/input.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(127);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(126);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_template_id_326fb488___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -3632,7 +3649,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3690,24 +3707,24 @@ render._withStripped = true
 
 
 /***/ }),
+/* 127 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(128);
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
 /* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(129);
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-/* 129 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(130);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(129);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _keyboard_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(116);
-/* harmony import */ var lib_input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(78);
+/* harmony import */ var _keyboard_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(115);
+/* harmony import */ var lib_input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76);
 //
 //
 //
@@ -3786,50 +3803,48 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$emit.apply(this, [event].concat(args));
     },
-    createKeyboard: function createKeyboard(el, options, callback) {
+    createKeyboard: function createKeyboard(el, options, events, callback) {
       var keyboard = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         render: function render(h) {
           return h(_keyboard_vue__WEBPACK_IMPORTED_MODULE_1__["default"], {
             props: options,
-            on: {
-              press: callback
-            }
+            on: events
           });
         }
       });
       keyboard.$mount();
       el.appendChild(keyboard.$el);
-      return keyboard;
+      callback(keyboard);
     },
-    destroyKeyboard: function destroyKeyboard(keyboard) {
+    destroyKeyboard: function destroyKeyboard(el, keyboard) {
       keyboard.$destroy();
     }
   }
 });
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__130__;
+module.exports = __WEBPACK_EXTERNAL_MODULE__129__;
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(132);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(131);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_stylus_loader_index_js_input_styl_vue_type_style_index_0_lang_stylus___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(133);
+var content = __webpack_require__(132);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3850,7 +3865,7 @@ if(content.locals) module.exports = content.locals;
 if(false) {}
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(70)(false);

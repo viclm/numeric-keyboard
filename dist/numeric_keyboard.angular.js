@@ -7,7 +7,7 @@
 		exports["NumericKeyboard"] = factory(require("@angular/core"), require("@angular/common"));
 	else
 		root["NumericKeyboard"] = factory(root["ng"], root["ng"]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE__136__, __WEBPACK_EXTERNAL_MODULE__137__) {
+})(window, function(__WEBPACK_EXTERNAL_MODULE__135__, __WEBPACK_EXTERNAL_MODULE__136__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 134);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1042,7 +1042,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Options = {
   layout: 'number',
-  entertext: 'enter'
+  entertext: '1enter'
 };
 var Mixins = {
   init: function init(options) {
@@ -1130,6 +1130,10 @@ var Mixins = {
   },
   onTouchend: function onTouchend(key) {
     this.dispatch('press', key);
+
+    if (key === _constants_keys__WEBPACK_IMPORTED_MODULE_5__["ENTER"]) {
+      this.dispatch('enterpress');
+    }
   }
 };
 
@@ -1629,6 +1633,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEL", function() { return DEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ENTER", function() { return ENTER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ESC", function() { return ESC; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BLANK", function() { return BLANK; });
 var ZERO = 0;
 var ONE = 1;
 var TWO = 2;
@@ -1643,6 +1648,7 @@ var DOT = '.';
 var DEL = 'del';
 var ENTER = 'enter';
 var ESC = 'esc';
+var BLANK = '';
 
 /***/ }),
 /* 67 */
@@ -1713,7 +1719,7 @@ var urlEscape = __webpack_require__(71);
 var ___CSS_LOADER_URL___0___ = urlEscape(__webpack_require__(72));
 
 // Module
-exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + ___CSS_LOADER_URL___0___ + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard-key {\n  touch-action: manipulation;\n  transition: background 0.5s;\n  color: #000;\n  background: #fff;\n}\n.numeric-keyboard-key:active {\n  background: #929ca8;\n}\n.numeric-keyboard-key[data-key=enter] {\n  color: #fff;\n  background: #007aff;\n}\n.numeric-keyboard-key[data-key=enter]:active {\n  background: #0051a8;\n}\n.numeric-keyboard-key[data-icon]::before {\n  content: attr(data-icon);\n}\n.numeric-keyboard-key[data-icon=del]::before,\n.numeric-keyboard-key[data-icon=esc]::before {\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: numeric-keyboard;\n  src: url(" + ___CSS_LOADER_URL___0___ + ") format('woff');\n  font-weight: normal;\n  font-style: normal;\n}\n.numeric-keyboard {\n  width: 100%;\n  height: 100%;\n  background: #cfd4da;\n  table-layout: fixed;\n  border-collapse: separate;\n  border-spacing: 1px;\n  font-size: 2em;\n  text-align: center;\n}\n.numeric-keyboard-key {\n  touch-action: manipulation;\n  transition: background 0.5s;\n  color: #000;\n  background: #fff;\n}\n.numeric-keyboard-key:active {\n  background: #929ca8;\n}\n.numeric-keyboard-key[data-key=\"\"] {\n  pointer-events: none;\n}\n.numeric-keyboard-key[data-key=enter] {\n  color: #fff;\n  background: #007aff;\n}\n.numeric-keyboard-key[data-key=enter]:active {\n  background: #0051a8;\n}\n.numeric-keyboard-key[data-icon]::before {\n  content: attr(data-icon);\n}\n.numeric-keyboard-key[data-icon=del]::before,\n.numeric-keyboard-key[data-icon=esc]::before {\n  font-family: numeric-keyboard !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  letter-spacing: 0;\n  -webkit-font-feature-settings: \"liga\";\n  font-feature-settings: \"liga\";\n  -webkit-font-variant-ligatures: discretionary-ligatures;\n  font-variant-ligatures: discretionary-ligatures;\n  -webkit-font-smoothing: antialiased;\n}\n", ""]);
 
 
 
@@ -2341,23 +2347,23 @@ module.exports = function (css) {
 
 /***/ }),
 /* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Options", function() { return Options; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Mixins", function() { return Mixins; });
-/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(79);
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(77);
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(82);
+/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(80);
 /* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(48);
 /* harmony import */ var core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_assign__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(92);
+/* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(90);
 /* harmony import */ var core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _constants_keys__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(66);
+
 
 
 
@@ -2421,10 +2427,11 @@ var Options = {
   disabled: false,
   readonly: false,
   maxlength: null,
-  name: null,
-  placeholder: null,
+  name: '',
+  placeholder: '',
   format: '^',
-  keyboard: null
+  layout: 'number',
+  entertext: 'enter'
 };
 var Mixins = {
   init: function init(options) {
@@ -2492,28 +2499,37 @@ var Mixins = {
       return;
     }
 
-    var container = document.createElement('div');
-    var shadow = document.createElement('div');
-    var keyboard = document.createElement('div');
-    container.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
-    shadow.style.cssText = 'height:100%;';
-    keyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
-    container.appendChild(shadow);
-    container.appendChild(keyboard);
-    document.body.appendChild(container);
-    this.set('keyboardElement', keyboard);
-    this.set('keyboard', this.createKeyboard(keyboard, Object.assign({
-      layout: this.kp.type
-    }, this.kp.keyboard), function (key) {
-      _this.input(key);
-    }));
+    var elContainer = document.createElement('div');
+    var elShadow = document.createElement('div');
+    var elKeyboard = document.createElement('div');
+    elContainer.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:36%;';
+    elShadow.style.cssText = 'height:100%;';
+    elKeyboard.style.cssText = 'position:absolute; top:0; right: 0; bottom: 0; left:0; transform: translateY(100%); box-shadow: 0 -2px 4px 0 #cfd4da';
+    elContainer.appendChild(elShadow);
+    elContainer.appendChild(elKeyboard);
+    document.body.appendChild(elContainer);
+    this.createKeyboard(elKeyboard, {
+      layout: this.kp.layout || this.kp.type,
+      entertext: this.kp.entertext
+    }, {
+      press: function press(key) {
+        _this.input(key);
+
+        if (key === _constants_keys__WEBPACK_IMPORTED_MODULE_4__["ENTER"]) {
+          _this.dispatch('enterpress');
+        }
+      }
+    }, function (keyboard) {
+      return _this.set('keyboard', keyboard);
+    });
     animation(function (timestamp, frame, frames) {
-      keyboard.style.transform = "translateY(".concat((frames - frame) / frames * 100, "%)");
+      elKeyboard.style.transform = "translateY(".concat((frames - frame) / frames * 100, "%)");
     }, function () {}, 10);
+    this.set('keyboardElement', elKeyboard);
     this.set('cursorTimer', 1);
     this.set('cursorPos', this.ks.rawValue.length);
-    KeyboardCenter.register(this);
     this.dispatch('focus');
+    KeyboardCenter.register(this);
   },
   closeKeyboard: function closeKeyboard() {
     var _this2 = this;
@@ -2523,22 +2539,22 @@ var Mixins = {
     }
 
     var keyboard = this.ks.keyboard;
-    var keyboardElement = this.ks.keyboardElement;
+    var elKeyboard = this.ks.keyboardElement;
     animation(function (timestamp, frame, frames) {
-      keyboardElement.style.transform = "translateY(".concat(frame / frames * 100, "%)");
+      elKeyboard.style.transform = "translateY(".concat(frame / frames * 100, "%)");
     }, function () {
       setTimeout(function () {
-        _this2.destroyKeyboard(keyboard, keyboardElement);
+        _this2.destroyKeyboard(elKeyboard, keyboard);
 
-        document.body.removeChild(keyboardElement.parentNode);
+        document.body.removeChild(elKeyboard.parentNode);
       }, 300);
     }, 10);
     this.set('keyboard', null);
     this.set('keyboardElement', null);
     this.set('cursorTimer', null);
     this.set('cursorPos', 0);
-    KeyboardCenter.unregister();
     this.dispatch('blur');
+    KeyboardCenter.unregister();
   },
   input: function input(key) {
     var _this3 = this;
@@ -2631,26 +2647,26 @@ var Mixins = {
     throw new Error('dispatch method must be overrided!');
   },
   createKeyboard: function createKeyboard()
-  /* el, options, callback */
+  /* el, options, events, callback */
   {
     throw new Error('createKeyboard method must be overrided!');
   },
   destroyKeyboard: function destroyKeyboard()
-  /* keyboardClass */
+  /* el, keyboard */
   {
     throw new Error('destroyKeyboard method must be overrided!');
   }
 };
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(80);
+__webpack_require__(78);
 var anObject = __webpack_require__(13);
-var $flags = __webpack_require__(81);
+var $flags = __webpack_require__(79);
 var DESCRIPTORS = __webpack_require__(16);
 var TO_STRING = 'toString';
 var $toString = /./[TO_STRING];
@@ -2675,18 +2691,18 @@ if (__webpack_require__(17)(function () { return $toString.call({ source: 'a', f
 
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 21.2.5.3 get RegExp.prototype.flags()
 if (__webpack_require__(16) && /./g.flags != 'g') __webpack_require__(12).f(RegExp.prototype, 'flags', {
   configurable: true,
-  get: __webpack_require__(81)
+  get: __webpack_require__(79)
 });
 
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2706,19 +2722,19 @@ module.exports = function () {
 
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isRegExp = __webpack_require__(83);
+var isRegExp = __webpack_require__(81);
 var anObject = __webpack_require__(13);
-var speciesConstructor = __webpack_require__(84);
-var advanceStringIndex = __webpack_require__(85);
+var speciesConstructor = __webpack_require__(82);
+var advanceStringIndex = __webpack_require__(83);
 var toLength = __webpack_require__(39);
-var callRegExpExec = __webpack_require__(87);
-var regexpExec = __webpack_require__(89);
+var callRegExpExec = __webpack_require__(85);
+var regexpExec = __webpack_require__(87);
 var $min = Math.min;
 var $push = [].push;
 var $SPLIT = 'split';
@@ -2729,7 +2745,7 @@ var LAST_INDEX = 'lastIndex';
 var SUPPORTS_Y = !!(function () { try { return new RegExp('x', 'y'); } catch (e) {} })();
 
 // @@split logic
-__webpack_require__(90)('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
+__webpack_require__(88)('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
   var internalSplit;
   if (
     'abbc'[$SPLIT](/(b)*/)[1] == 'c' ||
@@ -2845,7 +2861,7 @@ __webpack_require__(90)('split', 2, function (defined, SPLIT, $split, maybeCallN
 
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.8 IsRegExp(argument)
@@ -2859,7 +2875,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -2874,12 +2890,12 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var at = __webpack_require__(86)(true);
+var at = __webpack_require__(84)(true);
 
  // `AdvanceStringIndex` abstract operation
 // https://tc39.github.io/ecma262/#sec-advancestringindex
@@ -2889,7 +2905,7 @@ module.exports = function (S, index, unicode) {
 
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(40);
@@ -2912,13 +2928,13 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 87 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var classof = __webpack_require__(88);
+var classof = __webpack_require__(86);
 var builtinExec = RegExp.prototype.exec;
 
  // `RegExpExec` abstract operation
@@ -2940,7 +2956,7 @@ module.exports = function (R, S) {
 
 
 /***/ }),
-/* 88 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -2969,13 +2985,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 89 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var regexpFlags = __webpack_require__(81);
+var regexpFlags = __webpack_require__(79);
 
 var nativeExec = RegExp.prototype.exec;
 // This always refers to the native implementation, because the
@@ -3034,18 +3050,18 @@ module.exports = patchedExec;
 
 
 /***/ }),
-/* 90 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(91);
+__webpack_require__(89);
 var redefine = __webpack_require__(29);
 var hide = __webpack_require__(11);
 var fails = __webpack_require__(17);
 var defined = __webpack_require__(26);
 var wks = __webpack_require__(5);
-var regexpExec = __webpack_require__(89);
+var regexpExec = __webpack_require__(87);
 
 var SPECIES = wks('species');
 
@@ -3137,12 +3153,12 @@ module.exports = function (KEY, length, exec) {
 
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var regexpExec = __webpack_require__(89);
+var regexpExec = __webpack_require__(87);
 __webpack_require__(28)({
   target: 'RegExp',
   proto: true,
@@ -3153,15 +3169,15 @@ __webpack_require__(28)({
 
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(8);
-var inheritIfRequired = __webpack_require__(93);
+var inheritIfRequired = __webpack_require__(91);
 var dP = __webpack_require__(12).f;
 var gOPN = __webpack_require__(62).f;
-var isRegExp = __webpack_require__(83);
-var $flags = __webpack_require__(81);
+var isRegExp = __webpack_require__(81);
+var $flags = __webpack_require__(79);
 var $RegExp = global.RegExp;
 var Base = $RegExp;
 var proto = $RegExp.prototype;
@@ -3198,15 +3214,15 @@ if (__webpack_require__(16) && (!CORRECT_NEW || __webpack_require__(17)(function
   __webpack_require__(29)(global, 'RegExp', $RegExp);
 }
 
-__webpack_require__(95)('RegExp');
+__webpack_require__(93)('RegExp');
 
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14);
-var setPrototypeOf = __webpack_require__(94).set;
+var setPrototypeOf = __webpack_require__(92).set;
 module.exports = function (that, target, C) {
   var S = target.constructor;
   var P;
@@ -3217,7 +3233,7 @@ module.exports = function (that, target, C) {
 
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -3248,7 +3264,7 @@ module.exports = {
 
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3268,11 +3284,11 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(97);
+var content = __webpack_require__(95);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3293,7 +3309,7 @@ if(content.locals) module.exports = content.locals;
 if(false) {}
 
 /***/ }),
-/* 97 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(70)(false);
@@ -3303,6 +3319,8 @@ exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  backgroun
 
 
 /***/ }),
+/* 96 */,
+/* 97 */,
 /* 98 */,
 /* 99 */,
 /* 100 */,
@@ -3338,21 +3356,20 @@ exports.push([module.i, ".numeric-input {\n  display: inline-block;\n  backgroun
 /* 130 */,
 /* 131 */,
 /* 132 */,
-/* 133 */,
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var module_1 = __webpack_require__(135);
+var module_1 = __webpack_require__(134);
 exports.NumericKeyboardModule = module_1.NumericKeyboardModule;
 var keys = __webpack_require__(66);
 exports.keys = keys;
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3364,10 +3381,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(136);
-var common_1 = __webpack_require__(137);
-var keyboard_component_1 = __webpack_require__(138);
-var input_component_1 = __webpack_require__(141);
+var core_1 = __webpack_require__(135);
+var common_1 = __webpack_require__(136);
+var keyboard_component_1 = __webpack_require__(137);
+var input_component_1 = __webpack_require__(140);
 var NumericKeyboardModule = /** @class */ (function () {
     function NumericKeyboardModule() {
     }
@@ -3385,6 +3402,12 @@ exports.NumericKeyboardModule = NumericKeyboardModule;
 
 
 /***/ }),
+/* 135 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__135__;
+
+/***/ }),
 /* 136 */
 /***/ (function(module, exports) {
 
@@ -3392,12 +3415,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__136__;
 
 /***/ }),
 /* 137 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__137__;
-
-/***/ }),
-/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3425,12 +3442,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(136);
+var core_1 = __webpack_require__(135);
 var keyboard_1 = __webpack_require__(53);
-var Event;
-(function (Event) {
-    Event["Press"] = "press";
-})(Event || (Event = {}));
 var template = "\n<table class=\"numeric-keyboard\">\n  <tr *ngFor=\"let r of ks.layout\">\n    <td *ngFor=\"let c of r\"\n      [attr.rowspan]=\"c.rowspan\"\n      [attr.colspan]=\"c.colspan\"\n      [attr.data-key]=\"ks.keys[c.key].key\"\n      [attr.data-icon]=\"ks.keys[c.key].icon\"\n      class=\"numeric-keyboard-key\"\n      (touchend)=\"onTouchend(ks.keys[c.key].key, $event)\">\n    </td>\n  </tr>\n</table>\n";
 var Parent = /** @class */ (function () {
     function Parent() {
@@ -3445,6 +3458,7 @@ var NumericKeyboard = /** @class */ (function (_super) {
         _this.layout = keyboard_1.Options.layout;
         _this.entertext = keyboard_1.Options.entertext;
         _this.onPress = new core_1.EventEmitter();
+        _this.onEnterpress = new core_1.EventEmitter();
         return _this;
     }
     NumericKeyboard.prototype.ngOnInit = function () {
@@ -3458,8 +3472,11 @@ var NumericKeyboard = /** @class */ (function (_super) {
     };
     NumericKeyboard.prototype.dispatch = function (event, argument) {
         switch (event) {
-            case Event.Press:
+            case 'press':
                 this.onPress.emit(argument);
+                break;
+            case 'enterpress':
+                this.onEnterpress.emit(argument);
                 break;
         }
     };
@@ -3475,11 +3492,15 @@ var NumericKeyboard = /** @class */ (function (_super) {
         core_1.Output(),
         __metadata("design:type", Object)
     ], NumericKeyboard.prototype, "onPress", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NumericKeyboard.prototype, "onEnterpress", void 0);
     NumericKeyboard = __decorate([
         core_1.Component({
             selector: 'numeric-keyboard',
             template: template,
-            styles: [__webpack_require__(68), __webpack_require__(139)]
+            styles: [__webpack_require__(68), __webpack_require__(138)]
         })
     ], NumericKeyboard);
     return NumericKeyboard;
@@ -3488,11 +3509,11 @@ exports.NumericKeyboard = NumericKeyboard;
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(140);
+var content = __webpack_require__(139);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3513,7 +3534,7 @@ if(content.locals) module.exports = content.locals;
 if(false) {}
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(70)(false);
@@ -3523,7 +3544,7 @@ exports.push([module.i, ":host {\n  width: 100%;\n  height: 100%;\n}\n:host .num
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3551,16 +3572,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(136);
-var input_1 = __webpack_require__(78);
-var keyboard_component_1 = __webpack_require__(138);
-var Event;
-(function (Event) {
-    Event["Focus"] = "focus";
-    Event["Blur"] = "blur";
-    Event["Input"] = "input";
-})(Event || (Event = {}));
+var core_1 = __webpack_require__(135);
+var input_1 = __webpack_require__(76);
+var keyboard_component_1 = __webpack_require__(137);
 var template = "\n<div class=\"numeric-input\" [class.readonly]=\"kp.readonly\" [class.disabled]=\"kp.disabled\" (touchend)=\"handleFocus($event)\">\n  <input type=\"hidden\" [attr.name]=\"kp.name\" [value]=\"kp.ngModel\" />\n  <div *ngIf=\"ks\">\n    <div *ngIf=\"ks.rawValue.length === 0\" class=\"numeric-input-placeholder\">{{kp.placeholder}}</div>\n    <div *ngIf=\"ks.rawValue.length > 0\" class=\"numeric-input-text\"><span *ngFor=\"let c of ks.rawValue; let i = index; trackBy: trackByIndex\" [attr.data-index]=\"i\">{{c}}</span></div>\n    <div *ngIf=\"ks.cursorTimer\" class=\"numeric-input-cursor\" [style.background]=\"ks.cursorColor\"></div>\n  </div>\n</div>\n";
+var capitalize = function (str) {
+    return str.charAt(0).toUpperCase() + str.substring(1);
+};
 var Parent = /** @class */ (function () {
     function Parent() {
     }
@@ -3584,10 +3602,12 @@ var NumericInput = /** @class */ (function (_super) {
         _this.name = input_1.Options.name;
         _this.placeholder = input_1.Options.placeholder;
         _this.format = input_1.Options.format;
-        _this.keyboard = input_1.Options.keyboard;
+        _this.layout = input_1.Options.layout;
+        _this.entertext = input_1.Options.entertext;
         _this.ngModel = input_1.Options.value;
         _this.onFocus = new core_1.EventEmitter();
         _this.onBlur = new core_1.EventEmitter();
+        _this.onEnterpress = new core_1.EventEmitter();
         _this.ngModelChange = new core_1.EventEmitter();
         return _this;
     }
@@ -3614,31 +3634,36 @@ var NumericInput = /** @class */ (function (_super) {
     };
     NumericInput.prototype.dispatch = function (event, argument) {
         switch (event) {
-            case Event.Focus:
-                this.onFocus.emit();
+            case 'focus':
+                this.onFocus.emit(argument);
                 break;
-            case Event.Blur:
-                this.onFocus.emit();
+            case 'blur':
+                this.onBlur.emit(argument);
                 break;
-            case Event.Focus:
+            case 'enterpress':
+                this.onEnterpress.emit(argument);
+                break;
+            case 'input':
                 this.ngModelChange.emit(argument);
                 break;
         }
     };
-    NumericInput.prototype.createKeyboard = function (el, options, callback) {
+    NumericInput.prototype.createKeyboard = function (el, options, events, callback) {
         var componentRef = this.componentFactoryResolver
             .resolveComponentFactory(keyboard_component_1.NumericKeyboard)
             .create(this.injector);
         Object.assign(componentRef.instance, options);
         componentRef.instance.ngOnInit();
-        componentRef.instance.onPress.subscribe(callback);
+        for (var event_1 in events) {
+            componentRef.instance["on" + capitalize(event_1)].subscribe(events[event_1]);
+        }
         this.appRef.attachView(componentRef.hostView);
         el.appendChild(componentRef.hostView.rootNodes[0]);
-        return componentRef;
+        callback(componentRef);
     };
-    NumericInput.prototype.destroyKeyboard = function (keyboardClass) {
-        keyboardClass.destroy();
-        this.appRef.detachView(keyboardClass.hostView);
+    NumericInput.prototype.destroyKeyboard = function (el, keyboard) {
+        keyboard.destroy();
+        this.appRef.detachView(keyboard.hostView);
     };
     __decorate([
         core_1.Input(),
@@ -3679,7 +3704,11 @@ var NumericInput = /** @class */ (function (_super) {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
-    ], NumericInput.prototype, "keyboard", void 0);
+    ], NumericInput.prototype, "layout", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], NumericInput.prototype, "entertext", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
@@ -3695,12 +3724,16 @@ var NumericInput = /** @class */ (function (_super) {
     __decorate([
         core_1.Output(),
         __metadata("design:type", Object)
+    ], NumericInput.prototype, "onEnterpress", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
     ], NumericInput.prototype, "ngModelChange", void 0);
     NumericInput = __decorate([
         core_1.Component({
             selector: 'numeric-input',
             template: template,
-            styles: [__webpack_require__(96), __webpack_require__(142)]
+            styles: [__webpack_require__(94), __webpack_require__(141)]
         }),
         __metadata("design:paramtypes", [core_1.ElementRef,
             core_1.ApplicationRef,
@@ -3713,11 +3746,11 @@ exports.NumericInput = NumericInput;
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(143);
+var content = __webpack_require__(142);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3738,7 +3771,7 @@ if(content.locals) module.exports = content.locals;
 if(false) {}
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(70)(false);
