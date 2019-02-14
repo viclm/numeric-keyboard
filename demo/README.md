@@ -1,24 +1,15 @@
-# Numeric Keyboard Demo
+# Transfer Application
 
-## Run vanilla demo
+A transfer application for demonstrating the usage of numeric keyboard.
+All you need to do is fill in the amount and confirm your password.
 
-```shell
-yarn start --vendor vanilla
-```
-
-## Run react demo
+## Run vanilla/react/vue version
 
 ```shell
-yarn start --vendor react
+yarn start --vendor <vanilla|react|vue>
 ```
 
-## Run vue demo
-
-```shell
-yarn start --vendor vue
-```
-
-## Run angular demo
+## Run angular version
 
 ```shell
 cd angular
