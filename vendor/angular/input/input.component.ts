@@ -14,6 +14,10 @@ const template = `
 </div>
 `
 
+const capitalize = function (str) {
+  return str.charAt(0).toUpperCase() + str.substring(1)
+}
+
 class Parent {}
 Parent.prototype = Mixins
 
@@ -105,17 +109,19 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
 
     componentRef.instance.ngOnInit()
 
-    componentRef.instance.onPress.subscribe(callback)
+    for (let event in events) {
+      componentRef.instance[`on${capitalize(event)}`].subscribe(events[event])
+    }
 
     this.appRef.attachView(componentRef.hostView)
 
     el.appendChild((componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement)
 
-    return componentRef
+    callback(componentRef)
   }
 
-  destroyKeyboard(keyboardClass) {
-    keyboardClass.destroy()
-    this.appRef.detachView(keyboardClass.hostView)
+  destroyKeyboard(el, keyboard) {
+    keyboard.destroy()
+    this.appRef.detachView(keyboard.hostView)
   }
 }

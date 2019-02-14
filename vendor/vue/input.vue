@@ -69,20 +69,18 @@ export default {
     dispatch(event, ...args) {
       this.$emit(event, ...args)
     },
-    createKeyboard(el, options, callback) {
-      let keyboard = new Vue({
+    createKeyboard(el, options, events, callback) {
+      const keyboard = new Vue({
         render: h => h(Keyboard, {
           props: options,
-          on: {
-            press: callback
-          }
+          on: events
         })
       })
       keyboard.$mount()
       el.appendChild(keyboard.$el)
-      return keyboard
+      callback(keyboard)
     },
-    destroyKeyboard(keyboard) {
+    destroyKeyboard(el, keyboard) {
       keyboard.$destroy()
     }
   }

@@ -67,12 +67,15 @@ export default class Input extends Parent {
     }
   }
 
-  createKeyboard(el, options, callback) {
-    return ReactDOM.render(<Keyboard {...options} onPress={callback} />, el)
+  createKeyboard(el, options, events, callback) {
+    for (let event in events) {
+      options[`on${event.replace(rfirst, s => s.toUpperCase())}`] = events[event]
+    }
+    ReactDOM.render(<Keyboard ref={instance => instance && callback(instance)} {...options} />, el)
   }
 
-  destroyKeyboard(keyboard, keyboardElement) {
-    ReactDOM.unmountComponentAtNode(keyboardElement)
+  destroyKeyboard(el) {
+    ReactDOM.unmountComponentAtNode(el)
   }
 }
 

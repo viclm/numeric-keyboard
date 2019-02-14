@@ -67,16 +67,16 @@ Input.prototype.dispatch = function (event, ...args) {
   } 
 }
 
-Input.prototype.createKeyboard = function (el, options, callback) {
-  let element = document.createElement('div')
+Input.prototype.createKeyboard = function (el, options, events, callback) {
+  const element = document.createElement('div')
   el.appendChild(element)
-  return new Keyboard(element, {
-    ...options,
-    onPress: callback
-  })
+  for (let event in events) {
+    options[`on${capitalize(event)}`] = events[event]
+  }
+  callback(new Keyboard(element, options))
 }
 
-Input.prototype.destroyKeyboard = function (keyboard) {
+Input.prototype.destroyKeyboard = function (el, keyboard) {
   keyboard.destroy()
 }
 
