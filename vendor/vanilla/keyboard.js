@@ -1,13 +1,14 @@
-import { createdom, capitalize } from './util'
-import { Options as OPTIONS, Mixins } from 'lib/keyboard'
-import 'lib/style/keyboard.styl'
+import { capitalize, createdom } from 'lib/utils/string.js'
+import { Options, Mixins } from 'lib/keyboard.js'
+import { ENTER } from 'lib/keys.js'
+import 'lib/styles/keyboard.styl'
 
-export default function Keyboard(el, options) {
+export const NumericKeyboard = function NumericKeyboard(el, options) {
   if (typeof el === 'string') {
     el = document.querySelector(el)
   }
 
-  options = Object.assign({}, OPTIONS, options)
+  options = Object.assign({}, Options, options)
 
   this.init(options)
 
@@ -16,18 +17,17 @@ export default function Keyboard(el, options) {
     attrs: {
       'class': 'numeric-keyboard'
     },
-    children: this.ks.layout.map(r => {
+    children: this.ks.resolvedLayout.map(r => {
       return {
         tag: 'tr',
         children: r.map(c => {
-          const k = this.ks.keys[c.key]
           return {
             tag: 'td',
             attrs: {
               rowspan: c.rowspan,
               colspan: c.colspan,
-              'data-key': k.key,
-              'data-icon': k.icon,
+              'data-key': c.key,
+              'data-icon': c.key === ENTER ? this.kp.entertext : c.key,
               class: 'numeric-keyboard-key'
             }
           }
@@ -41,17 +41,19 @@ export default function Keyboard(el, options) {
   element.addEventListener('touchend', this.touchend.bind(this), false)
 }
 
-Keyboard.prototype = Mixins
-Keyboard.prototype.constructor = Keyboard
-Keyboard.prototype.dispatch = function (event, ...args) {
+NumericKeyboard.prototype = Mixins
+NumericKeyboard.prototype.constructor = NumericKeyboard
+
+NumericKeyboard.prototype.dispatch = function (event, ...args) {
   const callback = this.kp[`on${capitalize(event)}`]
   if (callback) {
     callback(...args)
   } 
 }
-Keyboard.prototype.touchend = function (e) {
+
+NumericKeyboard.prototype.touchend = function (e) {
   if (e.target.tagName === 'TD') {
     const key = e.target.getAttribute('data-key')
-    this.onTouchend(isNaN(+key) ? key : +key, e)
+    this.onTouchend(key, e)
   }
 }

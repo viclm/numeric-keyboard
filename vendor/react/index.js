@@ -1,6 +1,5 @@
-import NumericKeyboard from './keyboard.jsx'
-import NumericInput from './input.jsx'
-import * as keys from 'lib/constants/keys'
+import * as Keys from 'lib/keys.js'
 
-export { NumericKeyboard, NumericInput, keys }
-
+export * from './keyboard.js'
+export * from './input.js'
+export { Keys }

@@ -1,37 +1,60 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy,
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit, AfterViewChecked,
   ElementRef, ApplicationRef, ComponentFactoryResolver, Injector, EmbeddedViewRef } from '@angular/core'
+import { coerceBooleanProperty } from 'lib/utils/attribute.js'
 import { Options, Mixins } from 'lib/input'
 import { NumericKeyboard } from '../keyboard/keyboard.component'
 
 const template = `
-<div class="numeric-input" [class.readonly]="kp.readonly" [class.disabled]="kp.disabled" (touchend)="handleFocus($event)">
-  <input type="hidden" [attr.name]="kp.name" [value]="kp.ngModel" />
-  <div *ngIf="ks">
+<div class="numeric-input" [class.readonly]="kp.readonly" [class.disabled]="kp.disabled" (touchend)="onFocus($event)">
+  <div>
+    <div class="numeric-input-text"><span *ngFor="let c of ks.rawValue; let i = index; trackBy: trackByIndex" [attr.data-index]="i">{{c}}</span></div>
     <div *ngIf="ks.rawValue.length === 0" class="numeric-input-placeholder">{{kp.placeholder}}</div>
-    <div *ngIf="ks.rawValue.length > 0" class="numeric-input-text"><span *ngFor="let c of ks.rawValue; let i = index; trackBy: trackByIndex" [attr.data-index]="i">{{c}}</span></div>
-    <div *ngIf="ks.cursorTimer" class="numeric-input-cursor" [style.background]="ks.cursorColor"></div>
+    <div *ngIf="ks.cursorActive" class="numeric-input-cursor" [style.background]="ks.cursorColor"></div>
   </div>
 </div>
 `
 
-const capitalize = function (str) {
-  return str.charAt(0).toUpperCase() + str.substring(1)
-}
-
 class Parent {}
 Parent.prototype = Mixins
+Parent.prototype.constructor = Parent
 
 @Component({
   selector: 'numeric-input',
   template: template,
-  styleUrls: [ '../../../lib/style/input.styl', './input.component.styl' ]
+  styleUrls: [ './input.component.styl' ]
 })
-export class NumericInput extends Parent implements OnInit, OnDestroy {
+export class NumericInput extends Parent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
+  private _autofocus: boolean = Options.autofocus
+  private _disabled: boolean = Options.disabled
+  private _readonly: boolean = Options.readonly
+  private _value: number | string = Options.value
+
+  @Input()
+  get autofocus() { return this._autofocus }
+  set autofocus(value: any) { this._autofocus = coerceBooleanProperty(value) }
+
+  @Input()
+  get disabled() { return this._disabled }
+  set disabled(value: any) { this._disabled = coerceBooleanProperty(value) }
+
+  @Input()
+  get readonly() { return this._readonly }
+  set readonly(value: any) { this._readonly = coerceBooleanProperty(value) }
+
+  @Input()
+  get ngModel() { return this._value }
+  set ngModel(value: any) {
+    if (this.ks) {
+      const rawValue = value.toString().split('')
+      const cursorPos = rawValue.length
+      Mixins.set.call(this, 'rawValue', rawValue)
+      Mixins.set.call(this, 'cursorPos', cursorPos)
+    }
+    this._value = value
+  }
+
   @Input() type: string = Options.type
   @Input() value: number | string = Options.value
-  @Input() autofocus: boolean = Options.autofocus
-  @Input() disabled: boolean = Options.disabled
-  @Input() readonly: boolean = Options.readonly
   @Input() maxlength: number = Options.maxlength
   @Input() name: string = Options.name
   @Input() placeholder: string = Options.placeholder
@@ -39,11 +62,9 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
   @Input() layout: string | { key: number | string }[][] = Options.layout
   @Input() entertext: string = Options.entertext
 
-  @Input() ngModel: number | string = Options.value
-
-  @Output() onFocus = new EventEmitter()
-  @Output() onBlur = new EventEmitter()
-  @Output() onEnterpress = new EventEmitter()
+  @Output() focus = new EventEmitter()
+  @Output() blur = new EventEmitter()
+  @Output() enterpress = new EventEmitter()
   @Output() ngModelChange = new EventEmitter<number | string>()
 
   public kp
@@ -63,39 +84,41 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
       resolvedOptions[key] = this[key]
     }
     Mixins.init.call(this, resolvedOptions)
-    Mixins.onMounted.call(this, this.element.nativeElement.querySelector('.numeric-input'))
   }
 
   ngOnDestroy() {
     Mixins.destroy.call(this)
   }
 
+  ngAfterViewInit() {
+    Mixins.onMounted.call(this, this.element.nativeElement.querySelector('.numeric-input'))
+  }
+
+  ngAfterViewChecked() {
+    Mixins.onUpdated.call(this)
+  }
+
   trackByIndex(index) {
     return index
   }
 
-  handleFocus(event) {
+  onFocus(event) {
     Mixins.onFocus.call(this, event)
   }
 
-  moveCursor() {
-    this.appRef.tick()
-    Mixins.moveCursor.call(this)
-  }
-
-  dispatch(event: string, argument?: number | string) {
+  dispatch(event: string, payload?: number | string) {
     switch (event) {
       case 'focus':
-        this.onFocus.emit(argument)
+        this.focus.emit()
         break
       case 'blur':
-        this.onBlur.emit(argument)
+        this.blur.emit()
         break
       case 'enterpress':
-        this.onEnterpress.emit(argument)
+        this.enterpress.emit()
         break
       case 'input':
-        this.ngModelChange.emit(argument)
+        this.ngModelChange.emit(payload)
         break
     }
   }
@@ -110,11 +133,10 @@ export class NumericInput extends Parent implements OnInit, OnDestroy {
     componentRef.instance.ngOnInit()
 
     for (let event in events) {
-      componentRef.instance[`on${capitalize(event)}`].subscribe(events[event])
+      componentRef.instance[event].subscribe(events[event])
     }
 
     this.appRef.attachView(componentRef.hostView)
-
     el.appendChild((componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement)
 
     callback(componentRef)

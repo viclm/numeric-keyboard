@@ -9,4 +9,4 @@ import { NumericInput } from './input/input.component'
   imports: [ CommonModule ],
   exports: [ NumericKeyboard, NumericInput ]
 })
-export class NumericKeyboardModule { }
+export class NumericKeyboardModule {}

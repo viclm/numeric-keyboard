@@ -1,14 +1,14 @@
-import { createdom, capitalize } from './util'
-import Keyboard from './keyboard'
-import { Options as OPTIONS, Mixins } from 'lib/input'
-import 'lib/style/input.styl'
+import { createdom, capitalize } from 'lib/utils/string.js'
+import { NumericKeyboard } from './keyboard.js'
+import { Options, Mixins } from 'lib/input.js'
+import 'lib/styles/input.styl'
 
-export default function Input(el, options) {
+export const NumericInput = function NumericInput(el, options) {
   if (typeof el === 'string') {
     el = document.querySelector(el)
   }
 
-  options = Object.assign({}, OPTIONS, options)
+  options = Object.assign({}, Options, options)
 
   this.init(options)
 
@@ -44,56 +44,55 @@ export default function Input(el, options) {
   this.$fakeinput = element.querySelector('div')
 
   el.parentNode.replaceChild(element, el)
-  this.onMounted(element)
   this.renderInput()
+  this.onMounted(element)
 
   element.addEventListener('touchend', this.onFocus.bind(this), false)
 }
 
-Input.prototype = Object.assign({}, Mixins)
-Input.prototype.constructor = Input
+NumericInput.prototype = Object.assign({}, Mixins)
+NumericInput.prototype.constructor = NumericInput
 
-Input.prototype.set = function(key, value) {
+NumericInput.prototype.set = function(key, value) {
   Mixins.set.call(this, key, value)
-  if (key === 'cursorTimer' || key === 'rawValue') {
+  if (key === 'cursorActive' || key === 'rawValue') {
     this.renderInput()
   }
 }
 
-Input.prototype.dispatch = function (event, ...args) {
+NumericInput.prototype.dispatch = function (event, ...args) {
   const callback = this.kp[`on${capitalize(event)}`]
   if (callback) {
     callback(...args)
   } 
 }
 
-Input.prototype.createKeyboard = function (el, options, events, callback) {
+NumericInput.prototype.createKeyboard = function (el, options, events, callback) {
   const element = document.createElement('div')
   el.appendChild(element)
   for (let event in events) {
     options[`on${capitalize(event)}`] = events[event]
   }
-  callback(new Keyboard(element, options))
+  callback(new NumericKeyboard(element, options))
 }
 
-Input.prototype.destroyKeyboard = function (el, keyboard) {
+NumericInput.prototype.destroyKeyboard = function (el, keyboard) {
   keyboard.destroy()
 }
 
-Input.prototype.renderInput = function () {
+NumericInput.prototype.renderInput = function () {
   let html = ''
+  html += '<div class="numeric-input-text">'
+  for (let i = 0; i < this.ks.rawValue.length ; i++) {
+    html += `<span data-index="${i}">${this.ks.rawValue[i]}</span>`
+  }
+  html += '</div>'
   if (this.ks.rawValue.length === 0) {
     html += `<div class="numeric-input-placeholder">${this.kp.placeholder}</div>`
   }
-  else {
-    html += '<div class="numeric-input-text">'
-    for (let i = 0; i < this.ks.rawValue.length ; i++) {
-      html += `<span data-index="${i}">${this.ks.rawValue[i]}</span>`
-    }
-    html += '</div>'
-  }
-  if (this.ks.cursorTimer) {
+  if (this.ks.cursorActive) {
     html += `<div class="numeric-input-cursor" style="background: ${this.ks.cursorColor}"></div>`
   }
   this.$fakeinput.innerHTML = html
+  setTimeout(() => { this.onUpdated() }, 0)
 }

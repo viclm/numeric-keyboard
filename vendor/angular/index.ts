@@ -1,4 +1,4 @@
-import { NumericKeyboardModule } from './module'
-import * as keys from 'lib/constants/keys'
+import * as Keys from 'lib/keys.js'
 
-export { NumericKeyboardModule, keys }
+export * from './module'
+export { Keys }
