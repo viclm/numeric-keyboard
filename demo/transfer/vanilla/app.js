@@ -1,70 +1,54 @@
-import './app.styl'
-import { NumericKeyboard, NumericInput, keys } from 'numeric-keyboard'
+import { NumericKeyboard, NumericInput, Keys } from 'numeric-keyboard'
+import '../styles.styl'
 
 const PasswordLayout = [
   [
     {
-      key: keys.ONE
+      key: Keys.ONE
     },
     {
-      key: keys.TWO
+      key: Keys.TWO
     },
     {
-      key: keys.THREE
-    },
-  ],
-  [
-    {
-      key: keys.FOUR
-    },
-    {
-      key: keys.FIVE
-    },
-    {
-      key: keys.SIX
+      key: Keys.THREE
     },
   ],
   [
     {
-      key: keys.SEVEN
+      key: Keys.FOUR
     },
     {
-      key: keys.EIGHT
+      key: Keys.FIVE
     },
     {
-      key: keys.NINE
+      key: Keys.SIX
     },
   ],
   [
     {
-      key: keys.BLANK
+      key: Keys.SEVEN
     },
     {
-      key: keys.ZERO
+      key: Keys.EIGHT
     },
     {
-      key: keys.DEL
+      key: Keys.NINE
+    },
+  ],
+  [
+    {
+      key: Keys.BLANK
+    },
+    {
+      key: Keys.ZERO
+    },
+    {
+      key: Keys.DEL
     },
   ],
 ]
 
-const TMPL_APP = `
-<main class="app">
-  <header>
-    <h1>Transfer to Arthur</h1>
-  </header>
-  <form>
-    <label>Amount</label>
-    <div class="input"><div></div></div>
-    <input type="submit" value="Confirm" disabled />
-  </form>
-  <footer>
-    <p>Power by Numeric Keyboard</p>
-  </footer>
-</main>
-`
-
-const TMPL_PASSWORD = `
+const PasswordTemplate = `
 <section class="password">
   <div class="dialog">
     <h2>Conform password</h2>
@@ -91,7 +75,7 @@ class Password {
   }
 
   press(key) {
-    if (key === keys.DEL) {
+    if (key === Keys.DEL) {
       this.password = this.password.slice(0, -1)
     }
     else {
@@ -113,7 +97,7 @@ class Password {
   }
 
   render() {
-    this.el.outerHTML = TMPL_PASSWORD
+    this.el.outerHTML = PasswordTemplate
     this.el = document.querySelector('.password')
 
     new NumericKeyboard('.keyboard', {
@@ -123,7 +107,23 @@ class Password {
   }
 }
 
-class App {
+const AppTemplate = `
+<main class="app">
+  <header>
+    <h1>Transfer to Arthur</h1>
+  </header>
+  <form>
+    <label>Amount</label>
+    <div class="input"><div></div></div>
+    <input type="submit" value="Confirm" disabled />
+  </form>
+  <footer>
+    <p>Power by Numeric Keyboard</p>
+  </footer>
+</main>
+`
+
+export default class App {
   constructor(el, options) {
     this.el = el
     this.options = options
@@ -154,11 +154,12 @@ class App {
   }
 
   render() {
-    this.el.outerHTML = TMPL_APP
+    this.el.outerHTML = AppTemplate
     this.el = document.querySelector('.app')
 
     new NumericInput('.input div', {
       type: 'number',
+      autofocus: true,
       entertext: 'Confirm',
       format: '^(?:\\d+(?:\\.\\d{0,2})?)?$',
       onInput: this.inputAmount.bind(this),
@@ -168,5 +169,3 @@ class App {
     this.el.querySelector('form').addEventListener('submit', this.confirmAmount.bind(this), false)
   }
 }
-
-new App(document.querySelector('#app'))

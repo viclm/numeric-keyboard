@@ -1,50 +1,50 @@
 import React from 'react'
-import { NumericKeyboard, NumericInput, keys } from 'numeric-keyboard'
-import './app.styl'
+import { NumericKeyboard, NumericInput, Keys } from 'numeric-keyboard'
+import '../styles.styl'
 
 const PasswordLayout = [
   [
     {
-      key: keys.ONE
+      key: Keys.ONE
     },
     {
-      key: keys.TWO
+      key: Keys.TWO
     },
     {
-      key: keys.THREE
-    },
-  ],
-  [
-    {
-      key: keys.FOUR
-    },
-    {
-      key: keys.FIVE
-    },
-    {
-      key: keys.SIX
+      key: Keys.THREE
     },
   ],
   [
     {
-      key: keys.SEVEN
+      key: Keys.FOUR
     },
     {
-      key: keys.EIGHT
+      key: Keys.FIVE
     },
     {
-      key: keys.NINE
+      key: Keys.SIX
     },
   ],
   [
     {
-      key: keys.BLANK
+      key: Keys.SEVEN
     },
     {
-      key: keys.ZERO
+      key: Keys.EIGHT
     },
     {
-      key: keys.DEL
+      key: Keys.NINE
+    },
+  ],
+  [
+    {
+      key: Keys.BLANK
+    },
+    {
+      key: Keys.ZERO
+    },
+    {
+      key: Keys.DEL
     },
   ],
 ]
@@ -58,7 +58,7 @@ class Password extends React.Component {
   }
 
   press(key) {
-    if (key === keys.DEL) {
+    if (key === Keys.DEL) {
       this.setState(state => ({ password: state.password.slice(0, -1) }))
     }
     else {
@@ -87,7 +87,7 @@ export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      amount: null,
+      amount: '',
       shouldOpenPassword: false
     }
   }
@@ -118,7 +118,7 @@ export default class App extends React.Component {
       <form onSubmit={this.confirmAmount.bind(this)}>
         <label>Amount</label>
         <div className="input">
-          <NumericInput type="number" autofocus entertext="Confirm" format="^(?:\d+(?:\.\d{0,2})?)?$" onInput={this.inputAmout.bind(this)} onEnterpress={this.confirmAmount.bind(this)} />
+          <NumericInput type="number" autofocus value={this.state.amount} entertext="Confirm" format="^(?:\d+(?:\.\d{0,2})?)?$" onInput={this.inputAmout.bind(this)} onEnterpress={this.confirmAmount.bind(this)} />
         </div>
         <input type="submit" value="Confirm" disabled={!this.state.amount} />
       </form>

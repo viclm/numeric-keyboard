@@ -1,6 +1,4 @@
-module.exports = function (api) {
-  api.cache(true)
-
+module.exports = function (vendor) {
   const presets = [
     ['@babel/preset-env', {
       'targets': {
@@ -9,10 +7,8 @@ module.exports = function (api) {
       useBuiltIns: 'usage'
     }]
   ]
+
   const plugins = ['@babel/plugin-transform-runtime', '@babel/plugin-transform-react-jsx']
 
-  return {
-    presets,
-    plugins
-  }
+  return { presets, plugins }
 }

@@ -4,7 +4,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["ES2015", "DOM"],
-    "target": "ES5"
+    "target": "ES5",
+    "paths": {
+      "lib/*": ["./lib/*"],
+      "numeric-keyboard": ["./vendor/angular"]
+    }
   },
   "include": ["vendor/angular/*"]
 }

@@ -2,18 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NumericKeyboardModule } from 'numeric-keyboard';
 
-import { AppComponent } from './app.component';
+import { App, Password } from './app.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    App,
+    Password
   ],
   imports: [
     BrowserModule,
     NumericKeyboardModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [App]
 })
-export class AppModule { }
+export class AppModule {}
