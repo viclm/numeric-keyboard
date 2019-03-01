@@ -1,5 +1,5 @@
 import React from 'react'
-import { NumericKeyboard, NumericInput, Keys } from 'numeric-keyboard'
+import { NumericKeyboard, NumericInput, Keys } from 'numeric-keyboard' // eslint-disable-line no-unused-vars
 import '../styles.styl'
 
 const PasswordLayout = [
@@ -49,7 +49,7 @@ const PasswordLayout = [
   ],
 ]
 
-class Password extends React.Component {
+class Password extends React.Component { // eslint-disable-line no-unused-vars
   constructor() {
     super()
     this.state = {

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { capitalize } from 'lib/utils/string.js'
 import { Options, Mixins } from 'lib/input.js'
-import { NumericKeyboard } from './keyboard.js'
+import { NumericKeyboard } from './keyboard.js' // eslint-disable-line no-unused-vars
 import 'lib/styles/input.styl'
 
 class Parent extends React.Component {}
@@ -24,7 +24,7 @@ export class NumericInput extends Parent {
     this.destroy()
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (nextProps.value !== this.props.value) {
       const rawValue = nextProps.value.toString().split('')
       const cursorPos = rawValue.length
