@@ -1,5 +1,7 @@
 const path = require('path')
-let webpackConfig = require('../webpack.config.js')
+const webpackConfigs = require('../webpack.conf.build.js')
+
+const webpackConfig = webpackConfigs[0]
 
 delete webpackConfig.entry
 delete webpackConfig.output
