@@ -8,7 +8,15 @@ module.exports = function (vendor) {
     }]
   ]
 
-  const plugins = ['@babel/plugin-transform-runtime', '@babel/plugin-transform-react-jsx']
+  if (vendor === 'vue') {
+    presets.push('@vue/babel-preset-jsx')
+  }
+
+  const plugins = ['@babel/plugin-transform-runtime']
+
+  if (vendor === 'react') {
+    plugins.push('@babel/plugin-transform-react-jsx')
+  }
 
   return { presets, plugins }
 }

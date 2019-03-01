@@ -1,4 +1,3 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const babelConfig = require('./babel.conf.js')
@@ -21,11 +20,6 @@ function factory(vendor) {
     },
     module: {
       rules: [
-        {
-          test: /\.vue$/,
-          exclude: /node_modules/,
-          loader: 'vue-loader'
-        },
         {
           test: /\.ts$/,
           exclude: /node_modules|dist/,
@@ -60,7 +54,6 @@ function factory(vendor) {
       stats: 'minimal'
     },
     plugins: [
-      new VueLoaderPlugin(),
       new HtmlWebpackPlugin({
         filename: `${vendor}.html`,
         template: 'demo/transfer/index.template.html',

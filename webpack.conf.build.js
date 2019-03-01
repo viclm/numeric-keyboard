@@ -1,4 +1,3 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
 const babelConfig = require('./babel.conf.js')
 
@@ -55,11 +54,6 @@ function factory(vendor) {
     module: {
       rules: [
         {
-          test: /\.vue$/,
-          exclude: /node_modules/,
-          loader: 'vue-loader'
-        },
-        {
           test: /\.ts$/,
           exclude: /node_modules|dist/,
           use: ['awesome-typescript-loader', 'angular2-template-loader']
@@ -86,10 +80,7 @@ function factory(vendor) {
         }
       ]
     },
-    devtool: false,
-    plugins: [
-      new VueLoaderPlugin()
-    ]
+    devtool: false
   }
 }
 
