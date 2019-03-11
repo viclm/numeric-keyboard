@@ -1,59 +1,53 @@
-import { capitalize, createdom } from 'lib/utils/string.js'
+import { Component, createElement } from 'lib/utils/vdom' // eslint-disable-line no-unused-vars
+import { capitalize } from 'lib/utils/string'
 import { Options, Mixins } from 'lib/keyboard.js'
 import { ENTER } from 'lib/keys.js'
 import 'lib/styles/keyboard.styl'
 
-export const NumericKeyboard = function NumericKeyboard(el, options) {
-  if (typeof el === 'string') {
-    el = document.querySelector(el)
+class Parent extends Component {}
+Object.assign(Parent.prototype, Mixins)
+
+export class NumericKeyboard extends Parent {
+  constructor(props) {
+    super(props)
+    this.init(this.props)
   }
 
-  options = Object.assign({}, Options, options)
+  onTouchend(key, event) {
+    super.onTouchend(key, event)
+    event.stopPropagation()
+  }
 
-  this.init(options)
+  dispatch(event, payload) {
+    const callback = this.props[`on${capitalize(event)}`]
+    if (callback) {
+      callback(payload)
+    }
+  }
 
-  let element = createdom({
-    tag: 'table',
-    attrs: {
-      'class': 'numeric-keyboard'
-    },
-    children: this.ks.resolvedLayout.map(r => {
-      return {
-        tag: 'tr',
-        children: r.map(c => {
-          return {
-            tag: 'td',
-            attrs: {
-              rowspan: c.rowspan,
-              colspan: c.colspan,
-              'data-key': c.key,
-              'data-icon': c.key === ENTER ? this.kp.entertext : c.key,
-              class: 'numeric-keyboard-key'
-            }
-          }
-        })
-      }
-    })
-  })
-
-  el.parentNode.replaceChild(element, el)
-
-  element.addEventListener('touchend', this.touchend.bind(this), false)
-}
-
-NumericKeyboard.prototype = Mixins
-NumericKeyboard.prototype.constructor = NumericKeyboard
-
-NumericKeyboard.prototype.dispatch = function (event, ...args) {
-  const callback = this.kp[`on${capitalize(event)}`]
-  if (callback) {
-    callback(...args)
-  } 
-}
-
-NumericKeyboard.prototype.touchend = function (e) {
-  if (e.target.tagName === 'TD') {
-    const key = e.target.getAttribute('data-key')
-    this.onTouchend(key, e)
+  render() {
+    return (
+      <table className="numeric-keyboard">
+        <tbody>
+          {this.ks.resolvedLayout.map((r, i) =>
+            <tr key={i}>
+              {r.map(c =>
+                <td
+                  key={c.key}
+                  rowSpan={c.rowspan}
+                  colSpan={c.colspan}
+                  data-key={c.key}
+                  data-icon={c.key === ENTER ? this.kp.entertext : c.key}
+                  className="numeric-keyboard-key"
+                  onTouchEnd={e => this.onTouchend(c.key, e)} >
+                </td>
+              )}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    )
   }
 }
+
+NumericKeyboard.defaultProps = Options

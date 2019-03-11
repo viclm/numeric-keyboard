@@ -100,10 +100,10 @@ class Password {
     this.el.outerHTML = PasswordTemplate
     this.el = document.querySelector('.password')
 
-    new NumericKeyboard('.keyboard', {
+    new NumericKeyboard({
       layout: PasswordLayout,
       onPress: this.press.bind(this)
-    })
+    }).mount('.keyboard')
   }
 }
 
@@ -127,7 +127,7 @@ export default class App {
   constructor(el, options) {
     this.el = el
     this.options = options
-    this.amount = null
+    this.amount = ''
 
     this.render()
   }
@@ -157,14 +157,14 @@ export default class App {
     this.el.outerHTML = AppTemplate
     this.el = document.querySelector('.app')
 
-    new NumericInput('.input div', {
+    new NumericInput({
       type: 'number',
       autofocus: true,
       entertext: 'Confirm',
       format: '^(?:\\d+(?:\\.\\d{0,2})?)?$',
       onInput: this.inputAmount.bind(this),
       onEnterpress: this.confirmAmount.bind(this)
-    })
+    }).mount('.input div')
 
     this.el.querySelector('form').addEventListener('submit', this.confirmAmount.bind(this), false)
   }

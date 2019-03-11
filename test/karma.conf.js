@@ -7,7 +7,7 @@ delete webpackConfig.entry
 delete webpackConfig.output
 webpackConfig.devtool = 'inline-source-map'
 
-const browsers = ['PhantomJS']
+const browsers = ['ChromeHeadless']
 if (process.env.TRAVIS) {
   if (process.env.TRAVIS_OS_NAME === 'linux') {
     browsers.push('Chrome')
@@ -33,9 +33,21 @@ module.exports = function(config) {
     webpackMiddleware: {
       stats: 'errors-only'
     },
-    autoWatch: true,
     browsers: browsers,
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--remote-debugging-port=9222',
+        ],
+      },
+    },
+    concurrency: Infinity,
+    port: 4242,
     singleRun: process.env.TRAVIS,
-    concurrency: Infinity
+    autoWatch: !process.env.TRAVIS
   })
 }

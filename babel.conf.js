@@ -17,6 +17,9 @@ module.exports = function (vendor) {
   if (vendor === 'react') {
     plugins.push('@babel/plugin-transform-react-jsx')
   }
+  else if (vendor === 'vanilla') {
+    plugins.push(['@babel/plugin-transform-react-jsx', { pragma: 'createElement' }])
+  }
 
   return { presets, plugins }
 }
