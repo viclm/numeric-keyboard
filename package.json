@@ -2,9 +2,7 @@
   "name": "numeric-keyboard",
   "version": "0.6.0",
   "description": "Numeric keyboard for mobile browsers",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:viclm/numeric-keyboard.git"
+  "repository": "viclm/numeric-keyboard"
   },
   "main": "dist/numeric_keyboard.vanilla.js",
   "scripts": {
