@@ -39,9 +39,9 @@ describe('patch', () => {
     const oldTree = new VNode('div', { onTouchstart: start, onTouchend: end })
     const element = oldTree.render()
 
-    element.dispatchEvent(new TouchEvent('touchstart'))
-    element.dispatchEvent(new TouchEvent('touchend'))
-    element.dispatchEvent(new TouchEvent('touchmove'))
+    element.dispatchEvent(new Event('touchstart'))
+    element.dispatchEvent(new Event('touchend'))
+    element.dispatchEvent(new Event('touchmove'))
 
     expect(start).toHaveBeenCalledTimes(1)
     expect(end).toHaveBeenCalledTimes(1)
@@ -51,9 +51,9 @@ describe('patch', () => {
     const diffs = new Diff(oldTree, newTree).patches
     new Patch(element, diffs)
 
-    element.dispatchEvent(new TouchEvent('touchstart'))
-    element.dispatchEvent(new TouchEvent('touchend'))
-    element.dispatchEvent(new TouchEvent('touchmove'))
+    element.dispatchEvent(new Event('touchstart'))
+    element.dispatchEvent(new Event('touchend'))
+    element.dispatchEvent(new Event('touchmove'))
 
     expect(start).toHaveBeenCalledTimes(1)
     expect(end).toHaveBeenCalledTimes(1)

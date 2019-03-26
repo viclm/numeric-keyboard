@@ -33,7 +33,7 @@ describe('vcomponet', () => {
 
     expect(touchendHandler).not.toHaveBeenCalled()
 
-    element.dispatchEvent(new TouchEvent('touchend'))
+    element.dispatchEvent(new Event('touchend'))
 
     expect(touchendHandler).toHaveBeenCalledTimes(1)
   })

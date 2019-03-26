@@ -2,8 +2,7 @@
   "name": "numeric-keyboard",
   "version": "0.6.0",
   "description": "Numeric keyboard for mobile browsers",
-  "repository": "viclm/numeric-keyboard"
-  },
+  "repository": "viclm/numeric-keyboard",
   "main": "dist/numeric_keyboard.vanilla.js",
   "scripts": {
     "test": "karma start test/karma.conf.js",

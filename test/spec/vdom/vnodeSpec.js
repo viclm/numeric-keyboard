@@ -43,9 +43,9 @@ describe('vnode', () => {
 
     expect(start).not.toHaveBeenCalled()
 
-    element.dispatchEvent(new TouchEvent('touchstart'))
+    element.dispatchEvent(new Event('touchstart'))
     // dispatch a touchend event will raise a exception as the unlegal code specified by the ontouchend property will run
-    // element.dispatchEvent(new TouchEvent('touchend'))
+    // element.dispatchEvent(new Event('touchend'))
 
     expect(start).toHaveBeenCalledTimes(1)
   })
@@ -85,8 +85,8 @@ describe('vnode', () => {
     expect(element.style.color).toBe('')
     expect(element.style.backgroundColor).toBe('black')
 
-    element.dispatchEvent(new TouchEvent('touchstart'))
-    element.dispatchEvent(new TouchEvent('touchend'))
+    element.dispatchEvent(new Event('touchstart'))
+    element.dispatchEvent(new Event('touchend'))
 
     expect(start).toHaveBeenCalledTimes(0)
     expect(end).toHaveBeenCalledTimes(1)
