@@ -44,7 +44,7 @@ export class NumericInput extends Parent implements OnInit, OnDestroy, AfterView
   @Input()
   get ngModel() { return this._value }
   set ngModel(value: any) {
-    if (this.ks) {
+    if (this.ks && this.ks.value !== value) {
       const rawValue = value.toString().split('')
       const cursorPos = rawValue.length
       Mixins.set.call(this, 'rawValue', rawValue)

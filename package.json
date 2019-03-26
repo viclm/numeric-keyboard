@@ -1,6 +1,6 @@
 {
   "name": "numeric-keyboard",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Numeric keyboard for mobile browsers",
   "repository": "viclm/numeric-keyboard",
   "main": "dist/numeric_keyboard.vanilla.js",

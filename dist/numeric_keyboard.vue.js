@@ -1026,6 +1026,8 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__47__;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "typeofConstructor", function() { return typeofConstructor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlainObject", function() { return isPlainObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmptyObject", function() { return isEmptyObject; });
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49);
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es6_regexp_match__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(52);
@@ -1035,6 +1037,21 @@ __webpack_require__.r(__webpack_exports__);
 var RType = /[a-z]+(?=])/i;
 var typeofConstructor = function typeofConstructor(data) {
   return eval(Object.prototype.toString.call(data).match(RType)[0]);
+};
+var isPlainObject = function isPlainObject(obj) {
+  if (!obj || Object.prototype.toString.call(obj) !== '[object Object]') {
+    return false;
+  }
+
+  var proto = Object.getPrototypeOf(obj);
+  return proto == null || proto.hasOwnProperty('constructor') && proto.constructor === Object.prototype.constructor;
+};
+var isEmptyObject = function isEmptyObject(obj) {
+  for (var name in obj) {
+    return false;
+  }
+
+  return true;
 };
 
 /***/ }),
@@ -2304,6 +2321,10 @@ var NumericInput = vue__WEBPACK_IMPORTED_MODULE_3___default.a.extend({
   },
   watch: {
     value: function value(newValue) {
+      if (newValue === this.ks.value) {
+        return;
+      }
+
       var rawValue = newValue.toString().split('');
       var cursorPos = rawValue.length;
       this.set('rawValue', rawValue);
@@ -2627,11 +2648,13 @@ var Mixins = {
       }(new RegExp(options.format));
     }
 
-    var rawValue = options.value.toString().split('');
+    var value = options.value;
+    var rawValue = value.toString().split('');
     var cursorPos = rawValue.length;
     this.kp = options;
     this.ks = {
       formatFn: formatFn,
+      value: value,
       rawValue: rawValue,
       cursorPos: cursorPos,
       cursorColor: null,
@@ -2705,6 +2728,8 @@ var Mixins = {
         } else if (newValue.length > maxlength || type === 'tel' && !RTel.test(newValue)) {
           return;
         }
+
+        _this2.set('value', newValue);
 
         _this2.set('rawValue', newRawValue);
 

@@ -24,11 +24,13 @@ export class NumericInput extends Parent {
   }
 
   setProps(nextProps) {
+    if (nextProps.value !== this.props.value && nextProps.value !== this.ks.value) {
+      const rawValue = nextProps.value.toString().split('')
+      const cursorPos = rawValue.length
+      this.set('rawValue', rawValue)
+      this.set('cursorPos', cursorPos)
+    }
     super.setProps(nextProps)
-    const rawValue = nextProps.value.toString().split('')
-    const cursorPos = rawValue.length
-    this.set('rawValue', rawValue)
-    this.set('cursorPos', cursorPos)
   }
 
   set(key, value) {

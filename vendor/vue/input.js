@@ -24,6 +24,7 @@ export const NumericInput = Vue.extend({
 
   watch: {
     value(newValue) {
+      if (newValue === this.ks.value) { return }
       const rawValue = newValue.toString().split('')
       const cursorPos = rawValue.length
       this.set('rawValue', rawValue)

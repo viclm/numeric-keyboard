@@ -674,7 +674,7 @@ var NumericInput = /** @class */ (function (_super) {
     Object.defineProperty(NumericInput.prototype, "ngModel", {
         get: function () { return this._value; },
         set: function (value) {
-            if (this.ks) {
+            if (this.ks && this.ks.value !== value) {
                 var rawValue = value.toString().split('');
                 var cursorPos = rawValue.length;
                 input_1.Mixins.set.call(this, 'rawValue', rawValue);
@@ -908,11 +908,13 @@ var Mixins = {
       }(new RegExp(options.format));
     }
 
-    var rawValue = options.value.toString().split('');
+    var value = options.value;
+    var rawValue = value.toString().split('');
     var cursorPos = rawValue.length;
     this.kp = options;
     this.ks = {
       formatFn: formatFn,
+      value: value,
       rawValue: rawValue,
       cursorPos: cursorPos,
       cursorColor: null,
@@ -986,6 +988,8 @@ var Mixins = {
         } else if (newValue.length > maxlength || type === 'tel' && !RTel.test(newValue)) {
           return;
         }
+
+        _this2.set('value', newValue);
 
         _this2.set('rawValue', newRawValue);
 
