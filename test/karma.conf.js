@@ -7,7 +7,7 @@ delete webpackConfig.entry
 delete webpackConfig.output
 webpackConfig.devtool = 'inline-source-map'
 
-const browsers = ['ChromeHeadless']
+const browsers = []
 if (process.env.TRAVIS) {
   if (process.env.TRAVIS_OS_NAME === 'linux') {
     browsers.push('Chrome')
@@ -15,6 +15,9 @@ if (process.env.TRAVIS) {
   else if (process.env.TRAVIS_OS_NAME === 'osx') {
     browsers.push('Safari')
   }
+}
+else {
+  browsers.push('ChromeHeadless')
 }
 
 module.exports = function(config) {
