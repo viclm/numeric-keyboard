@@ -8,9 +8,7 @@
 
 > 对于 **React**、**Angular** and **Vue**，仅支持最新版本的实现。
 
-:movie_camera: [观看演示视频](https://fast.wistia.net/embed/iframe/f40gilnlxp) :sunny:
-
-![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot.png)
+![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/demo.gif)
 
 
 ## 目录
