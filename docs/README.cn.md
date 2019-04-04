@@ -1,15 +1,16 @@
 # 数字键盘
 
 [![Build Status](https://travis-ci.org/viclm/numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/numeric-keyboard)
+[![npm package](https://img.shields.io/npm/v/numeric-keyboard.svg)](https://www.npmjs.org/package/numeric-keyboard)
 
-用于手机浏览器的虚拟的可自定义数字键盘，它包含一个可以调起虚拟自定义数字键盘的文本框，支持大部分的 HTML5 标准属性和光标操作。同时，虚拟键盘本身可以单独和其他自定义输入界面一起使用，比如互联网金融场景常见的数字验证码输入方格。
+用于手机浏览器的虚拟的可自定义数字键盘，它包含一个可以调起虚拟自定义数字键盘的文本框，支持大部分的 HTML5 标准属性和光标操作。
+同时，虚拟键盘本身可以单独和其他自定义输入界面一起使用，比如互联网金融场景常见的数字验证码输入方格。
 
 数字键盘有多个版本：**原生 JavaScript**、**React**、**Angular** 和 **Vue**。
 
 > 对于 **React**、**Angular** and **Vue**，仅支持最新版本的实现。
 
 ![snapshot](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/demo.gif)
-
 
 ## 目录
 
@@ -25,6 +26,7 @@
 ```shell
 yarn add numeric-keyboard
 ```
+
 配置 **Webpack** 使用恰当的版本
 ```javascript
 resolve: {
@@ -41,13 +43,13 @@ resolve: {
 #### Vanilla JavaScript
 ```javascript
 import { NumericInput } from 'numeric-keyboard'
-new NumericInput('.input', {
+new NumericInput({
   type: 'number',
   placeholder: 'touch to input',
   onInput(value) {
     ...
   }
-})
+}).mount('.input')
 ```
 
 #### React
@@ -79,7 +81,7 @@ import { Component } from '@angular/core';
   `,
 })
 export class AppComponent {
-  public amount: number
+  public amount: number | string = ''
 }
 ```
 
@@ -100,7 +102,7 @@ export class AppComponent {
     },
     data() {
       return {
-       amount: null
+        amount: ''
       }
     }
   }
@@ -113,10 +115,9 @@ export class AppComponent {
 虚拟文本框用以替换原生的输入框，所以它支持大部分标准属性，详情可参看 HTML 标准文档。
 
 ```javascript
-// 只支持两种输入类型：number 和 tel
-// 它调起的键盘组件的 layout 属性默认和它一致，详情可参考后面详细的键盘配置
+// 只支持两种输入类型：number 和 tel，默认唤起对应布局的键盘
 type: {
-  type:String,
+  type: String,
   default: 'number'
 },
 autofocus: {
@@ -147,9 +148,15 @@ value: {
 format: {
   type: [String, Function]
 },
-// 配置它调起的键盘组件，详细配置参考后面内容
-keyboard: {
-  type: Object
+// 自定义键盘布局
+layout: {
+  type: [String, Array],
+  default: 'number'
+},
+// 自定义键盘确认键文案，图标可使用 Iconfont
+entertext: {
+  type: String,
+  default: 'enter'
 }
 ```
 
@@ -157,6 +164,9 @@ keyboard: {
 
 #### `input`
 当输入发生改变时会触发 `input` 事件，和原生输入框元素触发的事件不同，响应函数的第一个参数并不是事件对象，而是输入框内文本的值。当使用原生 **JavaScript** 版本时，使用 `onInput()` 回调函数代替 `input` 事件。
+
+#### `enterpress`
+当按下键盘确认键时会触发 `enterpress` 事件。
 
 
 ## 键盘
@@ -236,19 +246,20 @@ export class AppComponent {
 
 ```javascript
 // 修改键盘的布局
- layout: {
-   type: [String, Array],
-   default: 'number'
- },
- // 自定义确认按钮文本，主要用于自定义使用场景和语言
- entertext: {
-   type: String,
-   default: 'enter'
- }
+layout: {
+ type: [String, Array],
+ default: 'number'
+},
+// 自定义确认键文案，图标可使用 Iconfont
+entertext: {
+ type: String,
+ default: 'enter'
+}
 ```
 
 #### `layout`
-有两种内置的布局： **number** 和 **tel** 对应两种标准输入类型。你可以自定义任何布局样式，数字键盘使用一个二维数组构建了一种表格布局，支持单元格合并。
+有两种内置的布局： **number** 和 **tel** 对应两种标准输入类型。
+你可以自定义任何布局样式，数字键盘使用一个二维数组构建了一种表格布局，支持单元格合并。
 
 ##### number 布局
 ![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_number.png)
@@ -320,6 +331,9 @@ import { keys } from 'numeric-keyboard'
 
 #### `press`
 点击键盘按键时会触发 `press` 事件，响应函数的参数是刚刚点击过的按键。当使用原生 **JavaScript** 版本时，使用 `onPress()` 回调函数代替 `press` 事件。
+
+#### `enterpress`
+当按下键盘确认键时会触发 `enterpress` 事件。
 
 
 ## 贡献

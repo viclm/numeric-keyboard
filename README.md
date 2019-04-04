@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/viclm/numeric-keyboard.svg?branch=master)](https://travis-ci.org/viclm/numeric-keyboard)
 [![npm package](https://img.shields.io/npm/v/numeric-keyboard.svg)](https://www.npmjs.org/package/numeric-keyboard)
 
-A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible. Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
+A custom virtual numeric keyboard works in mobile browsers. It contains a virtual input box which would invoke the numeric keyboard instead of system keyboard, the virtual input box supports many html5 standard properties and also has a nice cursor to make it behaves like native input element as much as possible.
+Besides, the numeric keyboard is a pluggable component can be used together with other input interfaces.
 
 The numeric keyboard is created respectively for **Vanilla JavaScript**, **React**, **Angular** and **Vue**.
 
@@ -44,13 +45,13 @@ resolve: {
 #### Vanilla JavaScript
 ```javascript
 import { NumericInput } from 'numeric-keyboard'
-new NumericInput('.input', {
+new NumericInput({
   type: 'number',
   placeholder: 'touch to input',
   onInput(value) {
     ...
   }
-})
+}).mount('.input')
 ```
 
 #### React
@@ -82,7 +83,7 @@ import { Component } from '@angular/core';
   `,
 })
 export class AppComponent {
-  public amount: number
+  public amount: number | string = ''
 }
 ```
 
@@ -103,7 +104,7 @@ export class AppComponent {
     },
     data() {
       return {
-       amount: null
+        amount: ''
       }
     }
   }
@@ -116,8 +117,7 @@ export class AppComponent {
 As a substitute for native input element, the input box supports most of the standard attributes, you can refer the HTML spec for details.
 
 ```javascript
-// There are only two types: number and tel
-// The layout property for keyboard is inherited from it
+// There are only two types: number and tel, the corresponding layout of keyboard would be invoked by default.
 type: {
   type:String,
   default: 'number'
@@ -155,7 +155,7 @@ layout: {
  type: [String, Array],
  default: 'number'
 },
-// change the label of keyboard enter key, this is used for specific context and language
+// change the label of keyboard enter key, use iconfont for icon.
 entertext: {
  type: String,
  default: 'enter'
@@ -248,19 +248,20 @@ export class AppComponent {
 
 ```javascript
 // change the layout of keyboard
- layout: {
-   type: [String, Array],
-   default: 'number'
- },
- // change the label of keyboard enter key, this is used for specific context and language
- entertext: {
-   type: String,
-   default: 'enter'
- }
+layout: {
+ type: [String, Array],
+ default: 'number'
+},
+// change the label of keyboard enter key, use iconfont for icon.
+entertext: {
+ type: String,
+ default: 'enter'
+}
 ```
 
 #### `layout`
-There are two built-in layouts called **number** and **tel** which can be used as a replacement of system keyboard. You can still rearrange all the keys to create your own layout. The layout object is a two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
+There are two built-in layouts called **number** and **tel** which can be used as a replacement of system keyboard.
+You can still rearrange all the keys to create your own layout. The layout object is a two-dimension array which constructs a table layout, you can make table-specific operations like merging cells.
 
 ##### number layout
 ![number layout](https://raw.githubusercontent.com/viclm/numeric-keyboard/master/docs/snapshot_number.png)

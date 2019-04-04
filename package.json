@@ -3,7 +3,7 @@
   "version": "0.6.1",
   "description": "Numeric keyboard for mobile browsers",
   "repository": "viclm/numeric-keyboard",
-  "main": "dist/numeric_keyboard.vanilla.js",
+  "license": "MIT",
   "scripts": {
     "test": "karma start test/karma.conf.js",
     "dev": "webpack-dev-server --config webpack.conf.dev.js",
@@ -55,15 +55,5 @@
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14",
     "zone.js": "^0.8.29"
-  },
-  "keywords": [
-    "numeric keyboard",
-    "number keyboard",
-    "keyboard",
-    "javascript",
-    "react",
-    "angular",
-    "vue"
-  ],
-  "license": "MIT"
+  }
 }
