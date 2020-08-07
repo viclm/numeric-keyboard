@@ -222,7 +222,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(3);
 var keyboard_1 = __webpack_require__(6);
-var template = "\n<table class=\"numeric-keyboard\">\n  <tr *ngFor=\"let r of ks.resolvedLayout\">\n    <td *ngFor=\"let c of r\"\n      [attr.rowspan]=\"c.rowspan\"\n      [attr.colspan]=\"c.colspan\"\n      [attr.data-key]=\"c.key\"\n      [attr.data-icon]=\"c.key === ENTER ? kp.entertext : c.key\"\n      class=\"numeric-keyboard-key\"\n      (touchend)=\"onTouchend(c.key, $event)\">\n    </td>\n  </tr>\n</table>\n";
+var template = "\n<table class=\"numeric-keyboard\">\n  <tr *ngFor=\"let r of ks.resolvedLayout\">\n    <td *ngFor=\"let c of r\"\n      [attr.rowspan]=\"c.rowspan\"\n      [attr.colspan]=\"c.colspan\"\n      [attr.data-key]=\"c.key\"\n      [attr.data-icon]=\"c.key === ENTER ? kp.entertext : c.key\"\n      class=\"numeric-keyboard-key\"\n      (click)=\"onTouchend(c.key, $event)\">\n    </td>\n  </tr>\n</table>\n";
 var Parent = /** @class */ (function () {
     function Parent() {
     }
