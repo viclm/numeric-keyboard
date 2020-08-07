@@ -11,7 +11,7 @@ const template = `
       [attr.data-key]="c.key"
       [attr.data-icon]="c.key === ENTER ? kp.entertext : c.key"
       class="numeric-keyboard-key"
-      (touchend)="onTouchend(c.key, $event)">
+      (click)="onTouchend(c.key, $event)">
     </td>
   </tr>
 </table>

@@ -204,6 +204,19 @@ class App extends React.Component {
 ```
 
 #### Angular
+
+```typescript
+import { NumericKeyboardModule } from 'numeric-keyboard/dist/numeric_keyboard.angular';
+
+@NgModule({
+  imports: [
+    NumericKeyboardModule,
+  ],
+})
+export class AppModule { }
+
+```
+
 ```typescript
 import { Component } from '@angular/core';
 @Component({
